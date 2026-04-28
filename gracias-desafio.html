@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Bienvenida a bordo! — Desafío 30 días COSMART</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { --azul:#0D2B6B; --rojo:#E02020; --celeste:#3A8FC7; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'DM Sans',sans-serif;
+  background: linear-gradient(135deg, #0D2B6B 0%, #0a1f52 100%);
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.card {
+  background: white;
+  border-radius: 24px;
+  max-width: 580px; width: 100%;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+}
+.card-top {
+  background: linear-gradient(135deg, var(--rojo), #c01818);
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.card-top::before {
+  content: '30';
+  position: absolute; right: -10px; top: -10px;
+  font-size: 8rem; font-weight: 900;
+  color: rgba(255,255,255,0.1);
+  font-family: 'Playfair Display', serif;
+}
+.check-circle {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.4);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+}
+.card-top h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  color: white;
+  font-weight: 900;
+  margin-bottom: 0.4rem;
+}
+.card-top p { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+
+.card-body { padding: 2rem 2.5rem; }
+.paso-titulo {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--celeste);
+  margin-bottom: 1rem;
+}
+.paso {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(13,43,107,0.08);
+}
+.paso:last-of-type { border-bottom: none; }
+.paso-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--azul);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.paso h3 { font-size: 0.95rem; color: var(--azul); font-weight: 600; margin-bottom: 0.2rem; }
+.paso p { font-size: 0.85rem; color: #6B7280; line-height: 1.5; }
+.paso a { color: var(--celeste); text-decoration: none; font-weight: 600; }
+.paso a:hover { text-decoration: underline; }
+
+.btn-acceso {
+  display: block;
+  background: var(--azul);
+  color: white;
+  text-align: center;
+  padding: 1.1rem;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 1.5rem 0 0.75rem;
+  transition: all 0.25s;
+}
+.btn-acceso:hover { background: #1A4DAA; transform: translateY(-2px); }
+.btn-wp {
+  display: block;
+  background: #25D366;
+  color: white;
+  text-align: center;
+  padding: 0.9rem;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.25s;
+}
+.btn-wp:hover { background: #1ebe5d; }
+.nota {
+  font-size: 0.78rem;
+  color: #9CA3AF;
+  text-align: center;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-top">
+    <div class="check-circle">✓</div>
+    <h1>¡Pago confirmado!</h1>
+    <p>Bienvenida al Desafío COSMART: 30 días de contenido para tus RRSS 🚀</p>
+  </div>
+  <div class="card-body">
+    <div class="paso-titulo">Seguí estos pasos para acceder</div>
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div>
+        <h3>Accedé al programa en Wix</h3>
+        <p>Hacé clic en el botón de abajo. Si ya tenés cuenta en Wix, ingresá con tu email. Si no, <strong>creá tu cuenta gratis usando el mismo email con el que pagaste</strong>.</p>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div>
+        <h3>Esperá la aprobación (máx. 24hs)</h3>
+        <p>Una vez registrada, te vamos a asignar acceso al programa. Recibirás una notificación por email cuando esté listo. Normalmente es en el momento.</p>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">3</div>
+      <div>
+        <h3>¿Tenés dudas o no recibís acceso?</h3>
+        <p>Escribinos por WhatsApp al <a href="https://api.whatsapp.com/send?phone=5491123605739&text=Hola!%20Compré%20el%20Desafío%2030%20días%20y%20necesito%20el%20acceso" target="_blank">11 2360-5739</a> con tu comprobante de pago.</p>
+      </div>
+    </div>
+    <a href="https://conglomeradocosmart.wixsite.com/contacto-smart/challenge-page/30diasdecontenido" class="btn-acceso" target="_blank">Ingresar al programa →</a>
+    <a href="https://api.whatsapp.com/send?phone=5491123605739&text=Hola!%20Compré%20el%20Desafío%2030%20días%20y%20necesito%20el%20acceso" class="btn-wp" target="_blank">Escribir por WhatsApp si necesito ayuda</a>
+    <p class="nota">Guardá esta página o el email de confirmación de Mercado Pago.<br>Es tu comprobante de compra.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El Método COSMART — Descargá gratis</title>
+<meta name="description" content="5 filtros para elegir productos ganadores antes de invertir un peso. Descargalo gratis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --az1:#0D2B6B;--az2:#1A4DAA;--az3:#3A8FC7;--ro1:#E02020;
+    --sans:'Inter',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:#060f22;color:#fff;overflow-x:hidden}
+
+  /* ── NAV ── */
+  nav{
+    display:flex;align-items:center;justify-content:center;
+    padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .logo{font-size:22px;font-weight:900;letter-spacing:2px;color:#fff}
+  .logo span{color:var(--az3)}
+  .logo-sub{font-size:10px;letter-spacing:3px;color:var(--az3);display:block;text-align:center;margin-top:2px}
+
+  /* ── HERO ── */
+  .hero{
+    max-width:680px;margin:0 auto;padding:64px 24px 48px;
+    text-align:center;
+  }
+  .badge{
+    display:inline-block;background:rgba(58,143,199,.18);
+    border:1px solid rgba(58,143,199,.4);color:var(--az3);
+    font-size:12px;font-weight:700;letter-spacing:2px;
+    padding:6px 16px;border-radius:99px;margin-bottom:24px;text-transform:uppercase;
+  }
+  .hero h1{
+    font-size:clamp(32px,6vw,52px);font-weight:900;line-height:1.1;
+    margin-bottom:20px;
+  }
+  .hero h1 em{color:var(--az3);font-style:normal}
+  .hero p{
+    font-size:clamp(16px,2.5vw,20px);color:#94a3b8;
+    line-height:1.6;margin-bottom:36px;
+  }
+  .hero p strong{color:#fff}
+
+  /* ── FORM CARD ── */
+  .form-card{
+    background:linear-gradient(135deg,#0d1f4a 0%,#0a1730 100%);
+    border:1px solid rgba(58,143,199,.3);
+    border-radius:20px;padding:40px 36px;
+    max-width:520px;margin:0 auto 64px;
+    box-shadow:0 24px 64px rgba(0,0,0,.5);
+  }
+  .form-card h2{font-size:20px;font-weight:700;margin-bottom:6px}
+  .form-card .sub{font-size:14px;color:#64748b;margin-bottom:28px}
+  .form-card label{display:block;font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:6px}
+  .form-card input{
+    width:100%;background:#060f22;border:1.5px solid rgba(255,255,255,.12);
+    border-radius:10px;padding:13px 16px;font-size:15px;color:#fff;
+    font-family:var(--sans);outline:none;transition:border-color .2s;margin-bottom:16px;
+  }
+  .form-card input:focus{border-color:var(--az3)}
+  .form-card input::placeholder{color:#475569}
+  .btn-main{
+    width:100%;background:linear-gradient(135deg,var(--az2),var(--az3));
+    color:#fff;border:none;border-radius:10px;padding:16px;
+    font-size:17px;font-weight:800;cursor:pointer;font-family:var(--sans);
+    transition:opacity .2s;letter-spacing:.3px;
+  }
+  .btn-main:hover{opacity:.9}
+  .privacy{font-size:12px;color:#475569;text-align:center;margin-top:14px}
+
+  /* ── BREVO EMBED ZONE ── */
+  /* Reemplazá todo el bloque .form-card con el embed de Brevo si preferís */
+
+  /* ── QUÉ INCLUYE ── */
+  .features{
+    max-width:680px;margin:0 auto;padding:0 24px 64px;
+  }
+  .features h2{
+    font-size:clamp(22px,4vw,32px);font-weight:900;
+    text-align:center;margin-bottom:40px;
+  }
+  .features h2 span{color:var(--az3)}
+  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:560px){.feat-grid{grid-template-columns:1fr}}
+  .feat{
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;padding:24px;
+  }
+  .feat-icon{font-size:28px;margin-bottom:12px}
+  .feat h3{font-size:16px;font-weight:700;margin-bottom:6px;color:#e2e8f0}
+  .feat p{font-size:14px;color:#64748b;line-height:1.5}
+
+  /* ── PARA QUIÉN ── */
+  .paraquien{
+    background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.06);
+    border-bottom:1px solid rgba(255,255,255,.06);
+    padding:56px 24px;text-align:center;
+  }
+  .paraquien h2{font-size:clamp(20px,4vw,30px);font-weight:900;margin-bottom:32px}
+  .paraquien h2 span{color:var(--az3)}
+  .checks{
+    display:flex;flex-direction:column;gap:14px;
+    max-width:480px;margin:0 auto;text-align:left;
+  }
+  .check-item{display:flex;align-items:flex-start;gap:12px;font-size:16px;color:#cbd5e1;line-height:1.4}
+  .check-item .ck{color:var(--az3);font-size:20px;flex-shrink:0;margin-top:1px}
+
+  /* ── QUIÉN LO FIRMA ── */
+  .quien{
+    max-width:600px;margin:0 auto;padding:64px 24px;text-align:center;
+  }
+  .quien .av{
+    width:72px;height:72px;border-radius:50%;
+    background:linear-gradient(135deg,var(--az2),var(--az3));
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;margin:0 auto 20px;
+  }
+  .quien h3{font-size:20px;font-weight:800;margin-bottom:8px}
+  .quien p{font-size:15px;color:#64748b;line-height:1.6}
+
+  /* ── CTA FINAL ── */
+  .cta-final{
+    background:linear-gradient(135deg,var(--az1) 0%,#060f22 100%);
+    padding:64px 24px;text-align:center;
+  }
+  .cta-final h2{font-size:clamp(24px,5vw,38px);font-weight:900;margin-bottom:16px}
+  .cta-final h2 em{color:var(--az3);font-style:normal}
+  .cta-final p{font-size:16px;color:#94a3b8;margin-bottom:36px}
+  .cta-final .btn-main{max-width:400px}
+
+  /* ── FOOTER ── */
+  footer{padding:24px;text-align:center;font-size:12px;color:#334155;
+    border-top:1px solid rgba(255,255,255,.06)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div>
+    <div class="logo">COSMART <span>🧲</span></div>
+    <div class="logo-sub">TU BRÚJULA DIGITAL</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">🧲 Descarga gratuita</div>
+  <h1>El método para elegir<br><em>productos ganadores</em><br>antes de invertir un peso</h1>
+  <p>
+    <strong>5 filtros simples</strong> que usamos en COSMART para decidir
+    si un producto vale la pena — o si es solo una moda que se va a agotar
+    antes de que recuperes lo que gastaste.
+  </p>
+</section>
+
+<!-- FORM -->
+<div class="form-card" style="max-width:520px;margin:0 auto 64px">
+  <h2>Quiero el método gratis 🧭</h2>
+  <p class="sub">Te lo enviamos por email en menos de 2 minutos</p>
+
+  <!-- ══════════════════════════════════════════════════════
+       REEMPLAZÁ ESTE BLOQUE con el embed de Brevo
+       (Brevo → Formularios → Crear formulario → Copiar código)
+       ══════════════════════════════════════════════════════ -->
+  <form id="leadForm" onsubmit="submitForm(event)">
+    <label>Nombre</label>
+    <input type="text" id="nombre" placeholder="Tu nombre" required>
+    <label>Email</label>
+    <input type="email" id="email" placeholder="tu@email.com" required>
+    <button type="submit" class="btn-main" id="submitBtn">
+      Quiero el método 🧲
+    </button>
+  </form>
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <p class="privacy">🔒 Sin spam. Tu email está seguro. Podés darte de baja cuando quieras.</p>
+</div>
+
+<!-- QUÉ INCLUYE -->
+<section class="features">
+  <h2>¿Qué vas a aprender con<br><span>el método</span>? 🗺️</h2>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="feat-icon">🔍</div>
+      <h3>Filtro 1 — Problema real</h3>
+      <p>Cómo detectar si el producto resuelve algo concreto o solo "se ve bien".</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📊</div>
+      <h3>Filtro 2 — Demanda comprobada</h3>
+      <p>La herramienta gratuita que usamos para confirmar que la gente lo busca.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">💰</div>
+      <h3>Filtro 3 — Margen real</h3>
+      <p>El cálculo rápido para saber si el número cierra antes de importar.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">⚔️</div>
+      <h3>Filtro 4 — Competencia</h3>
+      <p>Cómo saber si podés entrar al mercado o ya está saturado.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📱</div>
+      <h3>Filtro 5 — Contenido visual</h3>
+      <p>Por qué un producto que no se puede mostrar bien en redes es un error.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">✅</div>
+      <h3>Checklist aplicable hoy</h3>
+      <p>Una hoja lista para evaluar cualquier producto en menos de 10 minutos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
+<section class="paraquien">
+  <h2>Es para vos si <span>estás en esto</span> 🧭</h2>
+  <div class="checks">
+    <div class="check-item"><span class="ck">🧲</span>Querés vender online pero no sabés qué producto elegir</div>
+    <div class="check-item"><span class="ck">🧲</span>Ya vendiste pero apostaste mal a algún producto y perdiste plata</div>
+    <div class="check-item"><span class="ck">🧲</span>Encontrás productos "lindos" pero no sabés si realmente se van a vender</div>
+    <div class="check-item"><span class="ck">🧲</span>Querés importar desde China pero no sabés por dónde empezar a elegir</div>
+    <div class="check-item"><span class="ck">🧲</span>Vendés pero los márgenes no te cierran y querés encontrar mejores productos</div>
+  </div>
+</section>
+
+<!-- QUIÉN LO FIRMA -->
+<section class="quien">
+  <div class="av">🧭</div>
+  <h3>COSMART — Tu brújula digital</h3>
+  <p>
+    Llevamos años ayudando a emprendedores a elegir, importar y vender
+    productos ganadores. Este método es lo que usamos nosotros mismos
+    antes de invertir en cualquier producto. Hoy lo compartimos gratis
+    porque creemos que el criterio no debería ser solo para quienes
+    pueden pagar USD 1.000 de mentoría.
+  </p>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2>Empezá a elegir con<br><em>criterio</em> 🧲</h2>
+  <p>Gratis. Sin compromisos. En tu email en 2 minutos.</p>
+  <button class="btn-main" onclick="document.getElementById('nombre').focus();window.scrollTo({top:0,behavior:'smooth'})">
+    Quiero el método gratis ✈️
+  </button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 COSMART — Tu brújula digital 🧭 &nbsp;|&nbsp; cosmart.com.ar
+</footer>
+
+<script>
+async function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const nombre = document.getElementById('nombre').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando... 🧲';
+
+  /* ══════════════════════════════════════════════════════
+     UNA VEZ QUE TENGAS LA CUENTA BREVO:
+     Opción A: Reemplazá este form entero con el embed de Brevo
+     Opción B: Usá la API de Brevo acá con tu API key y list ID
+     ══════════════════════════════════════════════════════ */
+
+  // Simulación hasta integrar Brevo:
+  await new Promise(r => setTimeout(r, 1000));
+
+  document.getElementById('leadForm').innerHTML = `
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:48px;margin-bottom:16px">🧲</div>
+      <h3 style="font-size:22px;margin-bottom:10px">¡Ya está, ${nombre}!</h3>
+      <p style="color:#94a3b8;font-size:15px;line-height:1.6">
+        Te enviamos el método a <strong style="color:#fff">${email}</strong>.<br>
+        Revisá tu bandeja — y también el spam por las dudas.
+      </p>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>

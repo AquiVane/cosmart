@@ -960,8 +960,14 @@
 
       .footer-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
+        text-align: center;
       }
+      .footer-grid > div { text-align: center; }
+      .footer-links { justify-content: center; flex-wrap: wrap; }
+      .footer-grid > div:last-child { text-align: center; }
+      .footer-tagline { margin-bottom: 0.5rem; }
+      .footer-bottom { text-align: center; flex-direction: column; gap: 0.5rem; }
     }
 
     @media (max-width: 680px) {
@@ -1060,7 +1066,7 @@
         <div class="service-card fade-up fade-up-delay-1">
           <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
           <h3>Estrategia integral de marketing</h3>
-          <p>Analizo tu negocio de punta a punta: qué canales usás, cómo comunicás, qué tan visible sos, cómo convertís. Construyo un plan que integra redes sociales, publicidad paga, email, automatizaciones y contenido — todo conectado y alineado a tus objetivos.</p>
+          <p>Analizo tu negocio de punta a punta: qué canales usás, cómo comunicás, qué tan visible sos, cómo convertís. Construyo un plan que integra redes sociales, publicidad paga, email, automatizaciones y contenido — incluyendo posicionamiento SEO para aparecer en Google — todo conectado y alineado a tus objetivos.</p>
           <a href="#auditoria" class="service-btn" data-servicio="Estrategia integral de marketing">Consultar →</a>
         </div>
 
@@ -1103,6 +1109,7 @@
           <li>Análisis de redes sociales</li>
           <li>Oportunidades detectadas</li>
           <li>Sin costo · Sin compromiso</li>
+          <li>Documento entregable con el informe completo</li>
         </ul>
 
         <form class="auditoria-form" id="formAuditoria" onsubmit="enviarAuditoria(event)">
@@ -1512,9 +1519,10 @@
           return;
         }
 
+        const card = e.target.closest('.auditoria-card');
+
         if (servicios.includes('Auditoría de marketing') && !servicios.includes('Estrategia integral de marketing') && !servicios.includes('Liderazgo consciente')) {
-          // Solo auditoría → mensaje + CTA a asesoría
-          e.target.closest('.auditoria-card').innerHTML = `
+          card.innerHTML = `
             <div style="text-align:center;padding:2rem 1rem;">
               <div style="font-size:48px;margin-bottom:16px;">✅</div>
               <h3 style="color:var(--blanco);font-size:1.4rem;margin-bottom:12px;">¡Listo, ${nombre}!</h3>
@@ -1528,6 +1536,7 @@
                 Agendar asesoría 1:1 →
               </a>
             </div>`;
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
 
@@ -1537,7 +1546,7 @@
         }
 
         // Estrategia integral u otras combinaciones → mensaje de contacto
-        e.target.closest('.auditoria-card').innerHTML = `
+        card.innerHTML = `
           <div style="text-align:center;padding:2rem 1rem;">
             <div style="font-size:48px;margin-bottom:16px;">📩</div>
             <h3 style="color:var(--blanco);font-size:1.4rem;margin-bottom:12px;">¡Recibido, ${nombre}!</h3>
@@ -1545,6 +1554,7 @@
               Voy a revisar tu consulta y me contacto a <strong style="color:var(--blanco)">${email}</strong> con la propuesta comercial y cotización a la brevedad.
             </p>
           </div>`;
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       } catch (err) {
         btn.disabled = false;

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>¡Pago confirmado! · Agendá tu asesoría — COSMART</title>
-  <link rel="icon" type="image/png" href="https://cosmart.com.ar/cosmart-logo.png" />
+  <link rel="icon" type="image/png" href="https://cosmart.com.ar/favicon-cosmart.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -84,8 +84,16 @@
     }
     .cal-grid .day-cell.friday-available:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
     .cal-grid .day-cell.friday-taken {
-      background: #f9fafb; color: #d1d5db; cursor: not-allowed;
-      border: 1.5px solid #f3f4f6; text-decoration: line-through;
+      background: #f3f4f6; color: #c4c9d4; cursor: not-allowed;
+      border: 1.5px solid #e5e7eb; text-decoration: line-through;
+      opacity: 0.55;
+    }
+    .cal-grid .day-cell.friday-taken::after {
+      content: '✕';
+      display: block;
+      font-size: 9px;
+      color: #d1d5db;
+      margin-top: 1px;
     }
     .cal-grid .day-cell.selected {
       background: var(--blue) !important; color: #fff !important;
@@ -173,7 +181,7 @@
 <body>
 
 <header>
-  <img src="Logo completo COSMART.png" alt="COSMART" />
+  <img src="https://cosmart.com.ar/Logo%20completo%20COSMART.png" alt="COSMART" />
 </header>
 
 <div class="hero">
@@ -263,7 +271,7 @@
 </footer>
 
 <script>
-  const API = 'https://api.cosmart.com.ar';
+  const API = 'https://cosmart-training.conglomeradocosmart.workers.dev';
 
   // ── URL params ──
   const params  = new URLSearchParams(location.search);

@@ -399,18 +399,6 @@
   <div id="mpmsg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
 </div>
 
-<!-- CMO Block -->
-<div style="padding: 0 24px;">
-  <div class="cmo-block">
-    <p class="eyebrow">¿Querés ir más a fondo?</p>
-    <h3>Contratame como tu Chief Marketing Officer</h3>
-    <p>No una agencia. No un proveedor. Yo adentro de tu negocio — diseñando la estrategia, tomando decisiones de marketing con vos. Cada propuesta es a medida.</p>
-    <a class="btn btn-cmo" id="btn-cmo" href="mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO">
-      Escribirle a Vaneh →
-    </a>
-  </div>
-</div>
-
 <!-- Guarantee -->
 <div style="padding: 0 24px;">
   <div class="guarantee">
@@ -420,6 +408,12 @@
       <p>Confirmás el pago y coordinamos la videollamada por email. Si por algún motivo no podemos encontrarnos en la fecha acordada, reagendamos sin costo adicional.</p>
     </div>
   </div>
+</div>
+
+<!-- Contacto discreto -->
+<div style="text-align:center;padding:0 24px 48px;font-size:13px;color:#9ca3af;">
+  En caso de necesitar otro tipo de ayuda —
+  <a href="mailto:vaneh@cosmart.com.ar?subject=Consulta%20asesor%C3%ADa" style="color:#6b7280;text-decoration:underline;">escribime</a>
 </div>
 
 <!-- About -->
@@ -432,8 +426,7 @@
 </div>
 
 <footer>
-  © 2025 COSMART · cosmart.com.ar ·
-  <a href="mailto:vaneh@cosmart.com.ar" style="color:rgba(255,255,255,0.4);">vaneh@cosmart.com.ar</a>
+  © 2025 COSMART · cosmart.com.ar
 </footer>
 
 <script>
@@ -449,8 +442,6 @@
 
   if (nombre)  document.getElementById('hero-title').innerHTML = `Una hora con <strong>${nombre}</strong>.<br/>Una dirección clara.`;
   if (negocio) document.getElementById('negocio-inline').textContent = negocio;
-  if (negocio) document.getElementById('btn-cmo').href =
-    `mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO%20-%20${encodeURIComponent(negocio)}`;
 
   // ── Estado precio ─────────────────────────────────────────────
   let precioUsd = 100;
@@ -581,9 +572,14 @@
       const json = await res.json();
       if (!json.preference_id) throw new Error('Sin preference_id');
 
+      // Guardar init_point como fallback por si el brick falla
+      const initPoint = json.init_point || null;
+      // Usar el precio real de la preferencia para que MP no la rechace
+      const brickAmount = json.precio_ars || precioArs;
+
       const mp = new MercadoPago(MP_KEY, { locale: 'es-AR' });
       await mp.bricks().create('payment', 'paymentBrick_container', {
-        initialization: { amount: precioArs, preferenceId: json.preference_id },
+        initialization: { amount: brickAmount, preferenceId: json.preference_id },
         customization: {
           visual: { hideFormTitle: true, style: { theme: 'default' } },
           paymentMethods: { creditCard: 'all', debitCard: 'all' }
@@ -608,21 +604,22 @@
                 msg.textContent = '⚠️ No se pudo procesar. Revisá los datos e intentá de nuevo.';
                 resolve();
               }
-            } catch(e) { msg.style.color='#E02020'; msg.textContent='Error de conexión. Escribinos a vaneh@cosmart.com.ar'; reject(); }
+            } catch(e) { msg.style.color='#E02020'; msg.textContent='Error de conexión. Intentá de nuevo.'; reject(); }
           }),
           onError: (e) => console.error('MP error:', e)
         }
       });
     } catch(e) {
       brickInitialized = false;
-      container.innerHTML = `
-        <div style="text-align:center;padding:20px">
-          <p style="color:#6b7280;font-size:14px;margin-bottom:12px">El formulario no cargó. Podés escribirnos:</p>
-          <a href="mailto:vaneh@cosmart.com.ar?subject=Quiero%20agendar%20asesor%C3%ADa"
-             style="display:inline-block;background:var(--blue);color:#fff;padding:11px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px">
-            Escribirle a Vaneh →
-          </a>
-        </div>`;
+      // Si tenemos init_point, ofrecer botón directo a checkout MP
+      const initPointFallback = typeof initPoint !== 'undefined' && initPoint ? initPoint : null;
+      container.innerHTML = initPointFallback
+        ? `<div style="text-align:center;padding:16px 0">
+            <a href="${initPointFallback}" style="display:inline-block;background:#009EE3;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
+              Pagar con Mercado Pago (ARS ${precioArs.toLocaleString('es-AR')}) →
+            </a>
+           </div>`
+        : `<p style="text-align:center;color:#9ca3af;font-size:13px;padding:16px 0;">El formulario de pago no está disponible en este momento.</p>`;
     }
   }
 

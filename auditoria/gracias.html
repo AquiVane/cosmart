@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Pago confirmado! · Agendá tu asesoría — COSMART</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #091C47; --blue: #0D2B6B; --mid: #1A4DAA;
+      --sky: #3A8FC7; --red: #E02020;
+      --text: #1a1a2e; --muted: #6b7280; --bg: #f0f4f8;
+    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    header { background: var(--navy); padding: 20px 24px; text-align: center; }
+    header img { height: 38px; width: auto; }
+
+    .hero {
+      background: var(--blue); color: #fff;
+      padding: 48px 24px 40px; text-align: center;
+    }
+    .check-circle {
+      width: 64px; height: 64px; background: rgba(255,255,255,0.12);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 30px; margin: 0 auto 20px;
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--sky); margin-bottom: 12px;
+    }
+    .hero h1 { font-size: clamp(24px, 5vw, 34px); font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+    .hero p  { font-size: 16px; color: rgba(255,255,255,0.75); max-width: 500px; margin: 0 auto; }
+
+    /* ── Calendar card ── */
+    .cal-card {
+      max-width: 640px; margin: 36px auto; padding: 32px 28px;
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(9,28,71,0.09);
+    }
+    .cal-card h2 { font-size: 20px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+    .cal-card .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+
+    /* Month nav */
+    .month-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .month-nav button {
+      background: none; border: 1px solid #e2e8f0; border-radius: 8px;
+      width: 36px; height: 36px; cursor: pointer; font-size: 18px; color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .month-nav button:hover { background: var(--bg); }
+    .month-nav .month-label { font-size: 16px; font-weight: 700; color: var(--blue); }
+
+    /* Day grid */
+    .day-headers {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      text-align: center; margin-bottom: 8px;
+    }
+    .day-headers span {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 0;
+    }
+    .day-headers span.friday { color: var(--sky); }
+
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+    }
+    .cal-grid .day-cell {
+      aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; font-size: 14px; font-weight: 500;
+      color: var(--muted); background: transparent; cursor: default;
+      transition: background 0.12s, color 0.12s;
+    }
+    .cal-grid .day-cell.empty { background: transparent; }
+    .cal-grid .day-cell.past  { color: #d1d5db; }
+    .cal-grid .day-cell.friday-available {
+      background: #eff6ff; color: var(--sky); font-weight: 700; cursor: pointer;
+      border: 1.5px solid #bfdbfe;
+    }
+    .cal-grid .day-cell.friday-available:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
+    .cal-grid .day-cell.friday-taken {
+      background: #f9fafb; color: #d1d5db; cursor: not-allowed;
+      border: 1.5px solid #f3f4f6; text-decoration: line-through;
+    }
+    .cal-grid .day-cell.selected {
+      background: var(--blue) !important; color: #fff !important;
+      border-color: var(--blue) !important;
+    }
+    .cal-grid .day-cell .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: currentColor; margin-top: 3px; opacity: 0.5;
+    }
+
+    /* Confirm panel */
+    #confirm-panel {
+      display: none; margin-top: 24px;
+      background: var(--bg); border-radius: 12px; padding: 20px;
+    }
+    #confirm-panel .slot-label {
+      font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    #confirm-panel .slot-date {
+      font-size: 18px; font-weight: 800; color: var(--blue); margin-bottom: 4px;
+    }
+    #confirm-panel .slot-time {
+      font-size: 14px; color: var(--muted); margin-bottom: 20px;
+    }
+    .form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .form-row input {
+      flex: 1; min-width: 180px; padding: 11px 14px; border: 1.5px solid #e2e8f0;
+      border-radius: 10px; font-size: 15px; font-family: inherit; color: var(--text);
+      outline: none; transition: border-color 0.15s;
+    }
+    .form-row input:focus { border-color: var(--sky); }
+    .btn-confirm {
+      width: 100%; padding: 15px; background: var(--blue); color: #fff;
+      border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: opacity 0.15s;
+      margin-top: 4px;
+    }
+    .btn-confirm:hover { opacity: 0.88; }
+    .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Success state */
+    #success-panel {
+      display: none; text-align: center; padding: 32px 0 8px;
+    }
+    #success-panel .big-check { font-size: 48px; margin-bottom: 12px; }
+    #success-panel h3 { font-size: 20px; font-weight: 800; color: var(--blue); margin-bottom: 8px; }
+    #success-panel p  { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+    /* Error msg */
+    .msg-error {
+      display: none; background: #fef2f2; border: 1px solid #fecaca;
+      border-radius: 8px; padding: 12px 14px; font-size: 14px; color: #b91c1c;
+      margin-top: 12px;
+    }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+      background-size: 200% 100%; animation: shimmer 1.2s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* Next steps */
+    .next-steps {
+      max-width: 640px; margin: 0 auto 48px; padding: 24px 28px;
+      background: #fff; border-radius: 14px;
+    }
+    .next-steps h3 { font-size: 16px; font-weight: 700; color: var(--blue); margin-bottom: 14px; }
+    .next-steps ol { padding-left: 20px; }
+    .next-steps li { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 8px; }
+
+    footer {
+      background: var(--navy); padding: 24px; text-align: center;
+      font-size: 12px; color: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 480px) {
+      .cal-card { padding: 20px 16px; margin: 24px 16px; }
+      .cal-grid .day-cell { font-size: 12px; border-radius: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="Logo completo COSMART.png" alt="COSMART" />
+</header>
+
+<div class="hero">
+  <div class="check-circle">✓</div>
+  <p class="eyebrow">Pago confirmado</p>
+  <h1>¡Listo<span id="nombre-hero"></span>!</h1>
+  <p>Tu asesoría está paga. Ahora elegí el viernes que mejor te quede.</p>
+</div>
+
+<!-- Booking card -->
+<div style="padding: 0 24px;">
+  <div class="cal-card">
+    <h2>Agendá tu horario</h2>
+    <p class="subtitle">Viernes · 12:00 – 13:00 hs (Argentina) · Los viernes tachados ya están reservados.</p>
+
+    <div id="calendar-view">
+      <!-- Month navigation -->
+      <div class="month-nav">
+        <button id="prev-month" onclick="changeMonth(-1)">‹</button>
+        <span class="month-label" id="month-label">Cargando...</span>
+        <button id="next-month" onclick="changeMonth(1)">›</button>
+      </div>
+
+      <!-- Day labels -->
+      <div class="day-headers">
+        <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span>
+        <span>Jue</span><span class="friday">Vie</span><span>Sáb</span>
+      </div>
+
+      <!-- Days grid -->
+      <div class="cal-grid" id="cal-grid">
+        <!-- populated by JS -->
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+      </div>
+
+      <!-- Confirm panel (shown on selection) -->
+      <div id="confirm-panel">
+        <p class="slot-label">Turno seleccionado</p>
+        <p class="slot-date" id="slot-date-label">—</p>
+        <p class="slot-time">12:00 – 13:00 hs · Videollamada</p>
+
+        <div class="form-row">
+          <input type="text"  id="input-nombre"  placeholder="Tu nombre *" required />
+          <input type="email" id="input-email"   placeholder="Tu email *"  required />
+        </div>
+        <div class="form-row">
+          <input type="text"  id="input-negocio" placeholder="Nombre de tu negocio (opcional)" />
+        </div>
+
+        <button class="btn-confirm" id="btn-confirmar" onclick="confirmarTurno()">
+          Confirmar este horario →
+        </button>
+        <div class="msg-error" id="msg-error"></div>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div id="success-panel">
+      <div class="big-check">📅</div>
+      <h3>¡Turno confirmado!</h3>
+      <p id="success-msg">Te enviamos un email de confirmación.<br/>Vaneh se va a poner en contacto antes de la llamada.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Next steps -->
+<div style="padding: 0 24px;">
+  <div class="next-steps">
+    <h3>¿Qué pasa después?</h3>
+    <ol>
+      <li>Confirmás el turno arriba y te llega un email de confirmación.</li>
+      <li>Antes del viernes, Vaneh te manda el link de la videollamada por email.</li>
+      <li>En la asesoría revisamos tu situación y salís con pasos concretos.</li>
+    </ol>
+  </div>
+</div>
+
+<footer>
+  © 2025 COSMART · cosmart.com.ar ·
+  <a href="mailto:vaneh@cosmart.com.ar" style="color:rgba(255,255,255,0.4);">vaneh@cosmart.com.ar</a>
+</footer>
+
+<script>
+  const API = 'https://api.cosmart.com.ar';
+
+  // ── URL params ──
+  const params  = new URLSearchParams(location.search);
+  const leadId  = params.get('lead_id') || '';
+  const nombre  = params.get('nombre')  || '';
+  const negocio = params.get('negocio') || '';
+  const email   = params.get('email')   || '';
+
+  if (nombre) {
+    document.getElementById('nombre-hero').textContent = ', ' + nombre;
+    document.getElementById('input-nombre').value = nombre;
+  }
+  if (email)   document.getElementById('input-email').value   = email;
+  if (negocio) document.getElementById('input-negocio').value = negocio;
+
+  // ── State ──
+  let currentYear, currentMonth;
+  let availableSlots = {}; // { 'YYYY-MM-DD': true/false }
+  let selectedDate   = null;
+
+  const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  // ── Init ──
+  (function init() {
+    const today = new Date();
+    currentYear  = today.getFullYear();
+    currentMonth = today.getMonth();
+    loadSlotsAndRender();
+  })();
+
+  async function loadSlotsAndRender() {
+    // Pedir slots de los próximos 3 meses desde hoy
+    const from = new Date().toISOString().slice(0, 10);
+    try {
+      const res  = await fetch(`${API}/asesoria/slots?from=${from}&weeks=12`);
+      const data = await res.json();
+      availableSlots = {};
+      (data.slots || []).forEach(s => { availableSlots[s.fecha] = s.disponible; });
+    } catch (e) {
+      // Si el worker no está disponible, mostrar todos los viernes como disponibles
+      availableSlots = {};
+    }
+    renderCalendar();
+  }
+
+  function changeMonth(delta) {
+    currentMonth += delta;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    if (currentMonth < 0)  { currentMonth = 11; currentYear--; }
+    renderCalendar();
+  }
+
+  function renderCalendar() {
+    const label = document.getElementById('month-label');
+    label.textContent = `${MESES[currentMonth]} ${currentYear}`;
+
+    const grid  = document.getElementById('cal-grid');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Primer día del mes
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay(); // 0=dom
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    let html = '';
+
+    // Celdas vacías antes del día 1
+    for (let i = 0; i < firstDay; i++) {
+      html += '<div class="day-cell empty"></div>';
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(currentYear, currentMonth, d);
+      const isFriday = date.getDay() === 5;
+      const isPast   = date < today;
+      // Fecha en formato YYYY-MM-DD local
+      const key = `${currentYear}-${String(currentMonth + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isSelected = key === selectedDate;
+
+      let cls = 'day-cell';
+      let dot = '';
+
+      if (isPast) {
+        cls += ' past';
+      } else if (isFriday) {
+        // Si tenemos info del slot, usarla; si no (clave no existe), asumir disponible
+        const disp = availableSlots[key] !== undefined ? availableSlots[key] : true;
+        if (disp) {
+          cls += ' friday-available';
+          dot  = '<div class="dot"></div>';
+        } else {
+          cls += ' friday-taken';
+        }
+      }
+
+      if (isSelected) cls += ' selected';
+
+      const onclick = (isFriday && !isPast && (availableSlots[key] !== false))
+        ? `onclick="selectDate('${key}')"`
+        : '';
+
+      html += `<div class="${cls}" ${onclick}>${d}${dot}</div>`;
+    }
+
+    grid.innerHTML = html;
+  }
+
+  function selectDate(fecha) {
+    selectedDate = fecha;
+    renderCalendar();
+
+    // Mostrar panel de confirmación
+    const panel = document.getElementById('confirm-panel');
+    panel.style.display = 'block';
+
+    // Formatear fecha legible
+    const [y, m, d] = fecha.split('-').map(Number);
+    const dt = new Date(y, m - 1, d);
+    const label = dt.toLocaleDateString('es-AR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    });
+    document.getElementById('slot-date-label').textContent =
+      label.charAt(0).toUpperCase() + label.slice(1);
+
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  async function confirmarTurno() {
+    const nombre  = document.getElementById('input-nombre').value.trim();
+    const email   = document.getElementById('input-email').value.trim();
+    const negocio = document.getElementById('input-negocio').value.trim();
+    const errEl   = document.getElementById('msg-error');
+
+    errEl.style.display = 'none';
+
+    if (!nombre || !email || !selectedDate) {
+      errEl.textContent = 'Completá tu nombre y email para confirmar.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'El email no parece válido.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('btn-confirmar');
+    btn.disabled = true;
+    btn.textContent = 'Confirmando…';
+
+    try {
+      const res = await fetch(`${API}/asesoria/booking`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lead_id: leadId, fecha: selectedDate, nombre, email, negocio }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        errEl.textContent = data.error === 'Ese viernes ya está reservado'
+          ? 'Ese viernes ya lo reservó alguien más. Elegí otra fecha.'
+          : (data.error || 'Hubo un error. Intentá de nuevo.');
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Confirmar este horario →';
+        // Recargar slots para reflejar el estado real
+        loadSlotsAndRender();
+        return;
+      }
+
+      // Éxito
+      document.getElementById('calendar-view').style.display = 'none';
+      const successPanel = document.getElementById('success-panel');
+      successPanel.style.display = 'block';
+      document.getElementById('success-msg').innerHTML =
+        `Te enviamos un email de confirmación a <strong>${email}</strong>.<br/>Vaneh se va a poner en contacto antes del viernes para mandarte el link de la videollamada.`;
+
+    } catch (e) {
+      errEl.textContent = 'Error de conexión. Intentá de nuevo o escribinos a vaneh@cosmart.com.ar';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Confirmar este horario →';
+    }
+  }
+</script>
+</body>
+</html>

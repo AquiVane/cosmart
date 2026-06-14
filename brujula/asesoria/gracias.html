@@ -330,8 +330,11 @@
     label.textContent = `${MESES[currentMonth]} ${currentYear}`;
 
     const grid  = document.getElementById('cal-grid');
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Cutoff: 48hs desde ahora en timezone Buenos Aires (UTC-3)
+    const nowBA = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' }));
+    const cutoff = new Date(nowBA.getTime() + 48 * 60 * 60 * 1000);
+    cutoff.setHours(0, 0, 0, 0);
+    const today = cutoff;
 
     // Primer día del mes
     const firstDay = new Date(currentYear, currentMonth, 1).getDay(); // 0=dom

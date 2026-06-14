@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asesoría 1:1 · Vaneh Fernández — COSMART</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #091C47;
+      --blue:   #0D2B6B;
+      --mid:    #1A4DAA;
+      --sky:    #3A8FC7;
+      --red:    #E02020;
+      --text:   #1a1a2e;
+      --muted:  #6b7280;
+      --bg:     #f0f4f8;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--navy);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    header img { height: 38px; width: auto; }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--blue);
+      color: #fff;
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    .hero .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.78);
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* ── Timer ── */
+    #timer-section {
+      background: var(--navy);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    #timer-section .timer-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 10px;
+    }
+    #countdown {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .countdown-block {
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 12px 18px;
+      min-width: 72px;
+      text-align: center;
+    }
+    .countdown-block .num {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+    .countdown-block .unit {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+    #timer-expired-msg {
+      display: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+    }
+
+    /* ── Price ── */
+    .price-banner {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(9,28,71,0.10);
+      max-width: 640px;
+      margin: 32px auto;
+      padding: 32px 32px 24px;
+      text-align: center;
+    }
+    .price-banner .price-tag {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .price-tag .old {
+      font-size: 18px;
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-top: 12px;
+    }
+    .price-tag .current {
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1;
+    }
+    .price-tag .badge {
+      background: var(--red);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-top: 10px;
+    }
+    .price-banner .price-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── What ── */
+    .what-list {
+      text-align: left;
+      max-width: 460px;
+      margin: 0 auto 28px;
+      padding: 0;
+      list-style: none;
+    }
+    .what-list li {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f4f8;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .what-list li:last-child { border-bottom: none; }
+    .what-list .arrow {
+      color: var(--sky);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── CTA Buttons ── */
+    .cta-group {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+    }
+    .cta-group .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+      margin-bottom: 12px;
+    }
+    .btn:hover { opacity: 0.88; }
+    .btn-paypal  { background: #FFC439; color: #003087; }
+    .btn-mp      { background: #009EE3; color: #fff; }
+    .btn-cmo     { background: var(--blue); color: #fff; }
+
+    /* ── Calendar ── */
+    .cal-section {
+      max-width: 680px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+    .cal-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+    .cal-section p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .cal-embed {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* ── Guarantee ── */
+    .guarantee {
+      max-width: 640px;
+      margin: 0 auto 48px;
+      padding: 24px 28px;
+      background: #fff;
+      border-radius: 14px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .guarantee .icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .guarantee h3 { font-size: 16px; color: var(--blue); margin-bottom: 6px; }
+    .guarantee p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── About ── */
+    .about {
+      background: var(--blue);
+      color: #fff;
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .about h2 { font-size: 22px; font-weight: 700; margin-bottom: 14px; }
+    .about p  { font-size: 15px; color: rgba(255,255,255,0.75); max-width: 540px; margin: 0 auto; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Loading ── */
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      transition: opacity 0.4s;
+    }
+    #loading-overlay .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(255,255,255,0.15);
+      border-top-color: var(--sky);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── CMO block ── */
+    .cmo-block {
+      max-width: 640px;
+      margin: 0 auto 32px;
+      padding: 24px 28px;
+      background: var(--blue);
+      border-radius: 14px;
+      color: #fff;
+    }
+    .cmo-block .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--sky); margin-bottom: 8px;
+    }
+    .cmo-block h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .cmo-block p  { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 16px; }
+
+    @media (max-width: 500px) {
+      .price-tag .current { font-size: 40px; }
+      .guarantee { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading-overlay"><div class="spinner"></div></div>
+
+<header>
+  <img src="Logo completo COSMART.png" alt="COSMART" />
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <p class="eyebrow">Asesoría estratégica 1:1</p>
+  <h1 id="hero-title">Una hora.<br/>Una dirección clara.</h1>
+  <p id="hero-sub">Revisamos tu negocio, identificamos las palancas reales y salís con el primer paso concreto para los próximos 90 días.</p>
+</div>
+
+<!-- Timer -->
+<div id="timer-section">
+  <p class="timer-label" id="timer-label">Precio especial activo por</p>
+  <div id="countdown">
+    <div class="countdown-block"><div class="num" id="cd-h">--</div><div class="unit">horas</div></div>
+    <div class="countdown-block"><div class="num" id="cd-m">--</div><div class="unit">min</div></div>
+    <div class="countdown-block"><div class="num" id="cd-s">--</div><div class="unit">seg</div></div>
+  </div>
+  <p id="timer-expired-msg">El precio especial expiró. El precio actual es USD 300.</p>
+</div>
+
+<!-- Price Banner -->
+<div style="padding: 0 24px;">
+  <div class="price-banner">
+    <div class="price-tag">
+      <span class="old" id="price-old" style="display:none;">USD 300</span>
+      <span class="current" id="price-current">USD 100</span>
+      <span class="badge" id="price-badge" style="display:none;">PRECIO BASE</span>
+    </div>
+    <p class="price-sub">Videollamada 1 hora · Agenda personal con Vaneh</p>
+
+    <ul class="what-list">
+      <li><span class="arrow">→</span><span>Revisamos tu diagnóstico y situación actual</span></li>
+      <li><span class="arrow">→</span><span>Identificamos las palancas con mayor impacto para <strong id="negocio-inline">tu negocio</strong></span></li>
+      <li><span class="arrow">→</span><span>Salís con un primer paso accionable — no con un PDF</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- CTA Buttons -->
+<div class="cta-group">
+  <p class="section-label">Elegí cómo pagar</p>
+
+  <button class="btn btn-paypal" id="btn-paypal" onclick="pagarPaypal()">
+    <span>💳</span>
+    <span>Pagar con PayPal (USD)</span>
+  </button>
+
+  <button class="btn btn-mp" id="btn-mp" onclick="pagarMP()">
+    <span>🇦🇷</span>
+    <span>Pagar con Mercado Pago (ARS)</span>
+  </button>
+</div>
+
+<!-- CMO Block -->
+<div style="padding: 0 24px;">
+  <div class="cmo-block">
+    <p class="eyebrow">¿Querés ir más a fondo?</p>
+    <h3>Contratame como tu Chief Marketing Officer</h3>
+    <p>No una agencia. No un proveedor. Yo adentro de tu negocio — diseñando la estrategia, tomando decisiones de marketing con vos. Cada propuesta es a medida.</p>
+    <a class="btn btn-cmo" id="btn-cmo" href="mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO">
+      Escribirle a Vaneh →
+    </a>
+  </div>
+</div>
+
+<!-- Guarantee -->
+<div style="padding: 0 24px;">
+  <div class="guarantee">
+    <span class="icon">🔒</span>
+    <div>
+      <h3>Tu sesión está garantizada</h3>
+      <p>Confirmás el pago y coordinamos la videollamada por email. Si por algún motivo no podemos encontrarnos en la fecha acordada, reagendamos sin costo adicional.</p>
+    </div>
+  </div>
+</div>
+
+<!-- About -->
+<div class="about">
+  <h2>¿Quién es Vaneh?</h2>
+  <p>Fractional CMO con +10 años acompañando marcas y negocios en Argentina y LATAM. Fundadora de COSMART — el ecosistema de marketing digital que integra estrategia, contenidos, performance, diseño y tecnología bajo una misma dirección.</p>
+</div>
+
+<footer>
+  © 2025 COSMART · cosmart.com.ar ·
+  <a href="mailto:vaneh@cosmart.com.ar" style="color:rgba(255,255,255,0.4);">vaneh@cosmart.com.ar</a>
+</footer>
+
+<script>
+  // ── Config ──────────────────────────────────────────────────
+  const API = 'https://api.cosmart.com.ar';
+
+  // ── URL params ──────────────────────────────────────────────
+  const params = new URLSearchParams(location.search);
+  const leadId  = params.get('lead_id') || '';
+  const nombre  = params.get('nombre')  || '';
+  const negocio = params.get('negocio') || '';
+
+  // Rellenar referencias en la página
+  if (nombre)  document.getElementById('hero-title').innerHTML = `Una hora con <strong>${nombre}</strong>.<br/>Una dirección clara.`;
+  if (negocio) document.getElementById('negocio-inline').textContent = negocio;
+  if (negocio) {
+    const cmoLink = `mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO%20-%20${encodeURIComponent(negocio)}`;
+    document.getElementById('btn-cmo').href = cmoLink;
+  }
+
+  // ── Timer state ──────────────────────────────────────────────
+  let timerExpires  = null;
+  let precioActual  = 300;
+  let timerInterval = null;
+
+  function updateTimerUI() {
+    const cdH  = document.getElementById('cd-h');
+    const cdM  = document.getElementById('cd-m');
+    const cdS  = document.getElementById('cd-s');
+    const lbl  = document.getElementById('timer-label');
+    const expMsg = document.getElementById('timer-expired-msg');
+    const countdown = document.getElementById('countdown');
+
+    if (!timerExpires || Date.now() >= timerExpires) {
+      // Timer expirado
+      countdown.style.display = 'none';
+      lbl.style.display = 'none';
+      expMsg.style.display = 'block';
+      setPrice(300);
+      return;
+    }
+
+    const diff = timerExpires - Date.now();
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+
+    cdH.textContent = String(h).padStart(2, '0');
+    cdM.textContent = String(m).padStart(2, '0');
+    cdS.textContent = String(s).padStart(2, '0');
+  }
+
+  function setPrice(usd) {
+    precioActual = usd;
+    const currentEl = document.getElementById('price-current');
+    const oldEl     = document.getElementById('price-old');
+    const badgeEl   = document.getElementById('price-badge');
+
+    currentEl.textContent = `USD ${usd}`;
+
+    if (usd === 100) {
+      oldEl.style.display = 'inline';
+      badgeEl.style.display = 'none';
+    } else {
+      oldEl.style.display = 'none';
+      badgeEl.style.display = 'inline';
+      badgeEl.textContent = 'PRECIO BASE';
+    }
+  }
+
+  // ── Load lead data ────────────────────────────────────────────
+  async function loadLead() {
+    const overlay = document.getElementById('loading-overlay');
+
+    if (!leadId) {
+      // Sin lead_id: mostrar precio base $300 sin timer
+      setPrice(300);
+      document.getElementById('timer-section').style.display = 'none';
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 400);
+      return;
+    }
+
+    try {
+      const res  = await fetch(`${API}/asesoria/timer?lead_id=${encodeURIComponent(leadId)}`);
+      const data = await res.json();
+
+      if (data.timer_active && data.timer_expires) {
+        timerExpires = data.timer_expires;
+        setPrice(100);
+        updateTimerUI();
+        timerInterval = setInterval(() => {
+          updateTimerUI();
+          if (Date.now() >= timerExpires) {
+            clearInterval(timerInterval);
+            setPrice(300);
+          }
+        }, 1000);
+      } else {
+        setPrice(data.precio || 300);
+        document.getElementById('countdown').style.display = 'none';
+        document.getElementById('timer-label').style.display = 'none';
+        document.getElementById('timer-expired-msg').style.display = data.precio === 300 ? 'block' : 'none';
+      }
+    } catch (e) {
+      setPrice(300);
+      document.getElementById('timer-section').style.display = 'none';
+    }
+
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 400);
+  }
+
+  // ── PayPal ───────────────────────────────────────────────────
+  async function pagarPaypal() {
+    const btn = document.getElementById('btn-paypal');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span><span>Creando orden…</span>';
+
+    try {
+      const res = await fetch(`${API}/asesoria/paypal/order?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (data.approval_url) {
+        location.href = data.approval_url;
+      } else {
+        alert('Hubo un error al crear la orden de PayPal. Escribinos a vaneh@cosmart.com.ar');
+        btn.disabled = false;
+        btn.innerHTML = '<span>💳</span><span>Pagar con PayPal (USD)</span>';
+      }
+    } catch (e) {
+      alert('Error de conexión. Intentá de nuevo o escribinos.');
+      btn.disabled = false;
+      btn.innerHTML = '<span>💳</span><span>Pagar con PayPal (USD)</span>';
+    }
+  }
+
+  // ── Mercado Pago ─────────────────────────────────────────────
+  async function pagarMP() {
+    const btn = document.getElementById('btn-mp');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span><span>Creando preferencia…</span>';
+
+    try {
+      const res = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (data.init_point) {
+        location.href = data.init_point;
+      } else {
+        alert('Hubo un error con Mercado Pago. Escribinos a vaneh@cosmart.com.ar');
+        btn.disabled = false;
+        btn.innerHTML = '<span>🇦🇷</span><span>Pagar con Mercado Pago (ARS)</span>';
+      }
+    } catch (e) {
+      alert('Error de conexión. Intentá de nuevo o escribinos.');
+      btn.disabled = false;
+      btn.innerHTML = '<span>🇦🇷</span><span>Pagar con Mercado Pago (ARS)</span>';
+    }
+  }
+
+  // ── Init ─────────────────────────────────────────────────────
+  loadLead();
+</script>
+</body>
+</html>

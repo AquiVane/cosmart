@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Asesoría 1:1 · Vaneh Fernández — COSMART</title>
+  <link rel="icon" type="image/png" href="https://cosmart.com.ar/cosmart-logo.png" />
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -318,7 +320,7 @@
 <div id="loading-overlay"><div class="spinner"></div></div>
 
 <header>
-  <img src="Logo completo COSMART.png" alt="COSMART" />
+  <img src="https://cosmart.com.ar/Logo%20completo%20COSMART.png" alt="COSMART" />
 </header>
 
 <!-- Hero -->
@@ -357,19 +359,23 @@
   </div>
 </div>
 
-<!-- CTA Buttons -->
+<!-- CTA Pago -->
 <div class="cta-group">
   <p class="section-label">Elegí cómo pagar</p>
 
-  <button class="btn btn-paypal" id="btn-paypal" onclick="pagarPaypal()">
-    <span>💳</span>
-    <span>Pagar con PayPal (USD)</span>
-  </button>
+  <!-- PayPal -->
+  <div style="margin-bottom:16px;">
+    <p style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;">PayPal · USD</p>
+    <div id="paypal-button-container"></div>
+    <div id="paypal-msg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
+  </div>
 
-  <button class="btn btn-mp" id="btn-mp" onclick="pagarMP()">
-    <span>🇦🇷</span>
-    <span>Pagar con Mercado Pago (ARS)</span>
-  </button>
+  <div style="text-align:center;color:var(--muted);font-size:12px;margin-bottom:16px;">— o pagá en pesos —</div>
+
+  <!-- Mercado Pago Brick -->
+  <p style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;">Mercado Pago · ARS</p>
+  <div id="paymentBrick_container"></div>
+  <div id="mpmsg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
 </div>
 
 <!-- CMO Block -->
@@ -407,168 +413,174 @@
 </footer>
 
 <script>
-  // ── Config ──────────────────────────────────────────────────
-  const API = 'https://api.cosmart.com.ar';
+  // ── Config ────────────────────────────────────────────────────
+  const API    = 'https://cosmart-training.conglomeradocosmart.workers.dev';
+  const MP_KEY = 'APP_USR-057d290b-5af9-4b00-8a08-6753dc47aec4';
 
-  // ── URL params ──────────────────────────────────────────────
-  const params = new URLSearchParams(location.search);
+  // ── URL params ────────────────────────────────────────────────
+  const params  = new URLSearchParams(location.search);
   const leadId  = params.get('lead_id') || '';
   const nombre  = params.get('nombre')  || '';
   const negocio = params.get('negocio') || '';
 
-  // Rellenar referencias en la página
   if (nombre)  document.getElementById('hero-title').innerHTML = `Una hora con <strong>${nombre}</strong>.<br/>Una dirección clara.`;
   if (negocio) document.getElementById('negocio-inline').textContent = negocio;
-  if (negocio) {
-    const cmoLink = `mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO%20-%20${encodeURIComponent(negocio)}`;
-    document.getElementById('btn-cmo').href = cmoLink;
+  if (negocio) document.getElementById('btn-cmo').href =
+    `mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO%20-%20${encodeURIComponent(negocio)}`;
+
+  // ── Estado precio ─────────────────────────────────────────────
+  let precioUsd = 300;
+  let precioArs = 435000;
+  let timerExpires = null;
+  let brickInitialized = false;
+
+  function setPrice(usd) {
+    precioUsd = usd;
+    precioArs = usd === 100 ? 145000 : 435000;
+    const currentEl = document.getElementById('price-current');
+    const oldEl     = document.getElementById('price-old');
+    const badgeEl   = document.getElementById('price-badge');
+    currentEl.textContent = `USD ${usd}`;
+    if (usd === 100) { oldEl.style.display = 'inline'; badgeEl.style.display = 'none'; }
+    else             { oldEl.style.display = 'none';   badgeEl.style.display = 'inline'; badgeEl.textContent = 'PRECIO BASE'; }
   }
 
-  // ── Timer state ──────────────────────────────────────────────
-  let timerExpires  = null;
-  let precioActual  = 300;
-  let timerInterval = null;
-
+  // ── Timer UI ──────────────────────────────────────────────────
   function updateTimerUI() {
-    const cdH  = document.getElementById('cd-h');
-    const cdM  = document.getElementById('cd-m');
-    const cdS  = document.getElementById('cd-s');
-    const lbl  = document.getElementById('timer-label');
-    const expMsg = document.getElementById('timer-expired-msg');
-    const countdown = document.getElementById('countdown');
-
     if (!timerExpires || Date.now() >= timerExpires) {
-      // Timer expirado
-      countdown.style.display = 'none';
-      lbl.style.display = 'none';
-      expMsg.style.display = 'block';
+      document.getElementById('countdown').style.display = 'none';
+      document.getElementById('timer-label').style.display = 'none';
+      document.getElementById('timer-expired-msg').style.display = 'block';
       setPrice(300);
+      if (brickInitialized) { brickInitialized = false; document.getElementById('paymentBrick_container').innerHTML = ''; initMPBrick(); }
       return;
     }
-
     const diff = timerExpires - Date.now();
     const h = Math.floor(diff / 3600000);
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
-
-    cdH.textContent = String(h).padStart(2, '0');
-    cdM.textContent = String(m).padStart(2, '0');
-    cdS.textContent = String(s).padStart(2, '0');
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
   }
 
-  function setPrice(usd) {
-    precioActual = usd;
-    const currentEl = document.getElementById('price-current');
-    const oldEl     = document.getElementById('price-old');
-    const badgeEl   = document.getElementById('price-badge');
-
-    currentEl.textContent = `USD ${usd}`;
-
-    if (usd === 100) {
-      oldEl.style.display = 'inline';
-      badgeEl.style.display = 'none';
-    } else {
-      oldEl.style.display = 'none';
-      badgeEl.style.display = 'inline';
-      badgeEl.textContent = 'PRECIO BASE';
-    }
-  }
-
-  // ── Load lead data ────────────────────────────────────────────
+  // ── Load lead ─────────────────────────────────────────────────
   async function loadLead() {
     const overlay = document.getElementById('loading-overlay');
-
     if (!leadId) {
-      // Sin lead_id: mostrar precio base $300 sin timer
       setPrice(300);
       document.getElementById('timer-section').style.display = 'none';
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.style.display = 'none', 400);
+      overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 400);
       return;
     }
-
     try {
       const res  = await fetch(`${API}/asesoria/timer?lead_id=${encodeURIComponent(leadId)}`);
       const data = await res.json();
-
       if (data.timer_active && data.timer_expires) {
         timerExpires = data.timer_expires;
         setPrice(100);
         updateTimerUI();
-        timerInterval = setInterval(() => {
-          updateTimerUI();
-          if (Date.now() >= timerExpires) {
-            clearInterval(timerInterval);
-            setPrice(300);
-          }
-        }, 1000);
+        setInterval(() => updateTimerUI(), 1000);
       } else {
         setPrice(data.precio || 300);
         document.getElementById('countdown').style.display = 'none';
         document.getElementById('timer-label').style.display = 'none';
-        document.getElementById('timer-expired-msg').style.display = data.precio === 300 ? 'block' : 'none';
+        document.getElementById('timer-expired-msg').style.display = 'block';
       }
-    } catch (e) {
+    } catch(e) {
       setPrice(300);
       document.getElementById('timer-section').style.display = 'none';
     }
-
-    overlay.style.opacity = '0';
-    setTimeout(() => overlay.style.display = 'none', 400);
+    overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 400);
   }
 
-  // ── PayPal ───────────────────────────────────────────────────
-  async function pagarPaypal() {
-    const btn = document.getElementById('btn-paypal');
-    btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span><span>Creando orden…</span>';
-
+  // ── MP Brick ──────────────────────────────────────────────────
+  async function initMPBrick() {
+    if (brickInitialized) return;
+    brickInitialized = true;
+    const msg = document.getElementById('mpmsg');
+    const container = document.getElementById('paymentBrick_container');
     try {
-      const res = await fetch(`${API}/asesoria/paypal/order?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, {
-        method: 'POST',
+      const res  = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, { method: 'POST' });
+      const json = await res.json();
+      if (!json.preference_id) throw new Error('Sin preference_id');
+
+      const mp = new MercadoPago(MP_KEY, { locale: 'es-AR' });
+      await mp.bricks().create('payment', 'paymentBrick_container', {
+        initialization: { amount: precioArs, preferenceId: json.preference_id },
+        customization: {
+          visual: { hideFormTitle: true, style: { theme: 'default' } },
+          paymentMethods: { creditCard: 'all', debitCard: 'all' }
+        },
+        callbacks: {
+          onReady: () => {},
+          onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+            try {
+              const pr   = await fetch(`${API}/asesoria/mp/pay?lead_id=${encodeURIComponent(leadId)}`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+              });
+              const data = await pr.json();
+              if (data.status === 'approved') {
+                location.href = `/asesoria/gracias?lead_id=${leadId}&nombre=${encodeURIComponent(nombre)}&negocio=${encodeURIComponent(negocio)}`;
+              } else if (data.status === 'in_process' || data.status === 'pending') {
+                msg.style.color = '#F59E0B';
+                msg.textContent = '⏳ Pago en proceso. Te avisamos por email cuando se confirme.';
+                resolve();
+              } else {
+                msg.style.color = '#E02020';
+                msg.textContent = '⚠️ No se pudo procesar. Revisá los datos e intentá de nuevo.';
+                resolve();
+              }
+            } catch(e) { msg.style.color='#E02020'; msg.textContent='Error de conexión. Escribinos a vaneh@cosmart.com.ar'; reject(); }
+          }),
+          onError: (e) => console.error('MP error:', e)
+        }
       });
+    } catch(e) {
+      brickInitialized = false;
+      container.innerHTML = `
+        <div style="text-align:center;padding:20px">
+          <p style="color:#6b7280;font-size:14px;margin-bottom:12px">El formulario no cargó. Podés escribirnos:</p>
+          <a href="mailto:vaneh@cosmart.com.ar?subject=Quiero%20agendar%20asesor%C3%ADa"
+             style="display:inline-block;background:var(--blue);color:#fff;padding:11px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px">
+            Escribirle a Vaneh →
+          </a>
+        </div>`;
+    }
+  }
+
+  // ── PayPal SDK ────────────────────────────────────────────────
+  // Se carga dinámicamente con el Client ID del worker
+  async function initPayPal() {
+    try {
+      const res  = await fetch(`${API}/asesoria/paypal/order?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, { method: 'POST' });
       const data = await res.json();
+      // Si el worker devuelve approval_url, fallback a botón redirect
       if (data.approval_url) {
-        location.href = data.approval_url;
-      } else {
-        alert('Hubo un error al crear la orden de PayPal. Escribinos a vaneh@cosmart.com.ar');
-        btn.disabled = false;
-        btn.innerHTML = '<span>💳</span><span>Pagar con PayPal (USD)</span>';
+        document.getElementById('paypal-button-container').innerHTML = `
+          <a href="${data.approval_url}"
+             style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 24px;border-radius:12px;background:#FFC439;color:#003087;font-size:16px;font-weight:700;text-decoration:none;">
+            💳 Pagar con PayPal (USD ${precioUsd})
+          </a>`;
       }
-    } catch (e) {
-      alert('Error de conexión. Intentá de nuevo o escribinos.');
-      btn.disabled = false;
-      btn.innerHTML = '<span>💳</span><span>Pagar con PayPal (USD)</span>';
+    } catch(e) {
+      document.getElementById('paypal-button-container').innerHTML = `
+        <p style="text-align:center;font-size:13px;color:#6b7280;">PayPal no disponible en este momento. Usá Mercado Pago.</p>`;
     }
   }
 
-  // ── Mercado Pago ─────────────────────────────────────────────
-  async function pagarMP() {
-    const btn = document.getElementById('btn-mp');
-    btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span><span>Creando preferencia…</span>';
-
-    try {
-      const res = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, {
-        method: 'POST',
-      });
-      const data = await res.json();
-      if (data.init_point) {
-        location.href = data.init_point;
-      } else {
-        alert('Hubo un error con Mercado Pago. Escribinos a vaneh@cosmart.com.ar');
-        btn.disabled = false;
-        btn.innerHTML = '<span>🇦🇷</span><span>Pagar con Mercado Pago (ARS)</span>';
-      }
-    } catch (e) {
-      alert('Error de conexión. Intentá de nuevo o escribinos.');
-      btn.disabled = false;
-      btn.innerHTML = '<span>🇦🇷</span><span>Pagar con Mercado Pago (ARS)</span>';
-    }
-  }
-
-  // ── Init ─────────────────────────────────────────────────────
-  loadLead();
+  // ── Init ──────────────────────────────────────────────────────
+  (async () => {
+    await loadLead();
+    initPayPal();
+    // Brick se inicializa cuando entra en pantalla
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) { initMPBrick(); observer.disconnect(); }
+    }, { threshold: 0.1 });
+    const el = document.getElementById('paymentBrick_container');
+    if (el) observer.observe(el);
+  })();
 </script>
 </body>
 </html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asesoría 1:1 · Vaneh Fernández · COSMART</title>
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #091C47; --blue: #0D2B6B; --mid: #1A4DAA;
+      --sky: #3A8FC7; --red: #E02020; --text: #1a1a2e;
+      --sans: 'Segoe UI', Arial, sans-serif;
+    }
+    body { font-family: var(--sans); background: #f0f4f8; color: var(--text); }
+
+    /* ── BANNER TOP ── */
+    #banner-top {
+      background: var(--red); color: #fff;
+      text-align: center; padding: 10px 16px;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.03em;
+    }
+    #banner-top span { opacity: .85; }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy); padding: 18px 24px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    header img { height: 42px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--mid) 100%);
+      color: #fff; text-align: center;
+      padding: 56px 24px 48px;
+    }
+    .hero .tag {
+      display: inline-block; background: rgba(58,143,199,.25);
+      color: #93c5fd; font-size: 11px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      border-radius: 20px; padding: 4px 14px; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+    .hero p { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,.8); max-width: 540px; margin: 0 auto; }
+
+    /* ── MAIN LAYOUT ── */
+    .main { max-width: 860px; margin: 0 auto; padding: 40px 16px 80px; }
+
+    /* ── PRICE CARD ── */
+    .price-card {
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      padding: 36px 32px; margin-bottom: 32px;
+      border-top: 4px solid var(--red);
+    }
+    .price-card h2 { font-size: 20px; color: var(--blue); margin-bottom: 8px; }
+    .price-card .subtitle { color: #6b7280; font-size: 14px; margin-bottom: 28px; }
+
+    /* Timer */
+    .timer-wrap { text-align: center; margin-bottom: 28px; }
+    .timer-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+    .timer-display {
+      font-size: clamp(36px,7vw,56px); font-weight: 800;
+      color: var(--blue); font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .timer-sub { font-size: 13px; color: #6b7280; margin-top: 6px; }
+
+    /* Precios */
+    .precio-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 8px; }
+    .precio-tachado { font-size: 18px; color: #9ca3af; text-decoration: line-through; }
+    .precio-main { font-size: clamp(40px,8vw,60px); font-weight: 800; color: var(--blue); line-height: 1; }
+    .precio-badge {
+      background: var(--red); color: #fff;
+      font-size: 13px; font-weight: 700;
+      padding: 5px 12px; border-radius: 20px;
+    }
+    .precio-sub { text-align: center; font-size: 13px; color: #6b7280; margin-bottom: 28px; }
+
+    /* Expirado */
+    #expired-msg {
+      display: none; background: #fef2f2; border: 1px solid #fca5a5;
+      border-radius: 10px; padding: 14px 18px; margin-bottom: 20px;
+      text-align: center; font-size: 14px; color: #991b1b; font-weight: 600;
+    }
+
+    /* MP Brick container */
+    #paymentBrick_container { min-height: 80px; }
+    #mpmsg { margin-top: 12px; font-size: 14px; text-align: center; min-height: 20px; }
+
+    /* ── BENEFICIOS ── */
+    .beneficios {
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.06);
+      padding: 32px; margin-bottom: 32px;
+    }
+    .beneficios h3 { font-size: 17px; color: var(--blue); margin-bottom: 20px; font-weight: 700; }
+    .beneficio {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 12px 0; border-bottom: 1px solid #f0f4f8;
+    }
+    .beneficio:last-child { border-bottom: none; }
+    .beneficio-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .beneficio-text strong { display: block; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+    .beneficio-text span { font-size: 13px; color: #6b7280; line-height: 1.5; }
+
+    /* ── PERFIL VANEH ── */
+    .perfil {
+      background: var(--blue); border-radius: 16px;
+      padding: 32px; margin-bottom: 32px; color: #fff;
+      display: flex; gap: 24px; align-items: center;
+    }
+    .perfil img {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 3px solid var(--sky); object-fit: cover; flex-shrink: 0;
+    }
+    .perfil-placeholder {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 3px solid var(--sky); flex-shrink: 0;
+      background: var(--mid); display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+    }
+    .perfil h3 { font-size: 17px; margin-bottom: 4px; }
+    .perfil .cargo { font-size: 12px; color: var(--sky); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+    .perfil p { font-size: 14px; color: rgba(255,255,255,.8); line-height: 1.65; }
+
+    /* ── CMO BLOCK ── */
+    .cmo-block {
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.06);
+      padding: 32px; margin-bottom: 32px;
+      border-left: 4px solid var(--sky);
+    }
+    .cmo-block h3 { font-size: 17px; color: var(--blue); margin-bottom: 10px; }
+    .cmo-block p { font-size: 14px; color: #4a5568; line-height: 1.7; margin-bottom: 16px; }
+    .cmo-link {
+      display: inline-block; background: var(--blue); color: #fff;
+      font-size: 14px; font-weight: 700; text-decoration: none;
+      padding: 12px 24px; border-radius: 10px;
+    }
+
+    /* ── GARANTIA ── */
+    .garantia {
+      text-align: center; font-size: 13px; color: #6b7280;
+      padding: 20px; background: #f8fafc; border-radius: 12px;
+    }
+
+    /* Mobile */
+    @media (max-width: 580px) {
+      .price-card { padding: 24px 18px; }
+      .perfil { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div id="banner-top">
+  <span id="banner-txt">⏰ Precio de lanzamiento: USD 100 · Quedan <strong id="banner-time">--:--:--</strong></span>
+</div>
+
+<!-- HEADER -->
+<header>
+  <img src="https://cosmart.com.ar/Logo%20completo%20COSMART.png" alt="COSMART" />
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tag">Asesoría 1:1 · Vaneh Fernández</div>
+  <h1 id="hero-title">Una hora.<br/>Una dirección clara.</h1>
+  <p id="hero-sub">Hola <strong id="nombre-display">—</strong>, revisamos juntas el marketing de <strong id="negocio-display">tu negocio</strong> y salís con un plan accionable para los próximos 90 días.</p>
+</div>
+
+<div class="main">
+
+  <!-- PRICE CARD -->
+  <div class="price-card">
+    <h2>Reservá tu lugar ahora</h2>
+    <p class="subtitle">1 hora · videollamada · acción inmediata · solo viernes 12-13h</p>
+
+    <div class="timer-wrap" id="timer-section">
+      <div class="timer-label">Este precio vence en</div>
+      <div class="timer-display" id="timer-display">--:--:--</div>
+      <div class="timer-sub">Después de este tiempo el precio sube a USD 300 ($435.000 ARS)</div>
+    </div>
+
+    <div id="expired-msg">
+      ⏰ El precio de lanzamiento venció. El precio actual es USD 300 ($435.000 ARS)
+    </div>
+
+    <div class="precio-row">
+      <div class="precio-tachado" id="precio-tachado">$435.000</div>
+      <div class="precio-main" id="precio-main">$145.000</div>
+      <div class="precio-badge" id="precio-badge">USD 100</div>
+    </div>
+    <div class="precio-sub">ARS · pago único · reserva confirmada</div>
+
+    <div id="paymentBrick_container"></div>
+    <div id="mpmsg"></div>
+  </div>
+
+  <!-- BENEFICIOS -->
+  <div class="beneficios">
+    <h3>¿Qué incluye la asesoría?</h3>
+    <div class="beneficio">
+      <div class="beneficio-icon">🔍</div>
+      <div class="beneficio-text">
+        <strong>Diagnóstico express de tu situación actual</strong>
+        <span>Revisamos qué está funcionando, qué no, y por qué.</span>
+      </div>
+    </div>
+    <div class="beneficio">
+      <div class="beneficio-icon">🧭</div>
+      <div class="beneficio-text">
+        <strong>Dirección clara para los próximos 90 días</strong>
+        <span>No un PDF genérico — una hoja de ruta específica para tu negocio.</span>
+      </div>
+    </div>
+    <div class="beneficio">
+      <div class="beneficio-icon">⚡</div>
+      <div class="beneficio-text">
+        <strong>Al menos 3 acciones concretas para arrancar esta semana</strong>
+        <span>Salís de la llamada con pasos claros, no con más dudas.</span>
+      </div>
+    </div>
+    <div class="beneficio">
+      <div class="beneficio-icon">📩</div>
+      <div class="beneficio-text">
+        <strong>Resumen por escrito después de la llamada</strong>
+        <span>Todo lo que hablamos, ordenado y listo para implementar.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERFIL -->
+  <div class="perfil">
+    <div class="perfil-placeholder">V</div>
+    <div>
+      <div class="cargo">Fractional CMO · COSMART</div>
+      <h3>Vaneh Fernández</h3>
+      <p>Trabajo con negocios que quieren crecer con estrategia, no con suerte. Combiné marketing digital, dirección creativa y ejecución real en un solo rol — sin el costo de una agencia ni la distancia de una consultora.</p>
+    </div>
+  </div>
+
+  <!-- CMO BLOCK -->
+  <div class="cmo-block">
+    <h3>¿Querés ir a fondo?</h3>
+    <p>Si después de la asesoría querés seguir trabajando juntos, podés contratarme como tu <strong>Fractional CMO</strong> — dentro de tu negocio, diseñando la estrategia y acompañando la ejecución mes a mes.</p>
+    <a class="cmo-link" href="mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO%20-%20" id="cmo-mailto">Escribirle a Vaneh →</a>
+  </div>
+
+  <!-- GARANTIA -->
+  <div class="garantia">
+    🔒 Pago seguro procesado por <strong>Mercado Pago</strong> · Tarjetas de crédito, débito, Rapipago y transferencia
+  </div>
+
+</div>
+
+<script>
+// ── PARAMS ──────────────────────────────────────────────────────
+const params   = new URLSearchParams(location.search);
+const leadId   = params.get('lead_id') || '';
+const nombre   = params.get('nombre')  || '';
+const negocio  = params.get('negocio') || '';
+
+const WORKER   = 'https://cosmart-training.conglomeradocosmart.workers.dev';
+const MP_KEY   = 'APP_USR-057d290b-5af9-4b00-8a08-6753dc47aec4';
+
+// ── UI PERSONALIZADA ─────────────────────────────────────────────
+if (nombre)  document.getElementById('nombre-display').textContent  = nombre;
+if (negocio) document.getElementById('negocio-display').textContent = negocio;
+if (negocio) {
+  const mailto = document.getElementById('cmo-mailto');
+  mailto.href = `mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO%20-%20${encodeURIComponent(negocio)}`;
+}
+
+// ── ESTADO PRECIO ────────────────────────────────────────────────
+let precioArs  = 145000; // default USD 100
+let timerEnd   = null;
+let brickInitialized = false;
+
+function applyExpired() {
+  document.getElementById('banner-txt').innerHTML = '⏰ El precio de lanzamiento expiró';
+  document.getElementById('timer-section').style.display = 'none';
+  document.getElementById('expired-msg').style.display   = 'block';
+  document.getElementById('precio-tachado').style.display = 'none';
+  document.getElementById('precio-badge').style.display   = 'none';
+  document.getElementById('precio-main').textContent = '$435.000';
+  precioArs = 435000;
+  if (brickInitialized) {
+    brickInitialized = false;
+    document.getElementById('paymentBrick_container').innerHTML = '';
+    initBrick();
+  }
+}
+
+// ── TIMER ────────────────────────────────────────────────────────
+function startTimer(expiresMs) {
+  timerEnd = expiresMs;
+  function tick() {
+    const left = Math.max(0, timerEnd - Date.now());
+    if (left === 0) { applyExpired(); return; }
+    const h = Math.floor(left / 3600000);
+    const m = Math.floor((left % 3600000) / 60000);
+    const s = Math.floor((left % 60000)   / 1000);
+    const fmt = (n) => String(n).padStart(2, '0');
+    const str  = `${fmt(h)}:${fmt(m)}:${fmt(s)}`;
+    document.getElementById('timer-display').textContent = str;
+    document.getElementById('banner-time').textContent   = str;
+    setTimeout(tick, 1000);
+  }
+  tick();
+}
+
+// ── FETCH TIMER desde el worker ──────────────────────────────────
+async function fetchTimer() {
+  if (!leadId) {
+    // Sin lead_id: mostramos precio base, sin timer
+    document.getElementById('timer-section').style.display = 'none';
+    return;
+  }
+  try {
+    const r = await fetch(`${WORKER}/asesoria/timer?lead_id=${leadId}`);
+    const d = await r.json();
+    if (d.timer_active && d.timer_expires) {
+      precioArs = 145000; // USD 100
+      startTimer(d.timer_expires);
+    } else {
+      // Timer expirado
+      precioArs = 435000; // USD 300
+      applyExpired();
+    }
+  } catch(e) {
+    // Si no hay conexión al worker, mostramos precio base sin timer
+    document.getElementById('timer-section').style.display = 'none';
+  }
+}
+
+// ── MERCADO PAGO BRICK ───────────────────────────────────────────
+async function initBrick() {
+  if (brickInitialized) return;
+  brickInitialized = true;
+  const msg = document.getElementById('mpmsg');
+  const container = document.getElementById('paymentBrick_container');
+  try {
+    // 1. Crear preferencia en el worker
+    const url = leadId
+      ? `${WORKER}/asesoria/mp/preference?lead_id=${leadId}`
+      : `${WORKER}/asesoria/mp/preference`;
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: precioArs, nombre, negocio })
+    });
+    const json = await r.json();
+    if (!json.preference_id) throw new Error('Sin preference_id');
+
+    // 2. Renderizar Brick
+    const mp = new MercadoPago(MP_KEY, { locale: 'es-AR' });
+    await mp.bricks().create('payment', 'paymentBrick_container', {
+      initialization: { amount: precioArs, preferenceId: json.preference_id },
+      customization: {
+        visual: { hideFormTitle: true, style: { theme: 'default' } },
+        paymentMethods: { creditCard: 'all', debitCard: 'all' }
+      },
+      callbacks: {
+        onReady: () => {},
+        onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+          try {
+            const pr = await fetch(`${WORKER}/asesoria/mp/pay`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ...formData, lead_id: leadId, nombre, negocio })
+            });
+            const data = await pr.json();
+            if (data.status === 'approved') {
+              window.location.href = `/asesoria/gracias?lead_id=${leadId}&nombre=${encodeURIComponent(nombre)}&negocio=${encodeURIComponent(negocio)}`;
+            } else if (data.status === 'in_process' || data.status === 'pending') {
+              msg.style.color = '#F59E0B';
+              msg.textContent = '⏳ Pago en proceso. Te avisamos por email cuando se confirme.';
+              resolve();
+            } else {
+              msg.style.color = '#E02020';
+              msg.textContent = '⚠️ No se pudo procesar el pago. Revisá los datos e intentá de nuevo.';
+              resolve();
+            }
+          } catch(e) {
+            msg.style.color = '#E02020';
+            msg.textContent = 'Error de conexión. Intentá de nuevo o escribinos a vaneh@cosmart.com.ar';
+            reject();
+          }
+        }),
+        onError: (e) => console.error('MP Error:', e)
+      }
+    });
+  } catch(e) {
+    brickInitialized = false;
+    container.innerHTML = `
+      <div style="text-align:center;padding:24px 16px">
+        <p style="color:#6b7280;font-size:14px;margin-bottom:16px">El formulario de pago no cargó.<br>Podés escribirnos directamente:</p>
+        <a href="mailto:vaneh@cosmart.com.ar?subject=Quiero%20agendar%20asesor%C3%ADa"
+           style="display:inline-block;background:var(--blue);color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:15px">
+          Escribirle a Vaneh →
+        </a>
+      </div>`;
+  }
+}
+
+// ── INICIALIZAR ──────────────────────────────────────────────────
+(async () => {
+  await fetchTimer();
+  initBrick();
+})();
+
+// Observar cuando el brick entra en pantalla
+const brickObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) { initBrick(); brickObserver.disconnect(); }
+}, { threshold: 0.1 });
+const brickEl = document.getElementById('paymentBrick_container');
+if (brickEl) brickObserver.observe(brickEl);
+</script>
+</body>
+</html>

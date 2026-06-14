@@ -309,6 +309,22 @@
     .cmo-block h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
     .cmo-block p  { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 16px; }
 
+    /* ── Timer Banner ── */
+    #timer-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--red); color: #fff;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 10px 16px; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    #timer-banner #tb-cdt {
+      background: rgba(0,0,0,0.2); border-radius: 4px;
+      padding: 2px 8px; font-variant-numeric: tabular-nums;
+      min-width: 52px; display: inline-block; text-align: center;
+    }
+    #timer-banner.expired { background: var(--navy); }
+    body { padding-top: 42px; }
+
     @media (max-width: 500px) {
       .price-tag .current { font-size: 40px; }
       .guarantee { flex-direction: column; }
@@ -317,9 +333,15 @@
 </head>
 <body>
 
+<!-- Timer Banner -->
+<div id="timer-banner">
+  <span id="tb-text">Precio especial USD 100 válido por</span>
+  <span id="tb-cdt">10:00:00</span>
+</div>
+
 <div id="loading-overlay"><div class="spinner"></div></div>
 
-<header>
+<header style="margin-top:0;">
   <img src="https://cosmart.com.ar/Logo%20completo%20COSMART.png" alt="COSMART" />
 </header>
 
@@ -472,12 +494,54 @@
     document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
   }
 
+  // ── Timer banner ──────────────────────────────────────────────
+  const TIMER_KEY = 'cosmart_asesoria_end';
+  const TEN_HOURS = 10 * 60 * 60 * 1000;
+
+  function getTimerEnd() {
+    let stored = localStorage.getItem(TIMER_KEY);
+    if (!stored) { stored = String(Date.now() + TEN_HOURS); localStorage.setItem(TIMER_KEY, stored); }
+    return parseInt(stored, 10);
+  }
+
+  function startBannerTick(endTs) {
+    const banner = document.getElementById('timer-banner');
+    const cdtEl  = document.getElementById('tb-cdt');
+    function tick() {
+      const left = Math.max(0, endTs - Date.now());
+      const h = Math.floor(left / 3600000);
+      const m = Math.floor((left % 3600000) / 60000);
+      const s = Math.floor((left % 60000) / 1000);
+      cdtEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      if (left <= 0) {
+        banner.classList.add('expired');
+        document.getElementById('tb-text').textContent = 'El precio especial expiró —';
+        cdtEl.textContent = '00:00:00';
+        return;
+      }
+      setTimeout(tick, 500);
+    }
+    tick();
+  }
+
   // ── Load lead ─────────────────────────────────────────────────
   async function loadLead() {
     const overlay = document.getElementById('loading-overlay');
     if (!leadId) {
-      setPrice(100);
-      document.getElementById('timer-section').style.display = 'none';
+      // Sin lead: timer localStorage 10 horas
+      const endTs = getTimerEnd();
+      const expired = Date.now() >= endTs;
+      setPrice(expired ? 300 : 100);
+      if (expired) {
+        document.getElementById('countdown').style.display = 'none';
+        document.getElementById('timer-label').style.display = 'none';
+        document.getElementById('timer-expired-msg').style.display = 'block';
+      } else {
+        timerExpires = endTs;
+        updateTimerUI();
+        setInterval(() => updateTimerUI(), 1000);
+      }
+      startBannerTick(endTs);
       overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 400);
       return;
     }
@@ -489,14 +553,18 @@
         setPrice(100);
         updateTimerUI();
         setInterval(() => updateTimerUI(), 1000);
+        startBannerTick(data.timer_expires);
       } else {
         setPrice(data.precio || 300);
         document.getElementById('countdown').style.display = 'none';
         document.getElementById('timer-label').style.display = 'none';
         document.getElementById('timer-expired-msg').style.display = 'block';
+        startBannerTick(Date.now() - 1); // ya expirado
       }
     } catch(e) {
-      setPrice(100);
+      const endTs = getTimerEnd();
+      setPrice(Date.now() >= endTs ? 300 : 100);
+      startBannerTick(endTs);
       document.getElementById('timer-section').style.display = 'none';
     }
     overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 400);

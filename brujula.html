@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="https://cosmart.com.ar/favicon-cosmart.png" />
   <style>
     :root {
       --az1: #0D2B6B;
@@ -172,7 +173,7 @@
     }
 
     .hero-sub {
-      font-size: 1.12rem;
+      font-size: 0.95rem;
       color: var(--texto-claro);
       max-width: 520px;
       margin-bottom: 2.5rem;
@@ -312,7 +313,7 @@
 
     .section-desc {
       color: var(--texto-claro);
-      font-size: 1.05rem;
+      font-size: 0.88rem;
       max-width: 580px;
       margin: 1rem auto 0;
       line-height: 1.7;
@@ -381,10 +382,10 @@
       margin-bottom: 1.25rem;
     }
 
-    .service-card:nth-child(1) .service-icon { background: rgba(58,143,199,0.15); }
-    .service-card:nth-child(2) .service-icon { background: rgba(224,32,32,0.12); }
-    .service-card:nth-child(3) .service-icon { background: rgba(26,77,170,0.25); }
-    .service-card:nth-child(4) .service-icon { background: rgba(58,143,199,0.1); }
+    .service-card:nth-child(1) .service-icon,
+    .service-card:nth-child(2) .service-icon,
+    .service-card:nth-child(3) .service-icon,
+    .service-card:nth-child(4) .service-icon { background: rgba(58,143,199,0.12); border: 1px solid rgba(58,143,199,0.2); }
 
     .service-card h3 {
       font-size: 1.1rem;
@@ -394,9 +395,9 @@
     }
 
     .service-card p {
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       color: var(--texto-claro);
-      line-height: 1.65;
+      line-height: 1.6;
     }
 
     .service-tag {
@@ -443,14 +444,7 @@
     }
 
     .auditoria-section::before {
-      content: '🔍';
-      position: absolute;
-      font-size: 18rem;
-      opacity: 0.03;
-      right: -2rem;
-      top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
+      display: none;
     }
 
     .auditoria-inner {
@@ -470,17 +464,14 @@
     }
 
     .auditoria-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(224,32,32,0.15);
-      border: 1px solid rgba(224,32,32,0.3);
-      color: #ff6b6b;
-      font-size: 0.78rem;
+      display: inline-block;
+      background: var(--ro1);
+      color: #fff;
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      padding: 5px 14px;
+      padding: 6px 18px;
       border-radius: 20px;
       margin-bottom: 1.5rem;
     }
@@ -497,7 +488,7 @@
 
     .auditoria-card .auditoria-desc {
       color: var(--texto-claro);
-      font-size: 1.05rem;
+      font-size: 0.88rem;
       max-width: 560px;
       margin: 0 auto 2.5rem;
       line-height: 1.7;
@@ -530,10 +521,10 @@
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(58,143,199,0.25);
       border-radius: 10px;
-      padding: 12px 16px;
+      padding: 10px 14px;
       color: var(--blanco);
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.875rem;
       transition: var(--transicion);
       outline: none;
     }
@@ -559,10 +550,10 @@
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(58,143,199,0.25);
       border-radius: 10px;
-      padding: 12px 16px;
+      padding: 10px 36px 10px 14px;
       color: var(--blanco);
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.875rem;
       transition: var(--transicion);
       outline: none;
       cursor: pointer;
@@ -589,9 +580,9 @@
       color: var(--blanco);
       border: none;
       border-radius: 12px;
-      padding: 15px 32px;
+      padding: 13px 32px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
       transition: var(--transicion);
@@ -652,10 +643,10 @@
     }
 
     .sobre-intro {
-      font-size: 1.05rem;
+      font-size: 0.9rem;
       color: var(--texto-claro);
-      line-height: 1.8;
-      margin-bottom: 1.5rem;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
     }
 
     .sobre-intro strong { color: var(--blanco); }
@@ -721,11 +712,15 @@
       width: 42px;
       height: 42px;
       border-radius: 10px;
-      background: rgba(58,143,199,0.1);
+      background: rgba(58,143,199,0.12);
+      border: 1px solid rgba(58,143,199,0.2);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--az3);
+      letter-spacing: 0.04em;
       flex-shrink: 0;
     }
 
@@ -770,14 +765,7 @@
     }
 
     .cta-section::before {
-      content: '🧭';
-      position: absolute;
-      font-size: 20rem;
-      opacity: 0.03;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
+      display: none;
     }
 
     .cta-section .container { position: relative; z-index: 1; }
@@ -839,7 +827,7 @@
       max-width: 1120px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 220px 1fr auto;
       gap: 3rem;
       align-items: start;
     }
@@ -874,25 +862,33 @@
 
     .footer-links {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      flex-wrap: nowrap;
+      gap: 0.22rem;
     }
 
     .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       color: var(--texto-claro);
       text-decoration: none;
-      font-size: 0.85rem;
-      padding: 5px 12px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      padding: 4px 8px;
       border-radius: 6px;
       border: 1px solid rgba(255,255,255,0.08);
       transition: var(--transicion);
+      white-space: nowrap;
     }
+
+    .footer-link svg { flex-shrink: 0; opacity: 0.7; }
 
     .footer-link:hover {
       color: var(--blanco);
       border-color: rgba(58,143,199,0.35);
       background: rgba(58,143,199,0.08);
     }
+    .footer-link:hover svg { opacity: 1; }
 
     .footer-bottom {
       max-width: 1120px;
@@ -964,6 +960,7 @@
 
       .footer-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
 
@@ -982,36 +979,6 @@
       .auditoria-bullets { gap: 1rem; }
     }
 
-    /* ─── WHATSAPP FLOAT ─── */
-    .wa-float {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 999;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #25D366;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
-      text-decoration: none;
-      transition: var(--transicion);
-      animation: waPulse 2.5s infinite;
-    }
-
-    .wa-float:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 32px rgba(37,211,102,0.65);
-    }
-
-    .wa-float svg { width: 28px; height: 28px; fill: white; }
-
-    @keyframes waPulse {
-      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5), 0 0 0 0 rgba(37,211,102,0.3); }
-      50% { box-shadow: 0 4px 20px rgba(37,211,102,0.5), 0 0 0 12px rgba(37,211,102,0); }
-    }
   </style>
 </head>
 <body>
@@ -1020,7 +987,7 @@
   <nav class="navbar">
     <a href="https://cosmart.com.ar" style="display:flex;align-items:center;">
       <img
-        src="cosmart-logo.png"
+        src="https://cosmart.com.ar/cosmart-logo.png"
         alt="COSMART"
         class="navbar-logo"
         onerror="this.style.display='none';document.getElementById('logo-text').style.display='inline';"
@@ -1046,7 +1013,7 @@
           Soy <strong>Vaneh Fernández</strong>. Trabajo con empresas y emprendedores de toda Latinoamérica para construir una <strong>estrategia de marketing que funciona en el mundo real</strong> — sin parches, con dirección.
         </p>
         <a href="#auditoria" class="hero-cta">
-          Pedí tu auditoría gratis →
+          Pedí tu auditoría gratis
         </a>
         <div class="hero-stats">
           <div class="stat-item">
@@ -1091,28 +1058,28 @@
 
       <div class="services-grid">
         <div class="service-card fade-up fade-up-delay-1">
-          <div class="service-icon">🗺️</div>
+          <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
           <h3>Estrategia integral de marketing</h3>
           <p>Analizo tu negocio de punta a punta: qué canales usás, cómo comunicás, qué tan visible sos, cómo convertís. Construyo un plan que integra redes sociales, publicidad paga, email, automatizaciones y contenido — todo conectado y alineado a tus objetivos.</p>
           <a href="#auditoria" class="service-btn" data-servicio="Estrategia integral de marketing">Consultar →</a>
         </div>
 
         <div class="service-card fade-up fade-up-delay-2">
-          <div class="service-icon">⚡</div>
+          <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
           <h3>Asesoría estratégica</h3>
           <p>Una hora en modo focus total. Traés tu pregunta, tu problema o tu decisión pendiente — y nos ponemos a trabajar. Diagnóstico preciso, respuestas concretas y próximos pasos definidos. Sin vueltas, sin relleno.</p>
           <a href="#auditoria" class="service-btn" data-servicio="Asesoría estratégica">Consultar →</a>
         </div>
 
         <div class="service-card fade-up fade-up-delay-3">
-          <div class="service-icon">🔍</div>
+          <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
           <h3>Auditoría de marketing</h3>
           <p>Reviso tu presencia digital con lupa: sitio web, redes, embudos de venta, campañas y comunicación. El resultado es un diagnóstico claro con las oportunidades concretas que estás dejando pasar y cómo aprovecharlas.</p>
           <a href="#auditoria" class="service-btn" data-servicio="Auditoría de marketing">Consultar →</a>
         </div>
 
         <div class="service-card fade-up fade-up-delay-4">
-          <div class="service-icon">🌱</div>
+          <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <h3>Liderazgo consciente</h3>
           <p>Para CEOs, fundadores y líderes que quieren crecer sin quemarse en el intento. Acompañamiento individual para tomar mejores decisiones, liderar con propósito y construir negocios que sostengan a las personas que los hacen funcionar. Basado en el <strong style="color:var(--blanco)">Método BienSmart</strong>.</p>
           <a href="#auditoria" class="service-btn" data-servicio="Liderazgo consciente">Consultar →</a>
@@ -1125,7 +1092,7 @@
   <section class="auditoria-section" id="auditoria">
     <div class="auditoria-inner">
       <div class="auditoria-card fade-up">
-        <div class="auditoria-badge">🎁 Regalo para vos</div>
+        <div class="auditoria-badge">REGALO PARA VOS</div>
         <h2>Auditoría de marketing <span>completamente gratis</span></h2>
         <p class="auditoria-desc">
           Analizá tu negocio antes de invertir. Completá el formulario y te devuelvo un diagnóstico real de tu presencia digital con las oportunidades que encontré.
@@ -1159,10 +1126,10 @@
             <label for="aud-servicio">¿Qué servicio te interesó más?</label>
             <select id="aud-servicio">
               <option value="" disabled selected>Seleccioná una opción</option>
-              <option value="Auditoría de marketing">🔍 Auditoría de marketing (gratis)</option>
-              <option value="Estrategia integral de marketing">🗺️ Estrategia integral de marketing</option>
-              <option value="Asesoría estratégica">⚡ Asesoría estratégica (1 hora)</option>
-              <option value="Liderazgo consciente">🌱 Liderazgo consciente</option>
+              <option value="Auditoría de marketing">Auditoría de marketing (gratis)</option>
+              <option value="Estrategia integral de marketing">Estrategia integral de marketing</option>
+              <option value="Asesoría estratégica">Asesoría estratégica (1 hora)</option>
+              <option value="Liderazgo consciente">Liderazgo consciente</option>
             </select>
           </div>
           <div class="form-group">
@@ -1194,7 +1161,7 @@
             <textarea id="aud-mensaje" placeholder="Contame brevemente qué te preocupa o qué querés mejorar..."></textarea>
           </div>
           <button type="submit" class="form-submit">
-            🔍 Quiero mi auditoría gratis
+            Quiero mi auditoría gratis →
           </button>
         </form>
         <p class="auditoria-note">100% gratuita · Sin spam · Me contacto a la brevedad</p>
@@ -1238,21 +1205,21 @@
 
           <ul class="formacion-list">
             <li>
-              <span class="fi">🎓</span>
+              <span class="fi" style="color:var(--az3);font-size:1rem;">—</span>
               <div>
                 <strong style="color:var(--blanco)">Técnica Superior en Comunicación y Marketing Digital</strong><br />
                 <span>ISEC</span>
               </div>
             </li>
             <li>
-              <span class="fi">📚</span>
+              <span class="fi" style="color:var(--az3);font-size:1rem;">—</span>
               <div>
                 <strong style="color:var(--blanco)">Licenciatura en Comunicación</strong><br />
                 <span>UADE · Tesis aprobada</span>
               </div>
             </li>
             <li>
-              <span class="fi">🌱</span>
+              <span class="fi" style="color:var(--az3);font-size:1rem;">—</span>
               <div>
                 <strong style="color:var(--blanco)">Diplomatura en Liderazgo</strong><br />
                 <span>Formación ejecutiva</span>
@@ -1266,56 +1233,56 @@
 
           <div class="clientes-grid">
             <div class="cliente-item">
-              <div class="cliente-icon">♻️</div>
+              <div class="cliente-icon">AR</div>
               <div class="cliente-info">
                 <div class="cliente-name">Ando Reciclaje</div>
                 <div class="cliente-detail">Estrategia de marketing y comunicación</div>
               </div>
             </div>
             <div class="cliente-item">
-              <div class="cliente-icon">🏢</div>
+              <div class="cliente-icon">PP</div>
               <div class="cliente-info">
                 <div class="cliente-name">Pharus &amp; People</div>
                 <div class="cliente-detail">Estrategia digital y posicionamiento</div>
               </div>
             </div>
             <div class="cliente-item">
-              <div class="cliente-icon">🎵</div>
+              <div class="cliente-icon">GA</div>
               <div class="cliente-info">
                 <div class="cliente-name">Germán Aquino</div>
                 <div class="cliente-detail">Artista · Representación artística y comunicación</div>
               </div>
             </div>
             <div class="cliente-item">
-              <div class="cliente-icon">📚</div>
+              <div class="cliente-icon">MW</div>
               <div class="cliente-info">
                 <div class="cliente-name">Minami World</div>
                 <div class="cliente-detail">Autora · Estrategia para aumentar ventas de libro</div>
               </div>
             </div>
             <div class="cliente-item">
-              <div class="cliente-icon">✍️</div>
+              <div class="cliente-icon">MC</div>
               <div class="cliente-info">
                 <div class="cliente-name">Martín Cañeque</div>
                 <div class="cliente-detail">MC · Marca personal en RRSS y libro con IA</div>
               </div>
             </div>
             <div class="cliente-item">
-              <div class="cliente-icon">👠</div>
+              <div class="cliente-icon">CH</div>
               <div class="cliente-info">
                 <div class="cliente-name">Chunas</div>
                 <div class="cliente-detail">Calzado femenino · Marketing y comunicación</div>
               </div>
             </div>
             <div class="cliente-item">
-              <div class="cliente-icon">🩵</div>
+              <div class="cliente-icon">YTC</div>
               <div class="cliente-info">
                 <div class="cliente-name">Yo Te Cielo</div>
                 <div class="cliente-detail">Estrategia y presencia digital</div>
               </div>
             </div>
             <div class="cliente-item">
-              <div class="cliente-icon">💻</div>
+              <div class="cliente-icon">DCS</div>
               <div class="cliente-info">
                 <div class="cliente-name">DCS</div>
                 <div class="cliente-detail">Estrategia de marketing y comunicación</div>
@@ -1351,7 +1318,7 @@
           Dejá de improvisar y empezá a crecer con dirección. Una conversación puede cambiar el rumbo de tu negocio.
         </p>
         <a href="#auditoria" class="cta-btn">
-          🔍 Pedí tu auditoría gratis
+          Pedí tu auditoría gratis →
         </a>
         <p class="cta-note">Completamente gratuita · Sin compromiso · Respondo en 48hs</p>
       </div>
@@ -1361,50 +1328,65 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-grid">
+
+      <!-- Logo + tagline -->
       <div>
-        <a href="https://cosmart.com.ar" style="display:inline-block;margin-bottom:0.5rem;">
-          <img src="cosmart-logo.png" alt="COSMART" style="height:36px;width:auto;"
+        <a href="https://cosmart.com.ar" target="_blank" style="display:inline-block;margin-bottom:0.5rem;">
+          <img src="https://cosmart.com.ar/cosmart-logo.png" alt="COSMART" style="height:36px;width:auto;"
             onerror="this.style.display='none';document.getElementById('footer-logo-text').style.display='inline';" />
           <span id="footer-logo-text" class="footer-logo" style="display:none;"><span class="co">COS</span>MART</span>
         </a>
         <p class="footer-tagline">Tu brújula digital · cosmart.com.ar</p>
+      </div>
 
+      <!-- Verticales (centro) -->
+      <div>
         <div class="footer-links-title">Verticales COSMART</div>
         <div class="footer-links">
-          <a href="https://cosmart.com.ar" class="footer-link">Inicio</a>
-          <a href="https://comunicos.cosmart.com.ar" class="footer-link" target="_blank">ComuniCOS</a>
-          <a href="https://rumbovoraz.cosmart.com.ar" class="footer-link" target="_blank">Rumbo Voraz</a>
-          <a href="https://mpg.cosmart.com.ar" class="footer-link" target="_blank">MPG</a>
-          <a href="https://euforia.cosmart.com.ar" class="footer-link" target="_blank">Euforia</a>
-          <a href="https://design.cosmart.com.ar" class="footer-link" target="_blank">Diseño</a>
-          <a href="https://shows.cosmart.com.ar" class="footer-link" target="_blank">Shows</a>
-          <a href="https://cosmart.com.ar/brujula" class="footer-link" style="border-color:rgba(58,143,199,0.4);color:var(--az3);">Brújula</a>
+          <a href="https://cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3a6 6 0 0 1 6 6v.5"/><path d="M18 3a6 6 0 0 0-6 6v.5"/><path d="M8 9.5h8"/><rect x="7" y="9.5" width="10" height="5" rx="1"/><path d="M9 14.5v5"/><path d="M15 14.5v5"/></svg>COSMART
+          </a>
+          <a href="https://rumbovoraz.cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Rumbo Voraz
+          </a>
+          <a href="https://design.cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>Diseño
+          </a>
+          <a href="https://euforia.cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Euforia
+          </a>
+          <a href="https://comunicos.cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>ComuniCOS
+          </a>
+          <a href="https://mpg.cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>MPG
+          </a>
+          <a href="https://talent.cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Talent
+          </a>
+          <a href="https://shows.cosmart.com.ar" class="footer-link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Shows
+          </a>
+          <a href="https://cosmart.com.ar/brujula" class="footer-link" style="border-color:rgba(58,143,199,0.5);color:var(--az3);background:rgba(58,143,199,0.08);">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>Brújula ←
+          </a>
         </div>
       </div>
 
+      <!-- Contacto (derecha) -->
       <div style="text-align:right;">
-        <a href="https://wa.me/5491123605739" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;color:var(--texto-claro);text-decoration:none;font-size:0.85rem;transition:var(--transicion);">
-          <span style="font-size:1.1rem;">💬</span> +54 9 11 2360-5739
-        </a>
-        <br /><br />
-        <a href="https://cosmart.com.ar/brujula" style="display:inline-block;background:rgba(58,143,199,0.1);border:1px solid rgba(58,143,199,0.25);color:var(--az3);font-size:0.78rem;font-weight:600;letter-spacing:0.06em;padding:6px 14px;border-radius:8px;text-decoration:none;text-transform:uppercase;">
-          cosmart.com.ar/brujula
-        </a>
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--az3);margin-bottom:0.75rem;">Contacto</p>
+        <p style="font-size:0.85rem;color:var(--texto-claro);">info&#64;cosmart.com.ar</p>
       </div>
+
     </div>
 
     <div class="footer-bottom">
       <p class="footer-copy">© 2025 COSMART. Todos los derechos reservados.</p>
-      <p class="footer-vaneh">Hecho con 🧭 por <a href="https://cosmart.com.ar/brujula">Brújula · COSMART</a></p>
+      <p class="footer-vaneh">Design by <a href="https://design.cosmart.com.ar" target="_blank">COSMART</a></p>
     </div>
   </footer>
 
-  <!-- WhatsApp Flotante -->
-  <a href="https://wa.me/5491123605739?text=Hola%20Vaneh!%20Quiero%20mi%20consultor%C3%ADa%20🧭" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-  </a>
 
   <script>
     (function () {
@@ -1464,7 +1446,7 @@
         });
 
         if (res.ok) {
-          btn.textContent = '✅ ¡Listo! Me contacto a la brevedad';
+          btn.textContent = '¡Listo! Me contacto a la brevedad';
           btn.style.background = '#1A4DAA';
           e.target.reset();
         } else {
@@ -1472,7 +1454,7 @@
         }
       } catch (err) {
         btn.disabled = false;
-        btn.textContent = '🔍 Quiero mi auditoría gratis';
+        btn.textContent = 'Quiero mi auditoría gratis →';
         alert('Hubo un error al enviar. Intentá de nuevo en un momento.');
       }
     }

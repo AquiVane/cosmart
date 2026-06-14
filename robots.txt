@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /brujula/asesoria
+Disallow: /brujula/asesoria/gracias
+
+Sitemap: https://cosmart.com.ar/sitemap.xml

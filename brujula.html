@@ -1123,14 +1123,25 @@
             <input type="url" id="aud-web" placeholder="https://tunegocio.com" />
           </div>
           <div class="form-group full">
-            <label for="aud-servicio">¿Qué servicio te interesó más?</label>
-            <select id="aud-servicio">
-              <option value="" disabled selected>Seleccioná una opción</option>
-              <option value="Auditoría de marketing">Auditoría de marketing (gratis)</option>
-              <option value="Estrategia integral de marketing">Estrategia integral de marketing</option>
-              <option value="Asesoría estratégica">Asesoría estratégica (1 hora)</option>
-              <option value="Liderazgo consciente">Liderazgo consciente</option>
-            </select>
+            <label>¿Qué servicios te interesan? <span style="color:var(--texto-claro);font-weight:400;">(podés elegir más de uno)</span></label>
+            <div id="servicios-checks" style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.9rem;font-weight:400;color:var(--blanco);letter-spacing:0;text-transform:none;">
+                <input type="checkbox" name="servicios" value="Auditoría de marketing" style="width:17px;height:17px;accent-color:var(--az3);cursor:pointer;" />
+                Auditoría de marketing <span style="color:var(--az3);font-weight:600;">(gratis)</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.9rem;font-weight:400;color:var(--blanco);letter-spacing:0;text-transform:none;">
+                <input type="checkbox" name="servicios" value="Asesoría estratégica" style="width:17px;height:17px;accent-color:var(--az3);cursor:pointer;" />
+                Asesoría estratégica 1:1 <span style="color:rgba(255,255,255,0.45);font-size:0.8rem;">(USD 100 hoy)</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.9rem;font-weight:400;color:var(--blanco);letter-spacing:0;text-transform:none;">
+                <input type="checkbox" name="servicios" value="Estrategia integral de marketing" style="width:17px;height:17px;accent-color:var(--az3);cursor:pointer;" />
+                Estrategia integral de marketing
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.9rem;font-weight:400;color:var(--blanco);letter-spacing:0;text-transform:none;">
+                <input type="checkbox" name="servicios" value="Liderazgo consciente" style="width:17px;height:17px;accent-color:var(--az3);cursor:pointer;" />
+                Liderazgo consciente
+              </label>
+            </div>
           </div>
           <div class="form-group">
             <label for="aud-instagram">Instagram</label>
@@ -1160,11 +1171,11 @@
             <label for="aud-mensaje">¿Cuál es tu mayor desafío ahora mismo? <span style="color:var(--texto-claro);font-weight:400;">(opcional)</span></label>
             <textarea id="aud-mensaje" placeholder="Contame brevemente qué te preocupa o qué querés mejorar..."></textarea>
           </div>
-          <button type="submit" class="form-submit">
-            Quiero mi auditoría gratis →
+          <button type="submit" class="form-submit" id="form-submit-btn">
+            Enviar →
           </button>
         </form>
-        <p class="auditoria-note">100% gratuita · Sin spam · Me contacto a la brevedad</p>
+        <p class="auditoria-note" id="form-note">Sin spam · Me contacto a la brevedad</p>
       </div>
     </div>
   </section>
@@ -1406,25 +1417,73 @@
 
     const WORKER_URL = 'https://cosmart-training.conglomeradocosmart.workers.dev';
 
-    // Los botones "Consultar" de cada card pre-seleccionan el servicio en el form
+    // ── Checkboxes → botón dinámico ───────────────────────────────
+    function getServicios() {
+      return [...document.querySelectorAll('input[name="servicios"]:checked')].map(c => c.value);
+    }
+
+    function updateBtn() {
+      const sel = getServicios();
+      const btn  = document.getElementById('form-submit-btn');
+      const note = document.getElementById('form-note');
+      if (sel.includes('Asesoría estratégica')) {
+        btn.textContent = 'Ir a pagar la asesoría →';
+        note.textContent = 'Precio especial: USD 100 hoy';
+      } else if (sel.includes('Auditoría de marketing') && sel.length === 1) {
+        btn.textContent = 'Quiero mi auditoría gratis →';
+        note.textContent = '100% gratuita · Sin spam · Me contacto a la brevedad';
+      } else if (sel.length > 0) {
+        btn.textContent = 'Enviar consulta →';
+        note.textContent = 'Sin spam · Me contacto a la brevedad';
+      } else {
+        btn.textContent = 'Enviar →';
+        note.textContent = 'Sin spam · Me contacto a la brevedad';
+      }
+    }
+
+    document.querySelectorAll('input[name="servicios"]').forEach(cb => cb.addEventListener('change', updateBtn));
+
+    // Los botones "Consultar" de cada card marcan el checkbox correspondiente
     document.querySelectorAll('.service-btn').forEach(btn => {
       btn.addEventListener('click', function () {
         const servicio = this.dataset.servicio;
-        const sel = document.getElementById('aud-servicio');
-        if (sel && servicio) sel.value = servicio;
+        const cb = document.querySelector(`input[name="servicios"][value="${servicio}"]`);
+        if (cb) { cb.checked = true; updateBtn(); }
       });
     });
 
     async function enviarAuditoria(e) {
       e.preventDefault();
-      const v = id => document.getElementById(id).value.trim();
-      const btn = e.target.querySelector('.form-submit');
+      const v   = id => document.getElementById(id).value.trim();
+      const btn = document.getElementById('form-submit-btn');
+      const servicios = getServicios();
+
+      if (servicios.length === 0) {
+        alert('Seleccioná al menos un servicio.');
+        return;
+      }
+
+      const nombre  = v('aud-nombre');
+      const email   = v('aud-email');
+      const negocio = v('aud-negocio');
+
+      // Si eligió asesoría → redirigir directo sin guardar lead
+      if (servicios.includes('Asesoría estratégica') && servicios.length === 1) {
+        window.location.href = `https://cosmart.com.ar/brujula/asesoria`;
+        return;
+      }
+
+      // Si eligió liderazgo solo → redirigir a training
+      if (servicios.includes('Liderazgo consciente') && servicios.length === 1) {
+        window.location.href = 'https://training.cosmart.com.ar';
+        return;
+      }
 
       const payload = {
-        nombre:    v('aud-nombre'),
-        email:     v('aud-email'),
-        negocio:   v('aud-negocio'),
-        servicio:  v('aud-servicio'),
+        nombre,
+        email,
+        negocio,
+        servicio:  servicios.join(', '),
         web:       v('aud-web'),
         instagram: v('aud-instagram'),
         facebook:  v('aud-facebook'),
@@ -1444,17 +1503,52 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
+        if (!res.ok) throw new Error();
 
-        if (res.ok) {
-          btn.textContent = '¡Listo! Me contacto a la brevedad';
-          btn.style.background = '#1A4DAA';
-          e.target.reset();
-        } else {
-          throw new Error('Error del servidor');
+        // Comportamiento post-envío según servicio
+        if (servicios.includes('Asesoría estratégica')) {
+          // Envió datos + quiere asesoría → redirigir a pagar
+          window.location.href = `https://cosmart.com.ar/brujula/asesoria`;
+          return;
         }
+
+        if (servicios.includes('Auditoría de marketing') && !servicios.includes('Estrategia integral de marketing') && !servicios.includes('Liderazgo consciente')) {
+          // Solo auditoría → mensaje + CTA a asesoría
+          e.target.closest('.auditoria-card').innerHTML = `
+            <div style="text-align:center;padding:2rem 1rem;">
+              <div style="font-size:48px;margin-bottom:16px;">✅</div>
+              <h3 style="color:var(--blanco);font-size:1.4rem;margin-bottom:12px;">¡Listo, ${nombre}!</h3>
+              <p style="color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.7;">
+                Recibí tu formulario. Voy a analizar tu presencia digital y te envío el informe de auditoría a <strong style="color:var(--blanco)">${email}</strong> a la brevedad.
+              </p>
+              <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;margin-bottom:28px;">
+                ¿Querés ir más a fondo con una asesoría personalizada?
+              </p>
+              <a href="https://cosmart.com.ar/brujula/asesoria" style="display:inline-block;background:var(--rojo);color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;text-decoration:none;font-size:1rem;">
+                Agendar asesoría 1:1 →
+              </a>
+            </div>`;
+          return;
+        }
+
+        if (servicios.includes('Liderazgo consciente') && !servicios.includes('Asesoría estratégica')) {
+          window.location.href = 'https://training.cosmart.com.ar';
+          return;
+        }
+
+        // Estrategia integral u otras combinaciones → mensaje de contacto
+        e.target.closest('.auditoria-card').innerHTML = `
+          <div style="text-align:center;padding:2rem 1rem;">
+            <div style="font-size:48px;margin-bottom:16px;">📩</div>
+            <h3 style="color:var(--blanco);font-size:1.4rem;margin-bottom:12px;">¡Recibido, ${nombre}!</h3>
+            <p style="color:rgba(255,255,255,0.7);line-height:1.7;">
+              Voy a revisar tu consulta y me contacto a <strong style="color:var(--blanco)">${email}</strong> con la propuesta comercial y cotización a la brevedad.
+            </p>
+          </div>`;
+
       } catch (err) {
         btn.disabled = false;
-        btn.textContent = 'Quiero mi auditoría gratis →';
+        updateBtn();
         alert('Hubo un error al enviar. Intentá de nuevo en un momento.');
       }
     }

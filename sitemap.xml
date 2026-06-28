@@ -53,6 +53,35 @@
     <priority>0.6</priority>
   </url>
 
+  <!-- LANDING PAGES LATAM -->
+  <url>
+    <loc>https://cosmart.com.ar/marketing-digital-uruguay</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://cosmart.com.ar/marketing-digital-panama</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://cosmart.com.ar/marketing-digital-costa-rica</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://cosmart.com.ar/marketing-digital-republica-dominicana</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- BITÁCORA (BLOG) -->
   <url>
     <loc>https://cosmart.com.ar/bitacora</loc>

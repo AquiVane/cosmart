@@ -254,9 +254,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--az1);paddin
 .cita{border-left:3px solid var(--az3);padding:.6rem 1rem;font-family:var(--serif);font-size:.95rem;font-style:italic;font-weight:700;color:var(--az1);margin-top:1rem;background:var(--gcl);border-radius:0 6px 6px 0}
 
 /* ── INCLUYE ── */
-.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem}
-.ii{display:flex;gap:.8rem;align-items:flex-start;padding:1.2rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px}
-.iico{font-size:1.3rem;flex-shrink:0}
+.igrid{display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem}
+@media(max-width:900px){.igrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.igrid{grid-template-columns:repeat(2,1fr)}}
+.ii{display:flex;flex-direction:column;gap:.6rem;padding:1.2rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px}
+.iico{width:28px;height:28px;flex-shrink:0;opacity:.85}
 .it{font-family:var(--sans);font-weight:600;font-size:.85rem;color:var(--blanco);margin-bottom:.2rem}
 .id{font-family:var(--sans);font-size:.76rem;font-weight:300;color:rgba(255,255,255,.52);line-height:1.5}
 
@@ -330,8 +332,13 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
 .ht>*:nth-child(5){animation-delay:.4s}
 #paymentBrick_container { width: 100%; }
 #paymentBrick_container iframe { border-radius: 8px; }
+.pay-tabs{display:flex;gap:.5rem;margin-bottom:1rem}
+.pay-tab{flex:1;padding:.65rem .5rem;border-radius:8px;border:1.5px solid #b0b8c8;background:transparent;color:#8a95a5;font-family:var(--sans);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
+.pay-tab.active{border-color:var(--az3);background:rgba(58,143,199,.08);color:var(--az3)}
+.pay-tab:hover:not(.active){border-color:#6b7a90;color:#6b7a90}
 </style>
 <script src="https://sdk.mercadopago.com/js/v2"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AYuQX3JJShvSkgNn0C195h3GEHGiKNtx44X3wd_5PEoBI1iinpysmDzNRqdZ7blNuZvFWIwcwhc9qiOP&currency=USD&intent=capture" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
 
@@ -571,12 +578,12 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
     <h2 class="sh shw">¿Qué <em style="color:var(--az3)">incluye</em> el programa?</h2>
     <p class="sp spw">Acceso completo desde el primer momento. Todo en texto — leelo a tu ritmo, cuando y donde quieras.</p>
     <div class="igrid">
-      <div class="ii"><div class="iico">📄</div><div><div class="it">47 lecciones en texto</div><div class="id">Contenido estructurado en 3 días, desde cualquier dispositivo</div></div></div>
-      <div class="ii"><div class="iico">🗺️</div><div><div class="it">Mapa de 47 pasos</div><div class="id">El recorrido completo desde la idea hasta el producto validado</div></div></div>
-      <div class="ii"><div class="iico">🤖</div><div><div class="it">Anexo: IA aplicada</div><div class="id">Prompts listos para validar mercados con inteligencia artificial</div></div></div>
-      <div class="ii"><div class="iico">📦</div><div><div class="it">Bonus: Dropshipping AR</div><div class="id">El modelo adaptado al mercado argentino: proveedores y márgenes</div></div></div>
-      <div class="ii"><div class="iico">✅</div><div><div class="it">Check List Producto Ganador</div><div class="id">Herramienta final para evaluar cualquier producto en minutos</div></div></div>
-      <div class="ii"><div class="iico">🏅</div><div><div class="it">Certificado + insignia</div><div class="id">Certificación COSMART al completar. Descargable y compartible.</div></div></div>
+      <div class="ii"><div class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><div class="it">47 lecciones en texto</div><div class="id">Contenido estructurado en 3 días, desde cualquier dispositivo</div></div>
+      <div class="ii"><div class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="it">Mapa de 47 pasos</div><div class="id">El recorrido completo desde la idea hasta el producto validado</div></div>
+      <div class="ii"><div class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="it">Anexo: IA aplicada</div><div class="id">Prompts listos para validar mercados con inteligencia artificial</div></div>
+      <div class="ii"><div class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div class="it">Bonus: Dropshipping AR</div><div class="id">El modelo adaptado al mercado argentino: proveedores y márgenes</div></div>
+      <div class="ii"><div class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="it">Check List Producto Ganador</div><div class="id">Herramienta final para evaluar cualquier producto en minutos</div></div>
+      <div class="ii"><div class="iico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="it">Certificado + insignia</div><div class="id">Certificación COSMART al completar. Descargable y compartible.</div></div>
     </div>
   </div>
 </section>
@@ -636,14 +643,26 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
     <div class="pagg">
       <div class="pcaja">
         <div class="ppl">Puerto COSMART · Programa digital</div>
-        <div class="pdesc" id="badge-desc">31% OFF · Anexo IA incluido gratis</div>
-        <div class="pcaja-timer" id="pcaja-timer-wrap"><span id="pcaja-timer-label">⏱ 31% OFF válido por los próximos</span> <span id="pcaja-cdt">10:00</span></div>
-        <div id="pcaja-expired-msg" style="display:none;font-family:var(--sans);font-size:.78rem;color:rgba(255,255,255,.55);margin-bottom:.5rem;line-height:1.5;">
-          ⏰ <span style="color:#FF3535;font-weight:700;">00:00</span> — Los 10 minutos expiraron.<br>Perdiste el 31% OFF.
+        <div id="ars-price">
+          <div class="pdesc" id="badge-desc">31% OFF · Anexo IA incluido gratis</div>
+          <div class="pcaja-timer" id="pcaja-timer-wrap"><span id="pcaja-timer-label">⏱ 31% OFF válido por los próximos</span> <span id="pcaja-cdt">10:00</span></div>
+          <div id="pcaja-expired-msg" style="display:none;font-family:var(--sans);font-size:.78rem;color:rgba(255,255,255,.55);margin-bottom:.5rem;line-height:1.5;">
+            ⏰ <span style="color:#FF3535;font-weight:700;">00:00</span> — Los 10 minutos expiraron.<br>Perdiste el 31% OFF.
+          </div>
+          <div class="ppre-tachado" id="price-tachado">$65.000</div>
+          <div class="ppre" id="price-main">$45.000</div>
+          <div class="psub">ARS · pago único · acceso permanente</div>
         </div>
-        <div class="ppre-tachado" id="price-tachado">$65.000</div>
-        <div class="ppre" id="price-main">$45.000</div>
-        <div class="psub">ARS · pago único · acceso permanente</div>
+        <div id="usd-price" style="display:none">
+          <div class="pdesc" id="badge-desc-usd">30% OFF · Precio de lanzamiento</div>
+          <div class="pcaja-timer" id="pcaja-timer-wrap-usd"><span id="pcaja-timer-label-usd">⏱ 30% OFF válido por los próximos</span> <span id="pcaja-cdt-usd">10:00</span></div>
+          <div id="pcaja-expired-msg-usd" style="display:none;font-family:var(--sans);font-size:.78rem;color:rgba(255,255,255,.55);margin-bottom:.5rem;line-height:1.5;">
+            ⏰ <span style="color:#FF3535;font-weight:700;">00:00</span> — Los 10 minutos expiraron.<br>Perdiste el 30% OFF.
+          </div>
+          <div class="ppre-tachado" id="price-tachado-usd">USD 47</div>
+          <div class="ppre" id="price-main-usd">USD 32.90</div>
+          <div class="psub">USD · pago único · acceso permanente</div>
+        </div>
         <div class="plis">
           <div class="pitem">47 lecciones en texto (3 días + Anexo IA)</div>
           <div class="pitem">Mapa completo de pasos accionables</div>
@@ -658,11 +677,24 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
       </div>
 
       <div class="mpw">
-        <div class="mpt">Completá tus datos para pagar</div>
-        <div class="mps">Pago seguro procesado por Mercado Pago. Tarjetas de crédito, débito, Rapipago y transferencia.</div>
-        <div id="paymentBrick_container"></div>
-        <div class="mpseg" style="margin-top:.8rem">🔒 Pago seguro · procesado por <span class="mpbrand">Mercado Pago</span></div>
-        <div id="mpmsg" style="font-size:.78rem;text-align:center;margin-top:.3rem;min-height:1.2rem;font-family:var(--sans)"></div>
+        <div class="pay-tabs">
+          <button class="pay-tab active" id="tab-mp" onclick="switchPayTab('mp')">Pesos (ARS)</button>
+          <button class="pay-tab" id="tab-pp" onclick="switchPayTab('pp')">Dólares (USD)</button>
+        </div>
+        <div id="mp-section">
+          <div class="mpt">Completá tus datos para pagar</div>
+          <div class="mps">Pago seguro procesado por Mercado Pago. Tarjetas de crédito, débito, Rapipago y transferencia.</div>
+          <div id="paymentBrick_container"></div>
+          <div class="mpseg" style="margin-top:.8rem">🔒 Pago seguro · procesado por <span class="mpbrand">Mercado Pago</span></div>
+          <div id="mpmsg" style="font-size:.78rem;text-align:center;margin-top:.3rem;min-height:1.2rem;font-family:var(--sans)"></div>
+        </div>
+        <div id="pp-section" style="display:none">
+          <div class="mpt">Pagá con PayPal en dólares</div>
+          <div class="mps">Pago seguro procesado por PayPal. Aceptamos todas las tarjetas y saldo PayPal desde cualquier país.</div>
+          <div id="paypal_container" style="min-height:150px"></div>
+          <div class="mpseg" style="margin-top:.8rem">🔒 Pago seguro · procesado por <span style="color:#003087;font-weight:700;background:#fff;padding:.1rem .4rem;border-radius:4px;font-size:.8rem">Pay<span style="color:#009cde">Pal</span></span></div>
+          <div id="ppmsg" style="font-size:.78rem;text-align:center;margin-top:.3rem;min-height:1.2rem;font-family:var(--sans)"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -679,12 +711,23 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
 
 <div class="smob">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem">
-    <div style="display:flex;align-items:baseline;gap:.5rem">
-      <span id="smob-tachado" style="font-family:var(--serif);font-size:.78rem;font-weight:400;color:rgba(255,255,255,.35);text-decoration:line-through">$65.000</span>
-      <span id="smob-price" style="font-family:var(--serif);font-size:1.2rem;font-weight:900;color:var(--blanco)">$45.000</span>
-      <span id="smob-badge" style="background:var(--ro1);color:#fff;font-family:var(--sans);font-size:.6rem;font-weight:700;padding:.15rem .45rem;border-radius:10px">31% OFF</span>
+    <!-- ARS -->
+    <div style="display:flex;flex-direction:column;gap:.05rem">
+      <div style="display:flex;align-items:baseline;gap:.4rem">
+        <span id="smob-tachado" style="font-family:var(--serif);font-size:.72rem;font-weight:400;color:rgba(255,255,255,.35);text-decoration:line-through">$65.000</span>
+        <span id="smob-price" style="font-family:var(--serif);font-size:1.1rem;font-weight:900;color:var(--blanco)">$45.000</span>
+        <span id="smob-badge" style="background:var(--ro1);color:#fff;font-family:var(--sans);font-size:.6rem;font-weight:700;padding:.15rem .4rem;border-radius:10px">31% OFF</span>
+      </div>
+      <span style="font-family:var(--sans);font-size:.58rem;color:rgba(255,255,255,.3);line-height:1">pesos argentinos</span>
     </div>
-    <span style="font-family:var(--sans);font-size:.68rem;font-weight:300;color:rgba(255,255,255,.4)">pago único · ARS</span>
+    <!-- Separador -->
+    <span style="font-family:var(--sans);font-size:.7rem;color:rgba(255,255,255,.2);margin:0 .3rem">·</span>
+    <!-- USD -->
+    <div style="display:flex;align-items:baseline;gap:.4rem">
+      <span id="smob-tachado-usd" style="font-family:var(--serif);font-size:.72rem;font-weight:400;color:rgba(255,255,255,.35);text-decoration:line-through">USD 47</span>
+      <span id="smob-price-usd" style="font-family:var(--serif);font-size:1.1rem;font-weight:900;color:rgba(255,255,255,.75)">USD 32.90</span>
+      <span id="smob-badge-usd" style="background:rgba(255,255,255,.15);color:#fff;font-family:var(--sans);font-size:.6rem;font-weight:700;padding:.15rem .4rem;border-radius:10px">30% OFF</span>
+    </div>
   </div>
   <a href="#pagar" class="btnR">Unirme al programa →</a>
 </div>
@@ -702,7 +745,8 @@ document.querySelectorAll('.fi').forEach(i=>{
 // ── MERCADO PAGO BRICKS ──
 const WORKER_URL = 'https://mp-productos-ganadores.conglomeradocosmart.workers.dev';
 const TRAINING_URL = 'https://cosmart-training.conglomeradocosmart.workers.dev';
-const COURSE_URL = 'https://conglomeradocosmart.wixsite.com/contacto-smart/challenge-page/c%C3%B3moidentificarproductosganadoresene-commerce?programId=9dfe1c6d-daab-4492-8a92-7dd369a44c1d&participantId=undefined';
+const COURSE_URL = 'https://www.cosmart.com.ar/cosmart-training-login.html';
+const REGISTRO_URL = 'https://www.cosmart.com.ar/cosmart-training-registro.html';
 
 // ── CÓDIGOS DE DESCUENTO / ACCESO GRATIS ──
 const _urlParams = new URLSearchParams(window.location.search);
@@ -784,7 +828,7 @@ async function canjearFree() {
     });
     const data = await r.json();
     if (data.reg_token) {
-      window.location.href = `/cosmart-training-registro.html?token=${data.reg_token}`;
+      window.location.href = `${REGISTRO_URL}?token=${data.reg_token}`;
     } else {
       msg.style.color = '#E02020';
       msg.textContent = data.error || 'Error al canjear el código.';
@@ -883,6 +927,79 @@ _timerEnd = parseInt(_timerEnd, 10);
 
 function timerExpired(){ return Date.now() >= _timerEnd; }
 function getPrecio(){ return timerExpired() ? 65000 : 45000; }
+function getPrecioUSD(){ return timerExpired() ? 47.00 : 32.90; }
+
+let ppInitialized = false;
+function initPayPal() {
+  if (ppInitialized) return;
+  if (typeof paypal === 'undefined') {
+    const msg = document.getElementById('ppmsg');
+    if (msg) { msg.style.color = '#E02020'; msg.textContent = 'No se pudo cargar PayPal. Revisá tu conexión.'; }
+    return;
+  }
+  ppInitialized = true;
+  paypal.Buttons({
+    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 48 },
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          description: 'COSMART — Curso Productos Ganadores',
+          amount: { value: getPrecioUSD().toFixed(2), currency_code: 'USD' }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      const msg = document.getElementById('ppmsg');
+      if (msg) { msg.style.color = '#60a5fa'; msg.textContent = '⏳ Procesando pago...'; }
+      return actions.order.capture().then(async function(details) {
+        const email = details.payer?.email_address;
+        if (email) {
+          try {
+            const r = await fetch(TRAINING_URL + '/payment/paypal', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, orderID: data.orderID })
+            });
+            const result = await r.json();
+            if (result.reg_token) {
+              window.location.href = `${REGISTRO_URL}?token=${result.reg_token}&email=${encodeURIComponent(email)}`;
+              return;
+            }
+          } catch(e) {}
+        }
+        // Fallback: redirigir al curso directamente
+        window.location.href = COURSE_URL;
+      });
+    },
+    onError: function() {
+      const msg = document.getElementById('ppmsg');
+      if (msg) { msg.style.color = '#E02020'; msg.textContent = '⚠️ Error al procesar el pago. Intentá de nuevo.'; }
+      ppInitialized = false;
+    },
+    onCancel: function() {}
+  }).render('#paypal_container');
+}
+
+function switchPayTab(tab) {
+  const tabMp = document.getElementById('tab-mp');
+  const tabPp = document.getElementById('tab-pp');
+  const mpSection = document.getElementById('mp-section');
+  const ppSection = document.getElementById('pp-section');
+  const arsPrice = document.getElementById('ars-price');
+  const usdPrice = document.getElementById('usd-price');
+  if (tab === 'pp') {
+    tabMp.classList.remove('active'); tabPp.classList.add('active');
+    mpSection.style.display = 'none'; ppSection.style.display = 'block';
+    if (arsPrice) arsPrice.style.display = 'none';
+    if (usdPrice) usdPrice.style.display = 'block';
+    initPayPal();
+  } else {
+    tabMp.classList.add('active'); tabPp.classList.remove('active');
+    mpSection.style.display = 'block'; ppSection.style.display = 'none';
+    if (arsPrice) arsPrice.style.display = 'block';
+    if (usdPrice) usdPrice.style.display = 'none';
+  }
+}
 
 function applyExpired(){
   // Banner
@@ -907,13 +1024,20 @@ function applyExpired(){
   if(pcajaTimerWrap) pcajaTimerWrap.style.display = 'none';
   const pcajaExpiredMsg = document.getElementById('pcaja-expired-msg');
   if(pcajaExpiredMsg) pcajaExpiredMsg.style.display = 'block';
-  // Sticky mobile banner
+  // Sticky mobile — ARS
   const smobPrice = document.getElementById('smob-price');
   const smobTachado = document.getElementById('smob-tachado');
   const smobBadge = document.getElementById('smob-badge');
   if(smobPrice) smobPrice.textContent = '$65.000';
   if(smobTachado) smobTachado.style.display = 'none';
   if(smobBadge) smobBadge.style.display = 'none';
+  // Sticky mobile — USD
+  const smobPriceUsd = document.getElementById('smob-price-usd');
+  const smobTachadoUsd = document.getElementById('smob-tachado-usd');
+  const smobBadgeUsd = document.getElementById('smob-badge-usd');
+  if(smobPriceUsd) smobPriceUsd.textContent = 'USD 47';
+  if(smobTachadoUsd) smobTachadoUsd.style.display = 'none';
+  if(smobBadgeUsd) smobBadgeUsd.style.display = 'none';
   // In-page timer display (si existe)
   const timerEl = document.getElementById('timer');
   if(timerEl) timerEl.textContent = '00:00';
@@ -925,6 +1049,17 @@ function applyExpired(){
         ⏰ El código expiró — Los 10 minutos terminaron. El precio volvió a <strong>$65.000</strong>
       </div>`;
   }
+  // USD price card
+  const priceMainUsd    = document.getElementById('price-main-usd');
+  const priceTachadoUsd = document.getElementById('price-tachado-usd');
+  const badgeDescUsd    = document.getElementById('badge-desc-usd');
+  const timerWrapUsd    = document.getElementById('pcaja-timer-wrap-usd');
+  const expiredMsgUsd   = document.getElementById('pcaja-expired-msg-usd');
+  if(priceMainUsd)    priceMainUsd.textContent         = 'USD 47';
+  if(priceTachadoUsd) priceTachadoUsd.style.display   = 'none';
+  if(badgeDescUsd)    badgeDescUsd.style.display       = 'none';
+  if(timerWrapUsd)    timerWrapUsd.style.display       = 'none';
+  if(expiredMsgUsd)   expiredMsgUsd.style.display      = 'block';
   // Reinicializar brick con nuevo precio si ya estaba activo
   if(brickInitialized){
     brickInitialized = false;
@@ -945,9 +1080,11 @@ function applyExpired(){
     // Actualizar banner (cdt)
     const cdt = document.getElementById('cdt');
     if(cdt) cdt.textContent = fmt;
-    // Actualizar countdown en price card
+    // Actualizar countdown en price card ARS y USD
     const pcajaCdt = document.getElementById('pcaja-cdt');
     if(pcajaCdt) pcajaCdt.textContent = fmt;
+    const pcajaCdtUsd = document.getElementById('pcaja-cdt-usd');
+    if(pcajaCdtUsd) pcajaCdtUsd.textContent = fmt;
     // Actualizar in-page timer (si existe)
     const timerEl = document.getElementById('timer');
     if(timerEl) timerEl.textContent = fmt;

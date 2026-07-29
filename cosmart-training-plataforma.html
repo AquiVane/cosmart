@@ -636,9 +636,7 @@ async function init() {
   // Si no hay fecha → mostrar banner
   if (!startDate) {
     document.getElementById('dateBanner').style.display = 'block';
-    // Fecha mínima: hoy en hora local (toISOString da UTC y puede ser "mañana" en Argentina)
-    const _n = new Date();
-    const today = `${_n.getFullYear()}-${String(_n.getMonth()+1).padStart(2,'0')}-${String(_n.getDate()).padStart(2,'0')}`;
+    const today = new Date().toISOString().split('T')[0];
     document.getElementById('startDateInput').min = today;
     document.getElementById('startDateInput').value = today;
   }
@@ -658,9 +656,7 @@ async function init() {
 // ── PROGRESS CALC ─────────────────────────────────────────────
 function calcUnlocked(sd) {
   if (!sd) return ['intro'];
-  // Parsear la fecha como local (no UTC) para evitar desfase de zona horaria
-  const [sy,sm,sd2] = sd.split('-').map(Number);
-  const start = new Date(sy, sm-1, sd2, 0, 0, 0, 0);
+  const start = new Date(sd); start.setHours(0,0,0,0);
   const today = new Date(); today.setHours(0,0,0,0);
   const days = Math.floor((today - start) / 86400000);
   const u = ['intro'];
@@ -855,8 +851,8 @@ async function markComplete(stepId, nextId, isLastInEscala, isVeryLast) {
     return;
   }
 
-  if (isLastInEscala && ALL_STEPS[stepId].escala !== 'intro') {
-    // Mostrar modal de rating — solo después de completar una Escala real (no la intro)
+  if (isLastInEscala) {
+    // Mostrar modal de rating
     const escala = ALL_STEPS[stepId].escala;
     const escalaLabel = ALL_STEPS[stepId].escalaLabel;
     openRatingModal(escala, escalaLabel, nextId);

@@ -828,7 +828,7 @@ async function canjearFree() {
     });
     const data = await r.json();
     if (data.reg_token) {
-      window.location.href = `${REGISTRO_URL}?token=${data.reg_token}`;
+      window.location.href = `${REGISTRO_URL}?token=${data.reg_token}&email=${encodeURIComponent(email)}`;
     } else {
       msg.style.color = '#E02020';
       msg.textContent = data.error || 'Error al canjear el código.';

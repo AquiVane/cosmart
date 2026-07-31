@@ -95,7 +95,7 @@ async function sendForgot(){
       document.getElementById('errForgot').textContent = 'Error ' + r.status + ': ' + (d.error || JSON.stringify(d));
       document.getElementById('errForgot').style.display = 'block';
     } else {
-      document.getElementById('okForgot').textContent = '✅ Si ese email tiene cuenta, llegará el link en unos minutos. Revisá también la carpeta de spam.';
+      document.getElementById('okForgot').textContent = '✅ ' + (d.message || 'ok');
       document.getElementById('okForgot').style.display = 'block';
       document.getElementById('errForgot').style.display = 'none';
     }

@@ -656,7 +656,8 @@ async function init() {
 // ── PROGRESS CALC ─────────────────────────────────────────────
 function calcUnlocked(sd) {
   if (!sd) return ['intro'];
-  const start = new Date(sd); start.setHours(0,0,0,0);
+  const [sy,sm,sd2] = sd.split('-').map(Number);
+  const start = new Date(sy, sm-1, sd2, 0, 0, 0, 0);
   const today = new Date(); today.setHours(0,0,0,0);
   const days = Math.floor((today - start) / 86400000);
   const u = ['intro'];
@@ -777,8 +778,10 @@ function renderContent(stepId) {
   const isLastInEscala = CURSO.find(e => e.escala === step.escala)?.steps.slice(-1)[0]?.id === stepId;
   const isVeryLast = stepId === ALL_STEPS_ORD[ALL_STEPS_ORD.length - 1];
 
+  const isIntro = step.escala === 'intro';
   let btnLabel = isCompleted ? '✓ Completado' : '✅ Marcar como leído y continuar';
-  if (isLastInEscala && !isVeryLast) btnLabel = isCompleted ? '✓ Completado' : '🏁 Completar Escala →';
+  if (isLastInEscala && !isVeryLast && isIntro) btnLabel = isCompleted ? '✓ Completado' : '✈️ ¡Embarcar!';
+  if (isLastInEscala && !isVeryLast && !isIntro) btnLabel = isCompleted ? '✓ Completado' : '🏁 Completar Escala →';
   if (isVeryLast) btnLabel = isCompleted ? '✓ Completado' : '🎓 ¡Completar el programa!';
 
   // Check if next is unlocked
@@ -852,10 +855,19 @@ async function markComplete(stepId, nextId, isLastInEscala, isVeryLast) {
   }
 
   if (isLastInEscala) {
-    // Mostrar modal de rating
     const escala = ALL_STEPS[stepId].escala;
     const escalaLabel = ALL_STEPS[stepId].escalaLabel;
-    openRatingModal(escala, escalaLabel, nextId);
+    if (escala === 'intro') {
+      // Intro: navegar directo al primer paso de escala1
+      if (nextId && unlockedEscalas.includes(ALL_STEPS[nextId]?.escala)) {
+        navigateTo(nextId);
+      } else {
+        renderContent(stepId); renderSidebar();
+      }
+    } else {
+      // Escalas 1-4: mostrar modal de rating y luego pantalla "volvé mañana"
+      openRatingModal(escala, escalaLabel, nextId);
+    }
   } else if (nextId && unlockedEscalas.includes(ALL_STEPS[nextId]?.escala)) {
     navigateTo(nextId);
   } else {
@@ -882,8 +894,22 @@ function closeModal() {
   if (nextId && unlockedEscalas.includes(ALL_STEPS[nextId]?.escala)) {
     navigateTo(nextId);
   } else {
-    renderContent(currentStepId);
     renderSidebar();
+    document.getElementById('contentArea').innerHTML = `
+      <div class="content-card" style="text-align:center;padding:48px 32px">
+        <div style="font-size:56px;margin-bottom:16px">✈️</div>
+        <h2 style="color:var(--az1);margin-bottom:12px">¡Escala completada!</h2>
+        <p style="font-size:16px;color:#475569;line-height:1.7;max-width:440px;margin:0 auto 24px">
+          Volvé mañana para continuar. Aprovechá el día de hoy para repasar lo que aprendiste y aplicarlo.
+        </p>
+        <div style="background:#f0f7ff;border-radius:12px;padding:20px 24px;margin:0 auto 28px;max-width:400px;border-left:3px solid var(--az2)">
+          <p style="margin:0;font-size:14px;color:#334155;line-height:1.6">
+            ¿Tenés alguna duda o comentario sobre el contenido?<br>
+            Escribinos a <a href="mailto:info@cosmart.com.ar" style="color:var(--az2);font-weight:600">info@cosmart.com.ar</a>
+          </p>
+        </div>
+        <button class="btn-nav" style="background:var(--az1);color:#fff" onclick="navigateTo('${currentStepId}')">← Volver al último paso</button>
+      </div>`;
   }
 }
 

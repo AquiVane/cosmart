@@ -147,8 +147,24 @@ async function register(){
     const d = await r.json();
     if(!r.ok){ showErr(d.error || 'Error al crear la cuenta'); return; }
 
-    showOk('¡Cuenta creada! Revisá tu email y luego iniciá sesión. Redirigiendo...');
-    setTimeout(()=> window.location.href = '/cosmart-training-login.html', 3000);
+    showOk('¡Cuenta creada! Entrando al curso...');
+
+    // Auto-login
+    const lr = await fetch(`${API}/auth/login`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password: pass })
+    });
+    const ld = await lr.json();
+    if(lr.ok && ld.token){
+      localStorage.setItem('ct_token', ld.token);
+      localStorage.setItem('ct_nombre', ld.nombre);
+      localStorage.setItem('ct_email', ld.email);
+      if(ld.startDate) localStorage.setItem('ct_startDate', ld.startDate);
+      setTimeout(()=> window.location.href = '/cosmart-training-plataforma.html', 1500);
+    } else {
+      setTimeout(()=> window.location.href = '/cosmart-training-login.html', 2000);
+    }
   } catch(e){
     showErr('Error de conexión. Intentá de nuevo.');
   } finally {

@@ -779,14 +779,16 @@ function renderContent(stepId) {
   const isVeryLast = stepId === ALL_STEPS_ORD[ALL_STEPS_ORD.length - 1];
 
   const isIntro = step.escala === 'intro';
-  let btnLabel = isCompleted ? '✓ Completado' : '✅ Marcar como leído y continuar';
-  if (isLastInEscala && !isVeryLast && isIntro) btnLabel = isCompleted ? '✓ Completado' : '✈️ ¡Embarcar!';
-  if (isLastInEscala && !isVeryLast && !isIntro) btnLabel = isCompleted ? '✓ Completado' : '🏁 Completar Escala →';
-  if (isVeryLast) btnLabel = isCompleted ? '✓ Completado' : '🎓 ¡Completar el programa!';
-
   // Check if next is unlocked
   const nextStep = nextId ? ALL_STEPS[nextId] : null;
   const nextUnlocked = !nextStep || unlockedEscalas.includes(nextStep.escala);
+  const embarcarBloqueado = isLastInEscala && isIntro && !isVeryLast && !nextUnlocked;
+
+  let btnLabel = isCompleted ? '✓ Completado' : '✅ Marcar como leído y continuar';
+  if (isLastInEscala && !isVeryLast && isIntro && !embarcarBloqueado) btnLabel = isCompleted ? '✓ Completado' : '✈️ ¡Embarcar!';
+  if (isLastInEscala && !isVeryLast && isIntro && embarcarBloqueado) btnLabel = '🔒 Embarcar';
+  if (isLastInEscala && !isVeryLast && !isIntro) btnLabel = isCompleted ? '✓ Completado' : '🏁 Completar Escala →';
+  if (isVeryLast) btnLabel = isCompleted ? '✓ Completado' : '🎓 ¡Completar el programa!';
 
   const isCertPage = isVeryLast && completedSteps.has(stepId);
 
@@ -806,9 +808,10 @@ function renderContent(stepId) {
       <div style="display:flex;gap:10px;align-items:center">
         <button class="btn-nav btn-complete ${isCompleted ? 'completed-state' : ''}" id="completeBtn"
           onclick="markComplete('${stepId}', '${nextId || ''}', ${isLastInEscala}, ${isVeryLast})"
-          ${isCompleted && !isVeryLast ? 'disabled' : ''}>
+          ${(isCompleted && !isVeryLast) || embarcarBloqueado ? 'disabled style="background:#334155;color:#94a3b8;cursor:not-allowed"' : ''}>
           ${btnLabel}
         </button>
+        ${embarcarBloqueado ? `<span style="font-size:13px;color:#64748b;margin-left:8px">Disponible el ${startDate ? new Date(...startDate.split('-').map((v,i)=>i===1?+v-1:+v)).toLocaleDateString('es-AR',{day:'numeric',month:'long'}) : 'día de inicio'}</span>` : ''}
         ${isCompleted && nextId && nextUnlocked ? `<button class="btn-nav" style="background:var(--az2);color:#fff" onclick="navigateTo('${nextId}')">Siguiente →</button>` : ''}
         ${isCompleted && nextId && !nextUnlocked ? `<button class="btn-nav" style="background:#334155;color:#94a3b8;cursor:not-allowed" disabled>🔒 Escala bloqueada</button>` : ''}
       </div>

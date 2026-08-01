@@ -6,15 +6,18 @@
 <title>COSMART Training — Productos Ganadores</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANPSURBVFhH7ZZbSFRBGMf/u7t6dhMlS9cyTbtppZWZl6KLRoFRD1EQQUQ9RFQQ9FBQRD1EUNBDhBQFRUFQUBAUJOgFd7Xz9Tvzne2cs2d3tYegh/1g2Jlv5vuY+WbOGULkf0cIOoiIiJBQKCR7e3uJiCRMJBKBz+eDruuYmpqC1+uF3+9HNBqFruuoqakBAKytrSGTySAUCiEcDiMSiSAej0MIgWKxCK/Xi3g8jkwmg0wmg2g0Ctu2US6X4TgOyuUyiqUSPB4PgiCQLpcLAFAoFJBMJrGxsYH19XXs7OzA5/PhcDiA4zgIBAK4ubmB4zgIBAIoFouoqqpCMBjEysoKCoUCjo+P0d/fj1AohOXlZVQqFTiOA8uykEwmsbW1hXw+j2AwiFKphFqtBk3T4Pf7oWkaVFWFoijI5XLI5/PIZrNIJBJIp9OQUiKVSiGdTqNSqaBaraJer6NWq6FWq6FWq6FWq0EIgWw2i0wmA8uykEgkEI/HYRgGlpaWcHx8jFqtBl3X0el0YFkWLMtCt9tFr9eDYRgIh8OQUiKfzyOVSiGZTCKVSiGfzyMej6NcLiMSicCyLHieB8/z4HkePM9jeXkZHx8f6HQ60HUdhmHAsiy02+32eDwewuEwpJQol8tIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9N/AN8BetSVAAAAAElFTkSuQmCC">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
 :root {
   --az1:#0D2B6B; --az2:#1A4DAA; --az3:#3A8FC7; --ro1:#E02020; --ro2:#FF3535;
   --blanco:#fff; --fondo:#F0F4FA; --card:#fff;
   --text:#1e293b; --text-mid:#64748b; --text-light:#94a3b8;
   --borde:#E2E8F0; --sidebar-w:300px;
   --sans:'Inter',Arial,sans-serif; --serif:'Georgia',serif;
+  --font-display:'Playfair Display',Georgia,serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--sans);background:var(--fondo);color:var(--text);min-height:100vh}
+h1,h2,h3,.logo-badge-text,.sidebar-title,.modal-title{font-family:var(--font-display)}
 
 /* ── HEADER ── */
 .header{background:var(--az1);padding:0 20px;height:58px;display:flex;align-items:center;
@@ -211,7 +214,7 @@ body{font-family:var(--sans);background:var(--fondo);color:var(--text);min-heigh
   .btn-logout{padding:5px 10px;font-size:11px}
   .content-card{padding:18px 16px}
   .content-card h1{font-size:18px}
-  .step-body{font-size:14px}
+  .step-body{font-size:16px}
   .nav-btns{flex-wrap:wrap;gap:8px}
   .btn-nav{flex:1;min-width:110px;padding:12px 14px;font-size:13px}
   .breadcrumb{font-size:11px;margin-bottom:12px}
@@ -227,6 +230,15 @@ body{font-family:var(--sans);background:var(--fondo);color:var(--text);min-heigh
   .btn-cert{justify-content:center}
   /* sidebar header close btn */
   .sidebar-close-btn{display:flex!important}
+}
+
+/* ── MOBILE SMALL ── */
+@media(max-width:600px){
+  body{font-size:19px}
+  .step-body,.step-body p{font-size:19px}
+  label{font-size:17px}
+  input,textarea,select{font-size:19px}
+  button,.btn-nav,.btn-embarque,.btn-cert,.btn-modal-submit{font-size:19px}
 }
 
 /* ── LOADING ── */
@@ -478,7 +490,7 @@ const CURSO = [
       { id:'step-17', title:'Investigación de mercado con Big Data — LATAM y España', time:'12 min',
         body:''
       },
-      { id:'step-17a', title:'Investigación de mercado: el mercado argentino', time:'11 min',
+      { id:'step-17a', title:'Los tres dilemas del nicho: decisiones que definen tu negocio', time:'11 min',
         body:''
       },
       { id:'step-17b', title:'Análisis de competencia paso a paso', time:'12 min',
@@ -523,7 +535,7 @@ const CURSO = [
       { id:'step-26', title:'Innovación y sostenibilidad', time:'9 min',
         body:''
       },
-      { id:'step-26b', title:'BONUS: Dropshipping en Argentina', time:'10 min',
+      { id:'step-26b', title:'El Momento WOW: cuando el cliente se queda sin palabras', time:'10 min',
         body:''
       },
       { id:'step-27', title:'Lo que aprendimos — repaso del Día 3', time:'9 min',
@@ -1036,10 +1048,21 @@ function downloadCert() {
   ctx.fillText('⚓', canvas.width / 2, 540);
 
   // Descargar
-  const link = document.createElement('a');
-  link.download = `certificado-cosmart-training-${nombre.replace(/\s+/g,'-').toLowerCase()}.png`;
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+  const filename = `certificado-cosmart-training-${nombre.replace(/\s+/g,'-').toLowerCase()}.png`;
+  if (navigator.share && isMobile()) {
+    canvas.toBlob(async blob => {
+      try {
+        await navigator.share({ files: [new File([blob], filename, { type: 'image/png' })], title: 'Mi certificado COSMART Training' });
+      } catch(e) {
+        window.open(canvas.toDataURL('image/png'), '_blank');
+      }
+    }, 'image/png');
+  } else {
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
 }
 
 // ── MOBILE ────────────────────────────────────────────────────
@@ -1109,5 +1132,50 @@ window.addEventListener('resize', ()=>{
 setupMobileUI();
 init();
 </script>
+
+<footer style="background:#060f22;border-top:1px solid #1e3a5f;padding:2.5rem 1rem 1.5rem;margin-top:2rem;font-family:'Inter',Arial,sans-serif">
+  <div style="max-width:900px;margin:0 auto">
+    <p style="color:#64748b;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:1.5rem">El ecosistema COSMART</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem">
+      <a href="https://rumbovoraz.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">📣</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Rumbo Voraz</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Publicidad digital en Meta y Google.</p></div>
+      </a>
+      <a href="https://design.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎨</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Diseño</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Identidad visual, branding y diseño.</p></div>
+      </a>
+      <a href="https://comunicos.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">💬</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">ComuniCOS</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Contenido y comunidades que crecen.</p></div>
+      </a>
+      <a href="https://euforia.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎬</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Euforia</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Creadores de contenido UGC.</p></div>
+      </a>
+      <a href="https://training.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎓</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Training</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Cursos para emprendedores digitales.</p></div>
+      </a>
+      <a href="https://www.cosmart.com.ar/brujula" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🔍</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Brújula</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Marketing y liderazgo integrados.</p></div>
+      </a>
+      <a href="https://mpg.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">⚙️</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">MPG</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Chatbots, email y flujos automáticos.</p></div>
+      </a>
+      <a href="https://talent.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">⭐</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Talent</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Representación de talentos digitales.</p></div>
+      </a>
+      <a href="https://shows.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎪</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Shows</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Shows & entretenimiento con LED.</p></div>
+      </a>
+    </div>
+    <p style="color:#334155;font-size:11px;text-align:center;margin:0">© 2025 COSMART · <a href="https://cosmart.com.ar" style="color:#3A8FC7;text-decoration:none">cosmart.com.ar</a></p>
+  </div>
+</footer>
 </body>
 </html>

@@ -99,6 +99,7 @@ async function login(){
   const email = document.getElementById('email').value.trim();
   const pass  = document.getElementById('pass').value;
   if(!email||!pass){ showErr('Completá email y contraseña'); return; }
+  if(!document.getElementById('consentMarketing').checked){ showErr('Para acceder al curso necesitás aceptar recibir comunicaciones de COSMART.'); return; }
 
   const btn = document.getElementById('loginBtn');
   btn.disabled = true;
@@ -117,7 +118,14 @@ async function login(){
     localStorage.setItem('ct_nombre', d.nombre);
     localStorage.setItem('ct_email', d.email);
     if(d.startDate) localStorage.setItem('ct_startDate', d.startDate);
-    localStorage.setItem('ct_marketing', document.getElementById('consentMarketing').checked ? '1' : '0');
+    const marketing = document.getElementById('consentMarketing').checked;
+    localStorage.setItem('ct_marketing', marketing ? '1' : '0');
+    // Guardar preferencia de marketing en el servidor
+    fetch(`${API}/auth/marketing-consent`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':`Bearer ${d.token}`},
+      body: JSON.stringify({marketing})
+    }).catch(()=>{}); // silencioso, no bloquea el login
 
     showOk('¡Bienvenid@! Redirigiendo...');
     setTimeout(()=> window.location.href = '/cosmart-training-plataforma.html', 800);

@@ -400,8 +400,9 @@ const API = 'https://cosmart-training.conglomeradocosmart.workers.dev';
 
 // ── AUTH ──────────────────────────────────────────────────────
 const token   = localStorage.getItem('ct_token');
-const nombre  = localStorage.getItem('ct_nombre') || '';
-const email   = localStorage.getItem('ct_email') || '';
+const nombre   = localStorage.getItem('ct_nombre') || '';
+const apellido = localStorage.getItem('ct_apellido') || '';
+const email    = localStorage.getItem('ct_email') || '';
 
 if (!token) { window.location.href = '/cosmart-training-login.html'; }
 
@@ -857,14 +858,6 @@ function renderCertSection() {
         <p style="color:#e2e8f0;font-weight:700;font-size:15px;margin:0 0 3px">Tu certificado est\u00e1 listo</p>
         <p style="color:#94a3b8;font-size:13px;margin:0">Ingres\u00e1 tu nombre y apellido tal como quer\u00e9s que aparezcan</p>
       </div>
-      <div style="display:flex;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
-        <input type="text" id="cert-nombre-dl" placeholder="Nombre" autocomplete="given-name"
-          style="flex:1;min-width:120px;padding:10px 14px;border-radius:8px;border:1.5px solid #2a4a8a;background:#0d1f3c;color:#e2e8f0;font-size:14px;outline:none"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#2a4a8a'">
-        <input type="text" id="cert-apellido-dl" placeholder="Apellido" autocomplete="family-name"
-          style="flex:1;min-width:120px;padding:10px 14px;border-radius:8px;border:1.5px solid #2a4a8a;background:#0d1f3c;color:#e2e8f0;font-size:14px;outline:none"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#2a4a8a'">
-      </div>
       <button onclick="downloadCert()"
         style="background:#1d4ed8;color:white;border:none;border-radius:8px;padding:11px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-bottom:0.5rem;transition:background .2s"
         onmouseover="this.style.background='#1e40af'" onmouseout="this.style.background='#1d4ed8'">
@@ -1025,22 +1018,17 @@ async function confirmarEmbarque() {
 
 // ── CERTIFICATE ───────────────────────────────────────────────
 async function downloadCert() {
-  var nombre  = (document.getElementById('cert-nombre-dl')  || {}).value || '';
-  var apellido= (document.getElementById('cert-apellido-dl') || {}).value || '';
-  var status  = document.getElementById('cert-status-dl');
-  nombre  = nombre.trim();
-  apellido= apellido.trim();
-  if (!nombre || !apellido) {
-    if (status) { status.style.color='#f59e0b'; status.textContent='Ingres\u00e1 nombre y apellido para continuar.'; }
-    return;
-  }
+  var status = document.getElementById('cert-status-dl');
+  var _nombre   = nombre.trim();
+  var _apellido = apellido.trim();
+  if (!_nombre) { if(status){status.style.color='#f59e0b';status.textContent='Nombre no disponible. Reingresá al curso.';} return; }
   var pdfDataEl = document.getElementById('cert-pdf-data');
   if (!pdfDataEl) {
-    if (status) { status.style.color='#ef4444'; status.textContent='Error: recarg\u00e1 la p\u00e1gina e intent\u00e1 de nuevo.'; }
+    if (status) { status.style.color='#ef4444'; status.textContent='Error: recargá la página e intentá de nuevo.'; }
     return;
   }
   var PDF_B64 = pdfDataEl.textContent.trim();
-  var btn = document.querySelector('[onclick="downloadCert()"]');
+  var btn = document.querySelector('button[onclick="downloadCert()"]');
   if (btn) { btn.disabled=true; btn.textContent='Generando...'; }
   if (status) { status.style.color='#94a3b8'; status.textContent='Personalizando tu certificado...'; }
   try {
@@ -1056,7 +1044,7 @@ async function downloadCert() {
     var pdfDoc   = await PDFLib.PDFDocument.load(pdfBytes);
     var page     = pdfDoc.getPages()[0];
     var font     = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-    var fullName = nombre + ' ' + apellido;
+    var fullName = _nombre + ' ' + _apellido;
     page.drawRectangle({ x:520, y:533, width:360, height:22, color:PDFLib.rgb(1,1,1) });
     var tw = font.widthOfTextAtSize(fullName, 12);
     page.drawText(fullName, { x:694-tw/2, y:538.66, font:font, size:12, color:PDFLib.rgb(0,0,0) });
@@ -1068,10 +1056,10 @@ async function downloadCert() {
     document.body.appendChild(a); a.click();
     setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1000);
     if (btn)    { btn.disabled=false; btn.textContent='Descargar certificado'; }
-    if (status) { status.style.color='#22c55e'; status.textContent='Listo! Tu certificado se descarg\u00f3 correctamente.'; }
+    if (status) { status.style.color='#22c55e'; status.textContent='Listo! Tu certificado se descargó correctamente.'; }
   } catch(e) {
     if (btn)    { btn.disabled=false; btn.textContent='Descargar certificado'; }
-    if (status) { status.style.color='#ef4444'; status.textContent='Hubo un error. Intent\u00e1 de nuevo.'; }
+    if (status) { status.style.color='#ef4444'; status.textContent='Hubo un error. Intentá de nuevo.'; }
     console.error(e);
   }
 }

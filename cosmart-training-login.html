@@ -116,6 +116,7 @@ async function login(){
 
     localStorage.setItem('ct_token', d.token);
     localStorage.setItem('ct_nombre', d.nombre);
+    localStorage.setItem('ct_apellido', d.apellido || '');
     localStorage.setItem('ct_email', d.email);
     if(d.startDate) localStorage.setItem('ct_startDate', d.startDate);
     const marketing = document.getElementById('consentMarketing').checked;

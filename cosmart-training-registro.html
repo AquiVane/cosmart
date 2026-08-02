@@ -8,15 +8,16 @@
 <link rel="canonical" href="https://training.cosmart.com.ar/registro">
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANPSURBVFhH7ZZbSFRBGMf/u7t6dhMlS9cyTbtppZWZl6KLRoFRD1EQQUQ9RFQQ9FBQRD1EUNBDhBQFRUFQUBAUJOgFd7Xz9Tvzne2cs2d3tYegh/1g2Jlv5vuY+WbOGULkf0cIOoiIiJBQKCR7e3uJiCRMJBKBz+eDruuYmpqC1+uF3+9HNBqFruuoqakBAKytrSGTySAUCiEcDiMSiSAej0MIgWKxCK/Xi3g8jkwmg0wmg2g0Ctu2US6X4TgOyuUyiqUSPB4PgiCQLpcLAFAoFJBMJrGxsYH19XXs7OzA5/PhcDiA4zgIBAK4ubmB4zgIBAIoFouoqqpCMBjEysoKCoUCjo+P0d/fj1AohOXlZVQqFTiOA8uykEwmsbW1hXw+j2AwiFKphFqtBk3T4Pf7oWkaVFWFoijI5XLI5/PIZrNIJBJIp9OQUiKVSiGdTqNSqaBaraJer6NWq6FWq6FWq6FWq0EIgWw2i0wmA8uykEgkEI/HYRgGlpaWcHx8jFqtBl3X0el0YFkWLMtCt9tFt9tFr9eDYRgIh8OQUiKfzyOVSiGZTCKVSiGfzyMej6NcLiMSicCyLHieB8/z4HkePM9jeXkZHx8f6HQ60HUdhmHAsiy02+32eDwewuEwpJQol8tIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9NIp9N/AN8BetSVAAAAAElFTkSuQmCC">
 <style>
-  :root{--az1:#0D2B6B;--az2:#1A4DAA;--az3:#3A8FC7;--ro1:#E02020;--sans:'Inter',Arial,sans-serif}
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+  :root{--az1:#0D2B6B;--az2:#1A4DAA;--az3:#3A8FC7;--ro1:#E02020;--sans:'Inter',Arial,sans-serif;--font-display:'Playfair Display',Georgia,serif}
   *{box-sizing:border-box;margin:0;padding:0}
   body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
     background:linear-gradient(135deg,#060f22 0%,#0D2B6B 50%,#060f22 100%);font-family:var(--sans);padding:20px}
   .card{background:#fff;border-radius:16px;padding:40px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
   .logo-wrap{text-align:center;margin-bottom:28px}
-  .logo-text{font-size:26px;font-weight:900;letter-spacing:2px;color:var(--az1)}
+  .logo-text{font-size:26px;font-weight:900;letter-spacing:2px;color:var(--az1);font-family:var(--font-display)}
   .logo-sub{font-size:11px;letter-spacing:4px;color:var(--az3);display:block;margin-top:2px}
-  h2{color:var(--az1);font-size:20px;margin-bottom:6px;text-align:center}
+  h2{color:var(--az1);font-size:20px;margin-bottom:6px;text-align:center;font-family:var(--font-display)}
   .sub{color:#64748b;font-size:13px;text-align:center;margin-bottom:24px}
   label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:5px}
   input{width:100%;border:1.5px solid #e2e8f0;border-radius:8px;padding:11px 14px;font-size:15px;
@@ -42,6 +43,14 @@
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
   .token-error{text-align:center;padding:20px}
   .token-error .ico{font-size:48px;margin-bottom:12px}
+  @media(max-width:600px){
+    body{font-size:17px}
+    label{font-size:15px}
+    input{font-size:17px}
+    .btn{font-size:17px}
+    .sub{font-size:15px}
+    .hint{font-size:13px}
+  }
 </style>
 </head>
 <body>
@@ -79,6 +88,10 @@
     <div class="field">
       <label>Tu nombre</label>
       <input type="text" id="nombre" placeholder="Vaneh" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label>Tu apellido</label>
+      <input type="text" id="apellido" placeholder="Fernández" autocomplete="family-name">
     </div>
     <div class="field">
       <label>Email (el mismo del pago)</label>
@@ -125,12 +138,13 @@ window.addEventListener('load', () => {
 });
 
 async function register(){
-  const nombre = document.getElementById('nombre').value.trim();
-  const email  = document.getElementById('email').value.trim();
-  const pass   = document.getElementById('pass').value;
-  const pass2  = document.getElementById('pass2').value;
+  const nombre   = document.getElementById('nombre').value.trim();
+  const apellido  = document.getElementById('apellido').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const pass      = document.getElementById('pass').value;
+  const pass2     = document.getElementById('pass2').value;
 
-  if(!nombre||!pass||!pass2){ showErr('Completá todos los campos'); return; }
+  if(!nombre||!apellido||!pass||!pass2){ showErr('Completá todos los campos'); return; }
   if(pass.length < 8){ showErr('La contraseña debe tener al menos 8 caracteres'); return; }
   if(pass !== pass2){ showErr('Las contraseñas no coinciden'); return; }
 
@@ -142,7 +156,7 @@ async function register(){
     const r = await fetch(`${API}/auth/register`, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ reg_token: regToken, nombre, email, password: pass })
+      body: JSON.stringify({ reg_token: regToken, nombre, apellido, password: pass })
     });
     const d = await r.json();
     if(!r.ok){ showErr(d.error || 'Error al crear la cuenta'); return; }
@@ -173,5 +187,49 @@ async function register(){
   }
 }
 </script>
+<footer style="background:#060f22;border-top:1px solid #1e3a5f;padding:2.5rem 1rem 1.5rem;margin-top:2rem;font-family:'Inter',Arial,sans-serif">
+  <div style="max-width:900px;margin:0 auto">
+    <p style="color:#64748b;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:1.5rem">El ecosistema COSMART</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem">
+      <a href="https://rumbovoraz.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">📣</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Rumbo Voraz</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Publicidad digital en Meta y Google.</p></div>
+      </a>
+      <a href="https://design.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎨</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Diseño</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Identidad visual, branding y diseño.</p></div>
+      </a>
+      <a href="https://comunicos.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">💬</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">ComuniCOS</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Contenido y comunidades que crecen.</p></div>
+      </a>
+      <a href="https://euforia.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎬</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Euforia</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Creadores de contenido UGC.</p></div>
+      </a>
+      <a href="https://training.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎓</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Training</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Cursos para emprendedores digitales.</p></div>
+      </a>
+      <a href="https://www.cosmart.com.ar/brujula" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🔍</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Brújula</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Marketing y liderazgo integrados.</p></div>
+      </a>
+      <a href="https://mpg.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">⚙️</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">MPG</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Chatbots, email y flujos automáticos.</p></div>
+      </a>
+      <a href="https://talent.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">⭐</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Talent</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Representación de talentos digitales.</p></div>
+      </a>
+      <a href="https://shows.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎪</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Shows</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Shows & entretenimiento con LED.</p></div>
+      </a>
+    </div>
+    <p style="color:#334155;font-size:11px;text-align:center;margin:0">© 2025 COSMART · <a href="https://cosmart.com.ar" style="color:#3A8FC7;text-decoration:none">cosmart.com.ar</a></p>
+  </div>
+</footer>
 </body>
 </html>

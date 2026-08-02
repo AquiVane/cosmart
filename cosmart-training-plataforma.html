@@ -841,7 +841,7 @@ function renderContent(stepId) {
 function renderCertSection() {
   var now = new Date();
   var certId = localStorage.getItem('ct_certId') || '';
-  var certUrl = certId ? ('https://training.cosmart.com.ar/certificado/' + certId) : 'https://training.cosmart.com.ar';
+  var certUrl = certId ? ('https://cosmart.com.ar/certificado/' + certId) : 'https://cosmart.com.ar';
   var liHref = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
     + '&name=Productos+Ganadores+%7C+COSMART+Training'
     + '&organizationId=105805945'
@@ -886,7 +886,7 @@ async function initCertId() {
     var liLink = document.getElementById('cert-li-link');
     if (!liLink) return;
     var now = new Date();
-    var certUrl = 'https://training.cosmart.com.ar/certificado/' + d.certId;
+    var certUrl = 'https://cosmart.com.ar/certificado/' + d.certId;
     liLink.href = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
       + '&name=Productos+Ganadores+%7C+COSMART+Training'
       + '&organizationId=105805945'
@@ -1226,7 +1226,7 @@ init();
         <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Shows para eventos corporativos y fiestas sociales.</span>
         <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
       </a>
-      <a href="https://training.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+      <a href="https://cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
         <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M9 3L17 7l-8 4-8-4 8-4Z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M5 9v4c0 1.7 1.8 3 4 3s4-1.3 4-3V9M17 7v5" stroke="white" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
           <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Training</span>

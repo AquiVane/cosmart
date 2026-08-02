@@ -841,7 +841,7 @@ function renderContent(stepId) {
 function renderCertSection() {
   var now = new Date();
   var certId = localStorage.getItem('ct_certId') || '';
-  var certUrl = certId ? ('https://cosmart.com.ar/certificado/' + certId) : 'https://cosmart.com.ar';
+  var certUrl = certId ? ('https://cosmart.com.ar/certificado/?id=' + certId) : 'https://cosmart.com.ar';
   var liHref = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
     + '&name=Productos+Ganadores+%7C+COSMART+Training'
     + '&organizationId=105805945'
@@ -886,7 +886,7 @@ async function initCertId() {
     var liLink = document.getElementById('cert-li-link');
     if (!liLink) return;
     var now = new Date();
-    var certUrl = 'https://cosmart.com.ar/certificado/' + d.certId;
+    var certUrl = 'https://cosmart.com.ar/certificado/?id=' + d.certId;
     liLink.href = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
       + '&name=Productos+Ganadores+%7C+COSMART+Training'
       + '&organizationId=105805945'

@@ -849,6 +849,7 @@ function renderCertSection() {
     + '&issueMonth=' + (now.getMonth()+1)
     + '&certUrl=' + encodeURIComponent(certUrl)
     + (certId ? ('&certId=' + encodeURIComponent(certId)) : '');
+  setTimeout(initCertId, 0);
   return `
     <div class="content-card" style="margin-top:1rem">
       <div style="background:linear-gradient(135deg,#0f2a5c 0%,#1a3a7a 100%);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem;text-align:center;border:1px solid #2a4a8a">
@@ -869,10 +870,33 @@ function renderCertSection() {
       <div id="cert-status-dl" style="font-size:13px;text-align:center;min-height:20px;margin-bottom:0.75rem"></div>
       <p style="font-size:13px;color:#64748b;text-align:center;margin:0">
         Una vez descargado, sum\u00e1lo a tu perfil de LinkedIn:<br>
-        <a href="${liHref}" target="_blank" style="color:#3b82f6;font-weight:600;text-decoration:none">Agregar a LinkedIn</a>
+        <a id="cert-li-link" href="${liHref}" target="_blank" style="color:#3b82f6;font-weight:600;text-decoration:none">Agregar a LinkedIn</a>
       </p>
     </div>`;
 }
+async function initCertId() {
+  if (localStorage.getItem('ct_certId')) return;
+  try {
+    const r = await fetch(`${API}/training/certid`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const d = await r.json();
+    if (!d.certId) return;
+    localStorage.setItem('ct_certId', d.certId);
+    var liLink = document.getElementById('cert-li-link');
+    if (!liLink) return;
+    var now = new Date();
+    var certUrl = 'https://training.cosmart.com.ar/certificado/' + d.certId;
+    liLink.href = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
+      + '&name=Productos+Ganadores+%7C+COSMART+Training'
+      + '&organizationId=105805945'
+      + '&issueYear=' + now.getFullYear()
+      + '&issueMonth=' + (now.getMonth()+1)
+      + '&certUrl=' + encodeURIComponent(certUrl)
+      + '&certId=' + encodeURIComponent(d.certId);
+  } catch(e) {}
+}
+
 
 // ── COMPLETE STEP ─────────────────────────────────────────────
 async function markComplete(stepId, nextId, isLastInEscala, isVeryLast) {

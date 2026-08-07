@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COSMART Training — Productos Ganadores</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpolygon%20points%3D%2250%2C18%2095%2C40%2050%2C62%205%2C40%22%20fill%3D%22%231d4ed8%22%2F%3E%3Cpolygon%20points%3D%2250%2C62%2080%2C48%2080%2C68%2050%2C78%2020%2C68%2020%2C48%22%20fill%3D%22%231d4ed8%22%2F%3E%3Crect%20x%3D%2291%22%20y%3D%2240%22%20width%3D%226%22%20height%3D%2222%22%20rx%3D%223%22%20fill%3D%22%231d4ed8%22%2F%3E%3Ccircle%20cx%3D%2294%22%20cy%3D%2264%22%20r%3D%225%22%20fill%3D%22%233b82f6%22%2F%3E%3C%2Fsvg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+:root {
+  --az1:#0D2B6B; --az2:#1A4DAA; --az3:#3A8FC7; --ro1:#E02020; --ro2:#FF3535;
+  --blanco:#fff; --fondo:#F0F4FA; --card:#fff;
+  --text:#1e293b; --text-mid:#64748b; --text-light:#94a3b8;
+  --borde:#E2E8F0; --sidebar-w:300px;
+  --sans:'Inter',Arial,sans-serif; --serif:'Georgia',serif;
+  --font-display:'Playfair Display',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--fondo);color:var(--text);min-height:100vh}
+h1,h2,h3,.logo-badge-text,.sidebar-title,.modal-title{font-family:var(--font-display)}
+
+/* ── HEADER ── */
+.header{background:var(--az1);padding:0 20px;height:58px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.logo-badge{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-badge img{height:36px}
+.logo-badge-text{color:#fff;font-size:13px;font-weight:700;letter-spacing:2px}
+.logo-badge-text span{color:var(--az3);display:block;font-size:10px;letter-spacing:3px;font-weight:400}
+.header-right{display:flex;align-items:center;gap:12px}
+.header-user{color:rgba(255,255,255,.8);font-size:13px}
+.header-user strong{color:#fff}
+.btn-logout{background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:6px;
+  padding:6px 12px;font-size:12px;cursor:pointer;font-family:var(--sans)}
+.btn-logout:hover{background:rgba(255,255,255,.2)}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:1fr var(--sidebar-w);min-height:calc(100vh - 58px)}
+.main-area{padding:28px 24px;overflow-y:auto;min-width:0}
+.sidebar{background:var(--az1);overflow-y:auto;height:calc(100vh - 58px);position:sticky;top:58px;height:calc(100dvh - 58px)}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-mid);margin-bottom:16px;flex-wrap:wrap}
+.breadcrumb-sep{color:var(--borde)}
+.breadcrumb-item.current{color:var(--az2);font-weight:700}
+
+/* ── ESCALA BADGE ── */
+.escala-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--az1),var(--az2));
+  color:#fff;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:700;margin-bottom:16px}
+
+/* ── PROGRESS BAR ── */
+.bitacora-wrap{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:20px;border:1px solid var(--borde)}
+.bitacora-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.bitacora-label{font-size:12px;font-weight:700;color:var(--az1)}
+.bitacora-pct{font-size:12px;color:var(--text-mid)}
+.bitacora-bar{height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+.bitacora-fill{height:100%;background:linear-gradient(90deg,var(--az2),var(--az3));border-radius:99px;transition:width .5s}
+
+/* ── DATE BANNER ── */
+.date-banner{background:linear-gradient(135deg,var(--az1),var(--az2));border-radius:12px;
+  padding:20px;margin-bottom:20px;color:#fff}
+.date-banner h3{font-size:16px;margin-bottom:6px}
+.date-banner p{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:14px}
+.date-banner .date-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.date-banner input[type=date]{border:none;border-radius:8px;padding:8px 12px;font-size:14px;
+  font-family:var(--sans);cursor:pointer;outline:none}
+.btn-embarque{background:var(--ro1);color:#fff;border:none;border-radius:8px;padding:9px 18px;
+  font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+.btn-embarque:hover{background:var(--ro2)}
+.btn-embarque:disabled{background:var(--text-light);cursor:not-allowed}
+
+/* ── CONTENT CARD ── */
+.content-card{background:#fff;border-radius:14px;padding:28px;box-shadow:0 1px 4px rgba(0,0,0,.06);
+  border:1px solid var(--borde);margin-bottom:20px}
+.content-card h1{font-size:22px;color:var(--az1);margin-bottom:6px}
+.content-card .step-meta{font-size:13px;color:var(--text-mid);margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap}
+.content-card .step-meta span{display:flex;align-items:center;gap:4px}
+.step-body{line-height:1.75;color:var(--text);font-size:15px}
+.step-body p{margin-bottom:12px}
+.step-body ul,ol{padding-left:20px;margin-bottom:12px}
+.step-body li{margin-bottom:6px}
+.step-body strong{color:var(--az1)}
+.step-body h3{color:var(--az2);font-size:16px;margin:18px 0 8px}
+.step-body .tip{background:#EFF6FF;border-left:4px solid var(--az2);border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:14px 0;font-size:14px}
+.step-body .tip::before{content:'💡 ';font-weight:700}
+.step-body .warning{background:#FEF2F2;border-left:4px solid var(--ro1);border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:14px 0;font-size:14px}
+.step-body .warning::before{content:'⚠️ ';font-weight:700}
+.step-body .table-wrap{overflow-x:auto;margin:14px 0}
+.step-body table{width:100%;border-collapse:collapse;font-size:13px}
+.step-body th{background:var(--az1);color:#fff;padding:8px 12px;text-align:left}
+.step-body td{border-bottom:1px solid var(--borde);padding:8px 12px}
+.step-body tr:hover td{background:#f8fafc}
+
+/* ── NAVIGATE BUTTONS ── */
+.nav-btns{display:flex;gap:12px;justify-content:space-between;margin-top:8px}
+.btn-nav{padding:11px 20px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;
+  border:none;font-family:var(--sans);transition:all .2s}
+.btn-prev{background:#e2e8f0;color:var(--text)}
+.btn-prev:hover{background:#cbd5e1}
+.btn-complete{background:var(--az2);color:#fff;flex:1}
+.btn-complete:hover{background:var(--az1)}
+.btn-complete:disabled{background:var(--text-light);cursor:not-allowed}
+.btn-complete.completed-state{background:#16a34a}
+
+/* ── LOCKED STATE ── */
+.locked-card{background:#fff;border-radius:14px;padding:40px;text-align:center;border:2px dashed var(--borde)}
+.locked-card .lock-ico{font-size:48px;margin-bottom:16px}
+.locked-card h2{color:var(--az1);margin-bottom:8px}
+.locked-card p{color:var(--text-mid);font-size:14px;max-width:320px;margin:0 auto}
+
+/* ── SIDEBAR ── */
+.sidebar-header{background:linear-gradient(135deg,var(--az1),var(--az2));padding:18px 16px}
+.sidebar-title{color:#fff;font-size:15px;font-weight:800;letter-spacing:.5px}
+.sidebar-course{color:rgba(255,255,255,.6);font-size:11px;margin-top:2px}
+.sidebar-stats{display:flex;gap:0;margin-top:14px;background:rgba(0,0,0,.15);border-radius:8px;overflow:hidden}
+.sidebar-stat{flex:1;padding:10px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
+.sidebar-stat:last-child{border-right:none}
+.sidebar-stat-num{color:#fff;font-size:14px;font-weight:800}
+.sidebar-stat-label{color:rgba(255,255,255,.5);font-size:9px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.sidebar-scroll{padding:12px 0;overflow-y:auto;height:calc(100% - 160px)}
+.escala-group{margin-bottom:4px}
+.escala-chip{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;
+  cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.3px;transition:background .15s}
+.escala-chip:hover{background:rgba(255,255,255,.07)}
+.chip-active{background:rgba(58,143,199,.2)!important;color:var(--az3)}
+.chip-locked{color:rgba(255,255,255,.3);cursor:not-allowed}
+.chip-done{color:rgba(255,255,255,.5)}
+.chip-name{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.85)}
+.chip-badge{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5);font-size:10px;
+  padding:2px 7px;border-radius:10px}
+.chip-badge.done{background:rgba(22,163,74,.3);color:#86efac}
+.chip-badge.locked{background:rgba(255,255,255,.05);color:rgba(255,255,255,.25)}
+.puerto-list{padding:0 8px}
+.puerto-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;
+  cursor:pointer;transition:background .12s;margin-bottom:2px}
+.puerto-item:hover{background:rgba(255,255,255,.06)}
+.puerto-item.current{background:rgba(58,143,199,.2)}
+.puerto-item.locked{opacity:.4;cursor:not-allowed;pointer-events:none}
+.puerto-dot{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px}
+.puerto-dot.done{background:var(--az3);border-color:var(--az3);color:#fff}
+.puerto-dot.current{background:var(--az2);border-color:var(--az3);color:#fff}
+.puerto-name{font-size:11px;color:rgba(255,255,255,.7);line-height:1.3}
+.puerto-item.current .puerto-name{color:#fff;font-weight:600}
+.puerto-item.completed .puerto-name{color:rgba(255,255,255,.5)}
+
+/* ── RATING MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;
+  align-items:center;justify-content:center;z-index:200;padding:16px}
+.modal-card{background:#fff;border-radius:20px;padding:32px;max-width:440px;width:100%;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-icon{font-size:40px;text-align:center;margin-bottom:10px}
+.modal-title{text-align:center;color:var(--az1);font-size:20px;margin-bottom:6px}
+.modal-sub{text-align:center;color:var(--text-mid);font-size:14px;margin-bottom:16px}
+.stars-row{display:flex;justify-content:center;gap:8px;margin:12px 0}
+.star{font-size:36px;cursor:pointer;transition:transform .15s;filter:grayscale(1)}
+.star:hover,.star.active{filter:none;transform:scale(1.1)}
+.stars-label{text-align:center;font-size:13px;color:var(--text-mid);height:20px;margin-bottom:12px}
+.modal-textarea{width:100%;border:1.5px solid var(--borde);border-radius:8px;padding:10px 12px;
+  font-size:14px;font-family:var(--sans);resize:vertical;min-height:80px;outline:none;margin-bottom:14px}
+.modal-textarea:focus{border-color:var(--az2)}
+.btn-modal-submit{width:100%;background:var(--az2);color:#fff;border:none;border-radius:8px;
+  padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+.btn-modal-submit:hover{background:var(--az1)}
+.btn-modal-skip{width:100%;background:none;border:none;color:var(--text-light);font-size:13px;
+  cursor:pointer;font-family:var(--sans);padding:8px;margin-top:4px}
+.btn-modal-skip:hover{color:var(--text-mid)}
+.gift-box{background:linear-gradient(135deg,var(--az1),var(--az2));border-radius:12px;
+  padding:.9rem 1.1rem;margin:.5rem 0 1rem;text-align:center;border:2px solid var(--az3);color:#fff}
+.gift-box .gi{font-size:22px;margin-bottom:4px}
+.gift-box strong{display:block;font-size:14px;font-weight:700}
+.gift-box small{font-size:11px;color:rgba(255,255,255,.7)}
+
+/* ── CERTIFICATE ── */
+.cert-wrap{text-align:center;padding:20px 0}
+.cert-wrap .cert-ico{font-size:64px;margin-bottom:16px}
+.cert-wrap h2{color:var(--az1);font-size:22px;margin-bottom:8px}
+.cert-wrap p{color:var(--text-mid);font-size:14px;margin-bottom:20px}
+.cert-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-cert{padding:12px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;
+  border:none;font-family:var(--sans);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-cert-pdf{background:var(--az1);color:#fff}
+.btn-cert-li{background:#0077B5;color:#fff}
+
+/* ── MOBILE NAV BAR ── */
+.mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;height:58px;
+  background:var(--az1);border-top:1px solid rgba(255,255,255,.1);z-index:101;
+  justify-content:space-around;align-items:center}
+.mob-bar-btn{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;color:rgba(255,255,255,.6);border:none;
+  background:none;font-family:var(--sans);cursor:pointer;font-size:9px;letter-spacing:.3px;
+  text-transform:uppercase;font-weight:600;transition:color .15s}
+.mob-bar-btn .mico{font-size:20px;line-height:1}
+.mob-bar-btn.active,.mob-bar-btn:hover{color:#fff}
+.mob-bar-btn.active .mico{filter:drop-shadow(0 0 6px var(--az3))}
+
+/* ── SIDEBAR DRAWER (mobile) ── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200}
+.sidebar-overlay.open{display:block}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .layout{display:block}
+  .sidebar{position:fixed;top:0;right:-100%;width:88vw;max-width:340px;height:100dvh;
+    z-index:201;transition:right .3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 20px rgba(0,0,0,.4)}
+  .sidebar.open{right:0}
+  .sidebar-scroll{height:calc(100dvh - 160px)}
+  .main-area{padding:14px 14px 80px}
+  .mob-bar{display:flex}
+  .header{height:52px}
+  .header .logo-badge-text{font-size:12px}
+  .header-user{font-size:11px}
+  .btn-logout{padding:5px 10px;font-size:11px}
+  .content-card{padding:18px 16px}
+  .content-card h1{font-size:18px}
+  .step-body{font-size:16px}
+  .nav-btns{flex-wrap:wrap;gap:8px}
+  .btn-nav{flex:1;min-width:110px;padding:12px 14px;font-size:13px}
+  .breadcrumb{font-size:11px;margin-bottom:12px}
+  .bitacora-wrap{padding:10px 14px;margin-bottom:14px}
+  .date-banner{padding:16px;margin-bottom:14px}
+  .date-banner .date-row{flex-direction:column;align-items:stretch}
+  .date-banner input[type=date]{width:100%}
+  .escala-badge{font-size:12px;padding:5px 12px}
+  .modal-card{padding:22px 18px;max-height:92dvh;overflow-y:auto}
+  .modal-title{font-size:17px}
+  .star{font-size:32px}
+  .cert-btns{flex-direction:column}
+  .btn-cert{justify-content:center}
+  /* sidebar header close btn */
+  .sidebar-close-btn{display:flex!important}
+}
+
+/* ── MOBILE SMALL ── */
+@media(max-width:600px){
+  body{font-size:19px}
+  .step-body,.step-body p{font-size:19px}
+  label{font-size:17px}
+  input,textarea,select{font-size:19px}
+  button,.btn-nav,.btn-embarque,.btn-cert,.btn-modal-submit{font-size:19px}
+}
+
+/* ── LOADING ── */
+#app-loading{position:fixed;inset:0;background:linear-gradient(135deg,#060f22,var(--az1));
+  display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:16px}
+#app-loading .spin{font-size:42px;animation:spin 1s linear infinite;display:inline-block}
+#app-loading p{color:rgba(255,255,255,.7);font-size:15px}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="app-loading">
+  <div class="spin">✈️</div>
+  <p>Cargando tu curso...</p>
+</div>
+
+<!-- Overlay sidebar mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- Header -->
+<header class="header">
+  <a class="logo-badge" href="#">
+    <img src="Logo completo COSMART.png" alt="COSMART" style="height:36px;filter:brightness(0) invert(1)">
+  </a>
+  <div class="header-right">
+    <span class="header-user">Hola, <strong id="hdr-nombre">...</strong></span>
+    <button class="btn-logout" onclick="logout()">Salir</button>
+    <!-- Hamburger — solo mobile -->
+    <button onclick="openSidebar()" style="display:none;background:rgba(255,255,255,.12);border:none;
+      color:#fff;border-radius:6px;padding:6px 10px;font-size:18px;cursor:pointer;margin-left:4px"
+      id="burgerBtn">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- MAIN CONTENT AREA -->
+  <main class="main-area" id="mainArea">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <span>✈️ Productos Ganadores</span>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-item current" id="bc-escala">Cargando...</span>
+      <span class="breadcrumb-sep" id="bc-sep2">›</span>
+      <span class="breadcrumb-item current" id="bc-step">...</span>
+    </div>
+
+    <!-- Bitácora progress -->
+    <div class="bitacora-wrap">
+      <div class="bitacora-top">
+        <span class="bitacora-label">✈️ Bitácora de progreso</span>
+        <span class="bitacora-pct" id="progress-pct">0%</span>
+      </div>
+      <div class="bitacora-bar"><div class="bitacora-fill" id="progress-bar" style="width:0%"></div></div>
+    </div>
+
+    <!-- Date Banner (se oculta cuando hay fecha) -->
+    <div class="date-banner" id="dateBanner" style="display:none">
+      <h3>✈️ ¡Elegí tu fecha de embarque!</h3>
+      <p style="opacity:.9;font-size:15px;margin-bottom:6px"><strong>Empezá cuando vos quieras</strong> — hoy, mañana o cuando te sientas lista. 🧲</p>
+      <p style="opacity:.75;font-size:13px;margin-bottom:16px">
+        Una vez que confirmés tu fecha, las 4 Escalas del curso se van desbloqueando de a una por día:<br>
+        📍 <strong>Día 1:</strong> Escala 1 — Fundamentos<br>
+        📍 <strong>Día 2:</strong> Escala 2 — Investigación<br>
+        📍 <strong>Día 3:</strong> Escala 3 — Validación y Estrategia<br>
+        📍 <strong>Día 4:</strong> Escala 4 — Herramientas IA<br>
+        <small style="opacity:.7">También vas a recibir un recordatorio por email cada día para mantener el ritmo. ✈️</small>
+      </p>
+      <div class="date-row">
+        <input type="date" id="startDateInput">
+        <button class="btn-embarque" onclick="confirmarEmbarque()">Confirmar embarque ✈️</button>
+      </div>
+    </div>
+
+    <!-- Content shown here -->
+    <div id="contentArea"></div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">🗺️ Plan de vuelo ⚓</div>
+      <div class="sidebar-course">Productos Ganadores en E-commerce</div>
+      <div class="sidebar-stats">
+        <div class="sidebar-stat">
+          <div class="sidebar-stat-num" id="sb-comp">0</div>
+          <div class="sidebar-stat-label">Completados</div>
+        </div>
+        <div class="sidebar-stat">
+          <div class="sidebar-stat-num" id="sb-total">47</div>
+          <div class="sidebar-stat-label">Puertos</div>
+        </div>
+        <div class="sidebar-stat">
+          <div class="sidebar-stat-num" id="sb-pct">0%</div>
+          <div class="sidebar-stat-label">Avance</div>
+        </div>
+      </div>
+    </div>
+    <!-- Close btn (solo mobile) -->
+    <button onclick="closeSidebar()" class="sidebar-close-btn"
+      style="display:none;position:absolute;top:14px;right:14px;background:rgba(255,255,255,.15);
+      border:none;color:#fff;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;
+      align-items:center;justify-content:center;font-weight:700;z-index:10">✕</button>
+    <div class="sidebar-scroll" id="sidebarScroll"></div>
+  </aside>
+</div>
+
+<!-- Mobile Bottom Nav Bar -->
+<nav class="mob-bar" id="mobBar">
+  <button class="mob-bar-btn" id="mob-prev" onclick="mobPrev()">
+    <span class="mico">←</span>anterior
+  </button>
+  <button class="mob-bar-btn active" id="mob-prog" onclick="mobProgress()">
+    <span class="mico">✈️</span>bitácora
+  </button>
+  <button class="mob-bar-btn" id="mob-next" onclick="mobNext()">
+    <span class="mico">→</span>siguiente
+  </button>
+  <button class="mob-bar-btn" onclick="openSidebar()">
+    <span class="mico">🗺️</span>plan vuelo
+  </button>
+</nav>
+
+<!-- Rating Modal -->
+<div class="modal-overlay" id="ratingModal">
+  <div class="modal-card">
+    <button onclick="closeModal()" style="position:absolute;top:12px;right:12px;background:#E2E8F0;border:none;
+      border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;
+      justify-content:center;font-weight:700;color:#333">✕</button>
+    <div class="modal-icon">🎫</div>
+    <h2 class="modal-title" id="modal-escala-title">¿Cómo fue tu Escala?</h2>
+    <p class="modal-sub" id="modal-escala-sub">¡Completaste la Escala! Contanos cómo te fue.</p>
+    <div class="gift-box">
+      <div class="gi">🎁</div>
+      <strong>¡Puntuá con 5 estrellas y llevate un regalo!</strong>
+      <small>50% de descuento en <a href="https://www.cosmart.com.ar/contenido-rrss" target="_blank" style="color:#93c5fd;text-decoration:underline">30 días de creación de contenido</a> — el cupón llega a tu email al enviar. Solo para valoraciones de 5 ★.</small>
+    </div>
+    <div class="stars-row" id="starsRow">
+      <span class="star" onclick="setStars(1)">⭐</span>
+      <span class="star" onclick="setStars(2)">⭐</span>
+      <span class="star" onclick="setStars(3)">⭐</span>
+      <span class="star" onclick="setStars(4)">⭐</span>
+      <span class="star" onclick="setStars(5)">⭐</span>
+    </div>
+    <div class="stars-label" id="starsLabel">Tocá las estrellas para puntuar</div>
+    <textarea class="modal-textarea" id="ratingText" placeholder="Contanos tu experiencia..."></textarea>
+    <button class="btn-modal-submit" id="modalSubmitBtn" onclick="submitRating()">🚀 Enviar valoración</button>
+    <button class="btn-modal-skip" onclick="closeModal()">Saltear por ahora</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  COSMART Training Platform — main.js
+// ══════════════════════════════════════════════════════════════
+
+const API = 'https://cosmart-training.conglomeradocosmart.workers.dev';
+
+// ── AUTH ──────────────────────────────────────────────────────
+const token   = localStorage.getItem('ct_token');
+const nombre   = localStorage.getItem('ct_nombre') || '';
+const apellido = localStorage.getItem('ct_apellido') || '';
+const email    = localStorage.getItem('ct_email') || '';
+
+if (!token) { window.location.href = '/cosmart-training-login.html'; }
+
+function logout(){
+  fetch(`${API}/auth/logout`, { method:'POST', headers:{'Authorization':'Bearer '+token} }).catch(()=>{});
+  ['ct_token','ct_nombre','ct_email','ct_startDate'].forEach(k => localStorage.removeItem(k));
+  window.location.href = '/cosmart-training-login.html';
+}
+
+// ── COURSE DATA ───────────────────────────────────────────────
+// Estructura completa del curso: 47 pasos en 4 escalas + intro
+const CURSO = [
+  {
+    escala: 'intro',
+    label:  '🚀 Introducción',
+    steps: [
+      { id:'step-Intro', title:'Bienvenida al Programa', time:'5 min',
+        body:''
+      }
+    ]
+  },
+  {
+    escala: 'escala1',
+    label:  '🎫 Escala 1 — Fundamentos',
+    steps: [
+      { id:'step-01', title:'¿Qué es un producto ganador?', time:'8 min',
+        body:''
+      },
+      { id:'step-02', title:'Importancia de seleccionar bien', time:'6 min',
+        body:''
+      },
+      { id:'step-03', title:'Principales beneficios de identificar correctamente', time:'5 min',
+        body:''
+      },
+      { id:'step-04', title:'Resuelve un problema real', time:'7 min',
+        body:''
+      },
+      { id:'step-05', title:'Cómo los productos que solucionan problemas generan ventas', time:'8 min',
+        body:''
+      },
+      { id:'step-06', title:'Mejora la comodidad', time:'7 min',
+        body:''
+      },
+      { id:'step-07', title:'Productos que simplifican tareas diarias', time:'7 min',
+        body:''
+      },
+      { id:'step-08', title:'Más ejemplos: productos que simplifican el día a día', time:'8 min',
+        body:''
+      },
+      { id:'step-09', title:'Ahorra tiempo o dinero', time:'9 min',
+        body:''
+      },
+      { id:'step-09b', title:'La relación entre eficiencia y éxito en el mercado', time:'7 min',
+        body:''
+      },
+      { id:'step-09c', title:'Productos populares que ahorran tiempo o dinero', time:'6 min',
+        body:''
+      },
+      { id:'step-10', title:'Productos únicos y personalizados', time:'8 min',
+        body:''
+      },
+      { id:'step-11', title:'Branding para destacar', time:'9 min',
+        body:''
+      },
+      { id:'step-12', title:'Análisis de tendencias', time:'10 min',
+        body:''
+      },
+      { id:'step-13', title:'Cómo diferenciarse en nichos saturados', time:'10 min',
+        body:''
+      },
+      { id:'step-14', title:'Cómo encontrar oportunidades en mercados saturados', time:'9 min',
+        body:''
+      },
+      { id:'step-15', title:'Cierre de Escala 1 🏁', time:'5 min',
+        body:''
+      },
+    ]
+  },
+  {
+    escala: 'escala2',
+    label:  '🎫 Escala 2 — Investigación de Mercado',
+    steps: [
+      { id:'step-16', title:'¿Por qué usar Big Data en la investigación de mercado?', time:'10 min',
+        body:''
+      },
+      { id:'step-17', title:'Investigación de mercado con Big Data — LATAM y España', time:'12 min',
+        body:''
+      },
+      { id:'step-17a', title:'Los tres dilemas del nicho: decisiones que definen tu negocio', time:'11 min',
+        body:''
+      },
+      { id:'step-17b', title:'Análisis de competencia paso a paso', time:'12 min',
+        body:''
+      },
+      { id:'step-18', title:'Validación antes de comprar stock', time:'11 min',
+        body:''
+      },
+      { id:'step-spy', title:'Cómo encontrar productos ganadores espiando a la competencia', time:'20 min',
+        body:''
+      },
+      { id:'step-extra1', title:'Planilla de análisis de competidores', time:'5 min',
+        body:''
+      },
+      { id:'step-extra2', title:'Cierre de Escala 2 🏁', time:'5 min',
+        body:''
+      },
+    ]
+  },
+  {
+    escala: 'escala3',
+    label:  '🎫 Escala 3 — Precios y Cierre de Deal',
+    steps: [
+      { id:'step-19', title:'Maximizar ganancias sin perder clientes', time:'10 min',
+        body:''
+      },
+      { id:'step-20', title:'Fórmula del "Por Tres" para precios rentables', time:'11 min',
+        body:''
+      },
+      { id:'step-21', title:'Métricas clave para evaluar el rendimiento', time:'10 min',
+        body:''
+      },
+      { id:'step-22', title:'Marketing efectivo para tu e-commerce', time:'10 min',
+        body:''
+      },
+      { id:'step-23', title:'Propuesta de valor, ventaja competitiva y USP', time:'10 min',
+        body:''
+      },
+      { id:'step-24', title:'Materiales promocionales: fotos y videos', time:'10 min',
+        body:''
+      },
+      { id:'step-25', title:'UGC: Contenido Generado por el Usuario', time:'9 min',
+        body:''
+      },
+      { id:'step-26', title:'Innovación y sostenibilidad', time:'9 min',
+        body:''
+      },
+      { id:'step-26b', title:'El Momento WOW: cuando el cliente se queda sin palabras', time:'10 min',
+        body:''
+      },
+      { id:'step-27', title:'Lo que aprendimos — repaso del Día 3', time:'9 min',
+        body:''
+      },
+      { id:'step-checklist', title:'Checklist Final y Cierre de Escala 3 🏁', time:'6 min',
+        body:''
+      },
+    ]
+  },
+  {
+    escala: 'escala4',
+    label:  '🎫 Escala 4 — Anexo IA',
+    steps: [
+      { id:'step-IA-intro', title:'IA para e-commerce: panorama actual', time:'8 min',
+        body:''
+      },
+      { id:'step-A1', title:'Las herramientas de IA que necesitás conocer', time:'10 min',
+        body:''
+      },
+      { id:'step-A2', title:'Claude en detalle: versiones, acceso y qué puede hacer por vos', time:'10 min',
+        body:''
+      },
+      { id:'step-A3', title:'Cómo encontrar nichos rentables con IA', time:'10 min',
+        body:''
+      },
+      { id:'step-A4', title:'Validar la demanda antes de invertir', time:'10 min',
+        body:''
+      },
+      { id:'step-A5', title:'Analizar tu competencia en profundidad con IA', time:'10 min',
+        body:''
+      },
+      { id:'step-A6', title:'Calcular precios y márgenes con IA', time:'8 min',
+        body:''
+      },
+      { id:'step-A7', title:'Biblioteca de prompts listos para usar', time:'12 min',
+        body:''
+      },
+      { id:'step-A8', title:'Certificación y próximos pasos 🎓', time:'10 min',
+        body:''
+      },
+      { id:'step-cert', title:'Tu certificado COSMART Training', time:'2 min',
+        body:''
+      },
+    ]
+  }
+];
+
+// Flatten para acceso rápido por ID
+const ALL_STEPS = {};
+const ALL_STEPS_ORD = [];
+CURSO.forEach(esc => {
+  esc.steps.forEach(s => {
+    ALL_STEPS[s.id] = { ...s, escala: esc.escala, escalaLabel: esc.label };
+    ALL_STEPS_ORD.push(s.id);
+  });
+});
+const TOTAL_STEPS = ALL_STEPS_ORD.length;
+
+// ── STATE ─────────────────────────────────────────────────────
+let completedSteps = new Set();
+let unlockedEscalas = ['intro'];
+let startDate = localStorage.getItem('ct_startDate') || null;
+let currentStepId = localStorage.getItem('ct_currentStep') || 'step-Intro';
+let currentRatingEscala = null;
+let currentStars = 0;
+
+// ── INIT ──────────────────────────────────────────────────────
+document.getElementById('hdr-nombre').textContent = nombre;
+
+async function init() {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000); // 4s timeout
+    const r = await fetch(`${API}/progress`, {
+      headers: { 'Authorization': 'Bearer ' + token },
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if (r.status === 401) { logout(); return; }
+    const d = await r.json();
+    completedSteps = new Set(d.completed || []);
+    if (d.startDate) {
+      startDate = d.startDate;
+      localStorage.setItem('ct_startDate', d.startDate);
+      unlockedEscalas = calcUnlocked(startDate);
+    } else {
+      // Sin fecha: solo la intro desbloqueada
+      unlockedEscalas = ['intro'];
+    }
+
+    // Cargar contenido del curso desde el Worker (requiere sesión válida)
+    try {
+      const cr = await fetch(`${API}/api/curso`, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (cr.ok) {
+        const bodies = await cr.json(); // { stepId: htmlBody }
+        Object.keys(ALL_STEPS).forEach(id => {
+          if (bodies[id]) ALL_STEPS[id].body = bodies[id];
+        });
+      }
+    } catch(e2) { /* offline: body vacío, se muestra mensaje */ }
+
+  } catch(e) {
+    // offline mode: use localStorage
+    completedSteps = new Set(JSON.parse(localStorage.getItem('ct_completed') || '[]'));
+    unlockedEscalas = calcUnlocked(startDate);
+  }
+
+  document.getElementById('app-loading').style.display = 'none';
+
+  // Si no hay fecha → mostrar banner
+  if (!startDate) {
+    document.getElementById('dateBanner').style.display = 'block';
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('startDateInput').min = today;
+    document.getElementById('startDateInput').value = today;
+  }
+
+  // Asegurar step actual válido y desbloqueado
+  const stepEscala = ALL_STEPS[currentStepId]?.escala;
+  if (!stepEscala || !unlockedEscalas.includes(stepEscala)) {
+    currentStepId = ALL_STEPS_ORD.find(id => unlockedEscalas.includes(ALL_STEPS[id].escala)) || 'step-Intro';
+  }
+
+  renderSidebar();
+  renderContent(currentStepId);
+  updateProgress();
+  updateMobBar();
+}
+
+// ── PROGRESS CALC ─────────────────────────────────────────────
+function calcUnlocked(sd) {
+  if (!sd) return ['intro'];
+  const [sy,sm,sd2] = sd.split('-').map(Number);
+  const start = new Date(sy, sm-1, sd2, 0, 0, 0, 0);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const days = Math.floor((today - start) / 86400000);
+  const u = ['intro'];
+  if (days >= 0) u.push('escala1');
+  if (days >= 1) u.push('escala2');
+  if (days >= 2) u.push('escala3');
+  if (days >= 3) u.push('escala4');
+  return u;
+}
+
+function updateProgress() {
+  const pct = Math.round((completedSteps.size / TOTAL_STEPS) * 100);
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('sb-comp').textContent = completedSteps.size;
+  document.getElementById('sb-total').textContent = TOTAL_STEPS;
+  document.getElementById('sb-pct').textContent = pct + '%';
+}
+
+// ── SIDEBAR ───────────────────────────────────────────────────
+function renderSidebar() {
+  const container = document.getElementById('sidebarScroll');
+  container.innerHTML = '';
+  CURSO.forEach(esc => {
+    const isUnlocked = unlockedEscalas.includes(esc.escala);
+    const escCompleted = esc.steps.every(s => completedSteps.has(s.id));
+    const isActive = esc.steps.some(s => s.id === currentStepId);
+
+    const group = document.createElement('div');
+    group.className = 'escala-group';
+
+    const chip = document.createElement('div');
+    chip.className = 'escala-chip' + (!isUnlocked ? ' chip-locked' : isActive ? ' chip-active' : escCompleted ? ' chip-done' : '');
+    chip.innerHTML = `
+      <span class="chip-name">${esc.label}</span>
+      <span class="chip-badge ${!isUnlocked ? 'locked' : escCompleted ? 'done' : ''}">
+        ${!isUnlocked ? '🔒' : escCompleted ? '✓' : esc.steps.filter(s=>completedSteps.has(s.id)).length + '/' + esc.steps.length}
+      </span>`;
+    if (isUnlocked) {
+      chip.style.cursor = 'pointer';
+      chip.onclick = () => navigateTo(esc.steps[0].id);
+    }
+    group.appendChild(chip);
+
+    if (isUnlocked) {
+      const list = document.createElement('div');
+      list.className = 'puerto-list';
+      esc.steps.forEach(s => {
+        const isCurrent = s.id === currentStepId;
+        const isDone = completedSteps.has(s.id);
+        const item = document.createElement('div');
+        item.className = 'puerto-item' + (isCurrent ? ' current' : '') + (isDone ? ' completed' : '');
+        item.innerHTML = `
+          <div class="puerto-dot ${isDone ? 'done' : isCurrent ? 'current' : ''}">${isDone ? '✓' : isCurrent ? '►' : ''}</div>
+          <div class="puerto-name">${s.title}</div>`;
+        item.onclick = () => navigateTo(s.id);
+        list.appendChild(item);
+      });
+      group.appendChild(list);
+    }
+    container.appendChild(group);
+  });
+}
+
+// ── CONTENT ───────────────────────────────────────────────────
+function navigateTo(stepId) {
+  // Verificar que la escala del paso esté desbloqueada
+  const step = ALL_STEPS[stepId];
+  if (step && !unlockedEscalas.includes(step.escala)) {
+    const escalaNum = {'escala1':1,'escala2':2,'escala3':3,'escala4':4}[step.escala] || '';
+    if (!startDate) {
+      showLockedAlert(`Para acceder al curso tenés que confirmar tu fecha de embarque primero.\n\n¡Empezá cuando vos quieras! 🧲`);
+    } else {
+      showLockedAlert(`🔒 La Escala ${escalaNum} se desbloquea el día ${escalaNum} de tu plan de vuelo.\n\n¡Ya falta poco! Volvé mañana para continuar. ✈️`);
+    }
+    return;
+  }
+  currentStepId = stepId;
+  localStorage.setItem('ct_currentStep', stepId);
+  renderContent(stepId);
+  renderSidebar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Mobile: cerrar drawer y actualizar barra
+  if(typeof closeSidebar === 'function') closeSidebar();
+  if(typeof updateMobBar === 'function') updateMobBar();
+}
+
+function showLockedAlert(msg) {
+  let el = document.getElementById('lockedAlert');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'lockedAlert';
+    el.style.cssText = `position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+      background:#0D2B6B;color:#fff;padding:28px 32px;border-radius:16px;max-width:340px;
+      text-align:center;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,.5);font-family:Inter,sans-serif`;
+    document.body.appendChild(el);
+  }
+  el.innerHTML = `<div style="font-size:36px;margin-bottom:12px">🔒</div>
+    <p style="font-size:15px;line-height:1.6;white-space:pre-line">${msg}</p>
+    <button onclick="document.getElementById('lockedAlert').remove()"
+      style="margin-top:16px;background:#E02020;color:#fff;border:none;border-radius:8px;
+      padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer">Entendido</button>`;
+}
+
+function renderContent(stepId) {
+  const step = ALL_STEPS[stepId];
+  if (!step) return;
+
+  // Breadcrumb
+  document.getElementById('bc-escala').textContent = step.escalaLabel;
+  document.getElementById('bc-step').textContent = step.title;
+
+  // Prev / Next
+  const idx = ALL_STEPS_ORD.indexOf(stepId);
+  const prevId = idx > 0 ? ALL_STEPS_ORD[idx - 1] : null;
+  const nextId = idx < ALL_STEPS_ORD.length - 1 ? ALL_STEPS_ORD[idx + 1] : null;
+  const isCompleted = completedSteps.has(stepId);
+  const isLastInEscala = CURSO.find(e => e.escala === step.escala)?.steps.slice(-1)[0]?.id === stepId;
+  const isVeryLast = stepId === ALL_STEPS_ORD[ALL_STEPS_ORD.length - 1];
+
+  const isIntro = step.escala === 'intro';
+  // Check if next is unlocked
+  const nextStep = nextId ? ALL_STEPS[nextId] : null;
+  const nextUnlocked = !nextStep || unlockedEscalas.includes(nextStep.escala);
+  const embarcarBloqueado = isLastInEscala && isIntro && !isVeryLast && !nextUnlocked;
+
+  let btnLabel = isCompleted ? '✓ Completado' : '✅ Marcar como leído y continuar';
+  if (isLastInEscala && !isVeryLast && isIntro && !embarcarBloqueado) btnLabel = isCompleted ? '✓ Completado' : '✈️ ¡Embarcar!';
+  if (isLastInEscala && !isVeryLast && isIntro && embarcarBloqueado) btnLabel = '🔒 Embarcar';
+  if (isLastInEscala && !isVeryLast && !isIntro) btnLabel = isCompleted ? '✓ Completado' : '🏁 Completar Escala →';
+  if (isVeryLast) btnLabel = isCompleted ? '✓ Completado' : '🎓 ¡Completar el programa!';
+
+  const isCertPage = isVeryLast && completedSteps.has(stepId);
+
+  document.getElementById('contentArea').innerHTML = `
+    <div class="escala-badge">${step.escalaLabel}</div>
+    <div class="content-card">
+      <h1>${step.title}</h1>
+      <div class="step-meta">
+        <span>⏱ ${step.time}</span>
+        <span>${isCompleted ? '✅ Leído' : '📖 Sin leer'}</span>
+      </div>
+      <div class="step-body">${step.body}</div>
+    </div>
+    ${isCertPage ? renderCertSection() : ''}
+    <div class="nav-btns">
+      ${prevId ? `<button class="btn-nav btn-prev" onclick="navigateTo('${prevId}')">← Anterior</button>` : '<div></div>'}
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn-nav btn-complete ${isCompleted ? 'completed-state' : ''}" id="completeBtn"
+          onclick="markComplete('${stepId}', '${nextId || ''}', ${isLastInEscala}, ${isVeryLast})"
+          ${(isCompleted && !isVeryLast) || embarcarBloqueado ? 'disabled style="background:#334155;color:#94a3b8;cursor:not-allowed"' : ''}>
+          ${btnLabel}
+        </button>
+        ${embarcarBloqueado ? `<span style="font-size:13px;color:#64748b;margin-left:8px">Disponible el ${startDate ? new Date(...startDate.split('-').map((v,i)=>i===1?+v-1:+v)).toLocaleDateString('es-AR',{day:'numeric',month:'long'}) : 'día de inicio'}</span>` : ''}
+        ${isCompleted && nextId && nextUnlocked ? `<button class="btn-nav" style="background:var(--az2);color:#fff" onclick="navigateTo('${nextId}')">Siguiente →</button>` : ''}
+        ${isCompleted && nextId && !nextUnlocked ? `<button class="btn-nav" style="background:#334155;color:#94a3b8;cursor:not-allowed" disabled>🔒 Escala bloqueada</button>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderCertSection() {
+  var now = new Date();
+  var certId = localStorage.getItem('ct_certId') || '';
+  var certUrl = certId ? ('https://cosmart.com.ar/certificado/?id=' + certId) : 'https://cosmart.com.ar';
+  var liHref = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
+    + '&name=Productos+Ganadores+%7C+COSMART+Training'
+    + '&organizationId=105805945'
+    + '&issueYear=' + now.getFullYear()
+    + '&issueMonth=' + (now.getMonth()+1)
+    + '&certUrl=' + encodeURIComponent(certUrl)
+    + (certId ? ('&certId=' + encodeURIComponent(certId)) : '');
+  setTimeout(initCertId, 0);
+  return `
+    <div class="content-card" style="margin-top:1rem">
+      <div style="background:linear-gradient(135deg,#0f2a5c 0%,#1a3a7a 100%);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem;text-align:center;border:1px solid #2a4a8a">
+        <div style="width:48px;height:48px;margin:0 auto 0.75rem;background:#1e4ba0;border-radius:50%;display:flex;align-items:center;justify-content:center">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 3L26 9l-12 6L2 9l12-6Z" stroke="white" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+            <path d="M6 13v6c0 2.8 3.6 5 8 5s8-2.2 8-5v-6M26 9v8" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <p style="color:#e2e8f0;font-weight:700;font-size:15px;margin:0 0 3px">Tu certificado est\u00e1 listo</p>
+        <p style="color:#94a3b8;font-size:13px;margin:0">Ingres\u00e1 tu nombre y apellido tal como quer\u00e9s que aparezcan</p>
+      </div>
+      <button onclick="downloadCert()"
+        style="background:#1d4ed8;color:white;border:none;border-radius:8px;padding:11px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-bottom:0.5rem;transition:background .2s"
+        onmouseover="this.style.background='#1e40af'" onmouseout="this.style.background='#1d4ed8'">
+        Descargar certificado
+      </button>
+      <div id="cert-status-dl" style="font-size:13px;text-align:center;min-height:20px;margin-bottom:0.75rem"></div>
+      <p style="font-size:13px;color:#64748b;text-align:center;margin:0">
+        Una vez descargado, sum\u00e1lo a tu perfil de LinkedIn:<br>
+        <a id="cert-li-link" href="${liHref}" target="_blank" style="color:#3b82f6;font-weight:600;text-decoration:none">Agregar a LinkedIn</a>
+      </p>
+    </div>`;
+}
+async function initCertId() {
+  if (localStorage.getItem('ct_certId')) return;
+  try {
+    const r = await fetch(`${API}/training/certid`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const d = await r.json();
+    if (!d.certId) return;
+    localStorage.setItem('ct_certId', d.certId);
+    var liLink = document.getElementById('cert-li-link');
+    if (!liLink) return;
+    var now = new Date();
+    var certUrl = 'https://cosmart.com.ar/certificado/?id=' + d.certId;
+    liLink.href = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
+      + '&name=Productos+Ganadores+%7C+COSMART+Training'
+      + '&organizationId=105805945'
+      + '&issueYear=' + now.getFullYear()
+      + '&issueMonth=' + (now.getMonth()+1)
+      + '&certUrl=' + encodeURIComponent(certUrl)
+      + '&certId=' + encodeURIComponent(d.certId);
+  } catch(e) {}
+}
+
+
+// ── COMPLETE STEP ─────────────────────────────────────────────
+async function markComplete(stepId, nextId, isLastInEscala, isVeryLast) {
+  if (completedSteps.has(stepId) && !isVeryLast) return;
+
+  // Optimistic update
+  completedSteps.add(stepId);
+  localStorage.setItem('ct_completed', JSON.stringify([...completedSteps]));
+  updateProgress();
+
+  // API call
+  if (isVeryLast) {
+    try {
+      const r = await fetch(`${API}/progress/complete`, {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stepId })
+      });
+      const d = await r.json();
+      if (d.certId) localStorage.setItem('ct_certId', d.certId);
+    } catch(e) {}
+    renderContent(stepId);
+    renderSidebar();
+    return;
+  }
+  fetch(`${API}/progress/complete`, {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ stepId })
+  }).catch(() => {});
+
+  if (isLastInEscala) {
+    const escala = ALL_STEPS[stepId].escala;
+    const escalaLabel = ALL_STEPS[stepId].escalaLabel;
+    if (escala === 'intro') {
+      // Intro: navegar directo al primer paso de escala1
+      if (nextId && unlockedEscalas.includes(ALL_STEPS[nextId]?.escala)) {
+        navigateTo(nextId);
+      } else {
+        renderContent(stepId); renderSidebar();
+      }
+    } else {
+      // Escalas 1-4: mostrar modal de rating y luego pantalla "volvé mañana"
+      openRatingModal(escala, escalaLabel, nextId);
+    }
+  } else if (nextId && unlockedEscalas.includes(ALL_STEPS[nextId]?.escala)) {
+    navigateTo(nextId);
+  } else {
+    renderContent(stepId);
+    renderSidebar();
+  }
+}
+
+// ── RATING MODAL ──────────────────────────────────────────────
+function openRatingModal(escala, escalaLabel, nextStepId) {
+  currentRatingEscala = escala;
+  document.getElementById('modal-escala-title').textContent = `¿Cómo fue tu ${escalaLabel.replace('🎫 ','')}?`;
+  document.getElementById('modal-escala-sub').textContent = `¡Completaste todos los puertos! Contanos cómo te fue.`;
+  document.getElementById('modalSubmitBtn').dataset.next = nextStepId || '';
+  currentStars = 0;
+  setStars(0);
+  document.getElementById('ratingText').value = '';
+  document.getElementById('ratingModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('ratingModal').style.display = 'none';
+  const nextId = document.getElementById('modalSubmitBtn').dataset.next;
+  if (nextId && unlockedEscalas.includes(ALL_STEPS[nextId]?.escala)) {
+    navigateTo(nextId);
+  } else {
+    renderSidebar();
+    document.getElementById('contentArea').innerHTML = `
+      <div class="content-card" style="text-align:center;padding:48px 32px">
+        <div style="font-size:56px;margin-bottom:16px">✈️</div>
+        <h2 style="color:var(--az1);margin-bottom:12px">¡Escala completada!</h2>
+        <p style="font-size:16px;color:#475569;line-height:1.7;max-width:440px;margin:0 auto 24px">
+          Volvé mañana para continuar. Aprovechá el día de hoy para repasar lo que aprendiste y aplicarlo.
+        </p>
+        <div style="background:#f0f7ff;border-radius:12px;padding:20px 24px;margin:0 auto 28px;max-width:400px;border-left:3px solid var(--az2)">
+          <p style="margin:0;font-size:14px;color:#334155;line-height:1.6">
+            ¿Tenés alguna duda o comentario sobre el contenido?<br>
+            Escribinos a <a href="mailto:info@cosmart.com.ar" style="color:var(--az2);font-weight:600">info@cosmart.com.ar</a>
+          </p>
+        </div>
+        <button class="btn-nav" style="background:var(--az1);color:#fff" onclick="navigateTo('${currentStepId}')">← Volver al último paso</button>
+      </div>`;
+  }
+}
+
+function setStars(n) {
+  currentStars = n;
+  document.querySelectorAll('#starsRow .star').forEach((s, i) => {
+    s.classList.toggle('active', i < n);
+    s.style.filter = i < n ? 'none' : 'grayscale(1)';
+  });
+  const labels = {0:'Tocá las estrellas para puntuar', 1:'1.0 ★ — Necesita mejorar', 2:'2.0 ★ — Regular',
+    3:'3.0 ★ — Bueno', 4:'4.0 ★ — ¡Muy bueno!', 5:'5.0 ★ — ¡Excelente!'};
+  document.getElementById('starsLabel').innerHTML = n ? `<strong>${labels[n]}</strong>` : labels[0];
+}
+
+async function submitRating() {
+  if (!currentStars) { alert('Por favor seleccioná una cantidad de estrellas'); return; }
+  const texto = document.getElementById('ratingText').value;
+  const nextId = document.getElementById('modalSubmitBtn').dataset.next;
+
+  fetch(`${API}/testimonial`, {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ escala: currentRatingEscala, stars: currentStars, texto })
+  }).catch(() => {});
+
+  document.getElementById('ratingModal').style.display = 'none';
+
+  if (nextId) {
+    // Refrescar progreso antes de navegar (puede haber nueva Escala disponible mañana)
+    navigateTo(nextId);
+  } else {
+    renderContent(currentStepId);
+    renderSidebar();
+  }
+}
+
+// ── CONFIRMAR EMBARQUE ────────────────────────────────────────
+async function confirmarEmbarque() {
+  const val = document.getElementById('startDateInput').value;
+  if (!val) { alert('Seleccioná una fecha'); return; }
+
+  const btn = document.querySelector('.btn-embarque');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+
+  try {
+    const r = await fetch(`${API}/auth/set-start-date`, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ startDate: val })
+    });
+    const d = await r.json();
+    if (!r.ok) { alert(d.error || 'Error'); return; }
+
+    startDate = val;
+    localStorage.setItem('ct_startDate', val);
+    unlockedEscalas = calcUnlocked(val);
+    document.getElementById('dateBanner').style.display = 'none';
+    renderSidebar();
+    renderContent(currentStepId);
+  } catch(e) {
+    alert('Error de conexión');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Confirmar embarque ✈️';
+  }
+}
+
+// ── CERTIFICATE ───────────────────────────────────────────────
+async function downloadCert() {
+  var status = document.getElementById('cert-status-dl');
+  var _nombre   = nombre.trim();
+  var _apellido = apellido.trim();
+  if (!_nombre) { if(status){status.style.color='#f59e0b';status.textContent='Nombre no disponible. Reingresá al curso.';} return; }
+  var pdfDataEl = document.getElementById('cert-pdf-data');
+  if (!pdfDataEl) {
+    if (status) { status.style.color='#ef4444'; status.textContent='Error: recargá la página e intentá de nuevo.'; }
+    return;
+  }
+  var PDF_B64 = pdfDataEl.textContent.trim();
+  var btn = document.querySelector('button[onclick="downloadCert()"]');
+  if (btn) { btn.disabled=true; btn.textContent='Generando...'; }
+  if (status) { status.style.color='#94a3b8'; status.textContent='Personalizando tu certificado...'; }
+  try {
+    if (typeof PDFLib === 'undefined') {
+      await new Promise(function(res, rej) {
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    var pdfBytes = Uint8Array.from(atob(PDF_B64), function(c){ return c.charCodeAt(0); });
+    var pdfDoc   = await PDFLib.PDFDocument.load(pdfBytes);
+    var page     = pdfDoc.getPages()[0];
+    var pageW    = page.getWidth();
+    var font     = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+    var fullName = _nombre + (_apellido ? (' ' + _apellido) : '');
+    var fontSize = 26;
+    var tw = font.widthOfTextAtSize(fullName, fontSize);
+    // Page 792x594, name blank center at y_top~310 → y_pdf=284
+    page.drawText(fullName, {
+      x: (pageW - tw) / 2,
+      y: 284,
+      font: font,
+      size: fontSize,
+      color: PDFLib.rgb(1, 1, 1)
+    });
+    var out  = await pdfDoc.save();
+    var blob = new Blob([out], { type:'application/pdf' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href = url; a.download = 'Certificado COSMART Training - ' + fullName + '.pdf';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1000);
+    if (btn)    { btn.disabled=false; btn.textContent='Descargar certificado'; }
+    if (status) { status.style.color='#22c55e'; status.textContent='Listo! Tu certificado se descargó correctamente.'; }
+  } catch(e) {
+    if (btn)    { btn.disabled=false; btn.textContent='Descargar certificado'; }
+    if (status) { status.style.color='#ef4444'; status.textContent='Hubo un error. Intentá de nuevo.'; }
+    console.error(e);
+  }
+}
+
+// ── MOBILE ────────────────────────────────────────────────────
+
+function isMobile(){ return window.innerWidth <= 768; }
+
+function openSidebar(){
+  document.querySelector('.sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar(){
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// navegar en mobile → cerrar sidebar (hook aplicado desde el render de sidebar)
+
+function updateMobBar(){
+  const idx = ALL_STEPS_ORD.indexOf(currentStepId);
+  const prevId = idx > 0 ? ALL_STEPS_ORD[idx-1] : null;
+  const nextId = idx < ALL_STEPS_ORD.length-1 ? ALL_STEPS_ORD[idx+1] : null;
+  const prevBtn = document.getElementById('mob-prev');
+  const nextBtn = document.getElementById('mob-next');
+  if(prevBtn) prevBtn.style.opacity = prevId ? '1' : '0.3';
+  if(nextBtn){
+    const nextUnlocked = !nextId || unlockedEscalas.includes(ALL_STEPS[nextId]?.escala);
+    nextBtn.style.opacity = (nextId && nextUnlocked) ? '1' : '0.3';
+  }
+}
+
+function mobPrev(){
+  const idx = ALL_STEPS_ORD.indexOf(currentStepId);
+  if(idx > 0) navigateTo(ALL_STEPS_ORD[idx-1]);
+}
+
+function mobNext(){
+  const idx = ALL_STEPS_ORD.indexOf(currentStepId);
+  if(idx < ALL_STEPS_ORD.length-1){
+    const nId = ALL_STEPS_ORD[idx+1];
+    if(unlockedEscalas.includes(ALL_STEPS[nId]?.escala)) navigateTo(nId);
+  }
+}
+
+function mobProgress(){
+  // Scroll suave al bitácora bar
+  document.querySelector('.bitacora-wrap')?.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Mostrar elementos mobile
+function setupMobileUI(){
+  if(isMobile()){
+    document.getElementById('burgerBtn').style.display = 'block';
+  }
+}
+
+// sidebar tiene position:relative en desktop, fixed en mobile
+// hacer que sidebar sea sticky=top:58px en desktop
+window.addEventListener('resize', ()=>{
+  setupMobileUI();
+  if(!isMobile()) closeSidebar();
+});
+
+// ── START ─────────────────────────────────────────────────────
+setupMobileUI();
+init();
+</script>
+
+<footer style="background:#060f22;border-top:1px solid #1e3a5f;padding:2.5rem 1rem 1.5rem;margin-top:2rem;font-family:'Inter',Arial,sans-serif">
+  <div style="max-width:900px;margin:0 auto">
+    <p style="color:#64748b;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:1.5rem">El ecosistema COSMART</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0 2rem;margin-bottom:1.5rem">
+      <a href="https://euforia.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M1 6h16v10H1V6Z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/><circle cx="9" cy="11" r="2.5" stroke="white" stroke-width="1.4" fill="none"/><path d="M6 6l1.5-2h5L14 6" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Euforia</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Base de creadoras UGC para marcas que buscan contenido auténtico.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+      <a href="https://comunicos.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M2 3h14v9H9l-5 3V12H2V3Z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">ComuniCOS</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Comunidad y comunicación estratégica para negocios digitales.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+      <a href="https://www.cosmart.com.ar/brujula" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.4" fill="none"/><path d="M11.5 6.5l-3 3-1.5 3 3-1.5 3-3-1.5-1.5Z" stroke="white" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Brújula</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Contenidos, estrategia y presencia digital para marcas que quieren crecer.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+      <a href="https://design.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M11 3l3 3-8 8H3v-3l8-8Z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M9 5l3 3" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Design</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Diseño multimedia, gráfico, redes sociales y páginas web que convierten.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+      <a href="https://talent.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M9 1l2.2 5.5H17l-4.6 3.4 1.7 5.6L9 12.5l-5.1 3 1.7-5.6L1 6.5h5.8L9 1Z" stroke="white" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Talent</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Encontrá artistas para tus eventos o si sos artista te representamos.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+      <a href="https://shows.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M5 16h8M9 10v6M4 4l5 6 5-6H4Z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M2 2l2 2M16 2l-2 2M9 1v2" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Shows</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Shows para eventos corporativos y fiestas sociales.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+      <a href="https://cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M9 3L17 7l-8 4-8-4 8-4Z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M5 9v4c0 1.7 1.8 3 4 3s4-1.3 4-3V9M17 7v5" stroke="white" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Training</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Capacitaciones para todos: marketing digital, comunicación, sitios web, productos ganadores y más.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#64748b;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">EST&#193;S AQU&#205;</span></span>
+      </a>
+      <a href="https://mpg.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><circle cx="9" cy="9" r="2.5" stroke="white" stroke-width="1.4" fill="none"/><path d="M9 2v2M9 14v2M2 9h2M14 9h2M3.9 3.9l1.4 1.4M12.7 12.7l1.4 1.4M3.9 14.1l1.4-1.4M12.7 5.3l1.4-1.4" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">MPG</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Flujos de conversación para chatbots · WhatsApp · Instagram · Telegram.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+      <a href="https://rumbovoraz.cosmart.com.ar" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;gap:0;padding:10px 4px 10px 0;border-bottom:1px solid #0d1f3c">
+        <span style="display:flex;align-items:flex-start;gap:7px;margin-bottom:3px">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;opacity:.75;margin-top:1px"><path d="M3 7h3l5-3v8l-5-3H3V7Z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M14 6c1 .8 1 4.2 0 5M3 11v2" stroke="white" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+          <span style="color:#e2e8f0;font-size:13px;font-weight:700;line-height:1.3">Rumbo Voraz</span>
+        </span>
+        <span style="color:#94a3b8;font-size:12px;line-height:1.45;padding-left:23px">Publicidad digital — Instagram, Facebook, TikTok y Google ADS.</span>
+        <span style="padding-left:23px"><span style="display:inline-block;color:#e02020;font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:5px">VER M&#193;S &#8599;</span></span>
+      </a>
+    </div>
+    <p style="color:#334155;font-size:11px;text-align:center;margin:0">© 2025 COSMART · <a href="https://cosmart.com.ar" style="color:#3A8FC7;text-decoration:none">cosmart.com.ar</a></p>
+  </div>
+</footer>
+</body>
+</html>

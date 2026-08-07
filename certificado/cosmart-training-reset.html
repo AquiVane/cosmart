@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpolygon%20points%3D%2250%2C18%2095%2C40%2050%2C62%205%2C40%22%20fill%3D%22%231d4ed8%22%2F%3E%3Cpolygon%20points%3D%2250%2C62%2080%2C48%2080%2C68%2050%2C78%2020%2C68%2020%2C48%22%20fill%3D%22%231d4ed8%22%2F%3E%3Crect%20x%3D%2291%22%20y%3D%2240%22%20width%3D%226%22%20height%3D%2222%22%20rx%3D%223%22%20fill%3D%22%231d4ed8%22%2F%3E%3Ccircle%20cx%3D%2294%22%20cy%3D%2264%22%20r%3D%225%22%20fill%3D%22%233b82f6%22%2F%3E%3C%2Fsvg%3E">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COSMART Training — Recuperar contraseña</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+  :root{--az1:#0D2B6B;--az2:#1A4DAA;--az3:#3A8FC7;--ro1:#E02020;--sans:'Inter',Arial,sans-serif;--font-display:'Playfair Display',Georgia,serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#060f22 0%,#0D2B6B 50%,#060f22 100%);font-family:var(--sans);padding:20px}
+  .card{background:#fff;border-radius:16px;padding:40px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  .logo-wrap{text-align:center;margin-bottom:28px}
+  .logo-text{font-size:26px;font-weight:900;letter-spacing:2px;color:var(--az1);font-family:var(--font-display)}
+  .logo-sub{font-size:11px;letter-spacing:4px;color:var(--az3);display:block;margin-top:2px}
+  h2{color:var(--az1);font-size:20px;margin-bottom:6px;text-align:center;font-family:var(--font-display)}
+  .sub{color:#64748b;font-size:13px;text-align:center;margin-bottom:24px}
+  label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:5px}
+  input{width:100%;border:1.5px solid #e2e8f0;border-radius:8px;padding:11px 14px;font-size:15px;
+    outline:none;transition:border-color .2s;font-family:var(--sans)}
+  input:focus{border-color:var(--az2)}
+  .field{margin-bottom:18px}
+  .btn{width:100%;background:var(--az1);color:#fff;border:none;border-radius:8px;padding:14px;
+    font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:background .2s;margin-top:4px}
+  .btn:hover{background:var(--az2)}
+  .btn:disabled{background:#94a3b8;cursor:not-allowed}
+  .error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:8px;
+    padding:10px 14px;font-size:13px;margin-bottom:14px;display:none}
+  .success{background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;border-radius:8px;
+    padding:10px 14px;font-size:13px;margin-bottom:14px;display:none}
+  .back{text-align:center;margin-top:16px;font-size:13px}
+  .back a{color:var(--az2);text-decoration:none;font-weight:600}
+  #stepForgot,#stepReset{transition:opacity .3s}
+  @media(max-width:600px){
+    body{font-size:17px}
+    .sub{font-size:15px}
+    label{font-size:15px}
+    input{font-size:17px}
+    .btn{font-size:17px}
+    .back{font-size:15px}
+    .error,.success{font-size:15px}
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-wrap">
+    <div class="logo-text">COSMART <span style="color:var(--az3);font-size:18px">Training</span></div>
+    <span class="logo-sub">🔐 RECUPERAR CONTRASEÑA</span>
+  </div>
+
+  <!-- Paso 1: pedir email -->
+  <div id="stepForgot">
+    <h2>¿Olvidaste tu contraseña?</h2>
+    <p class="sub">Ingresá tu email y te enviamos un link para resetearla</p>
+    <div class="error" id="errForgot"></div>
+    <div class="success" id="okForgot"></div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="emailForgot" placeholder="tu@email.com">
+    </div>
+    <button class="btn" id="forgotBtn" onclick="sendForgot()">Enviar link de recuperación</button>
+    <div class="back"><a href="/cosmart-training-login.html">← Volver al login</a></div>
+  </div>
+
+  <!-- Paso 2: nueva contraseña (si viene con ?token=...) -->
+  <div id="stepReset" style="display:none">
+    <h2>Nueva contraseña</h2>
+    <p class="sub">Elegí una contraseña segura para tu cuenta</p>
+    <div class="error" id="errReset"></div>
+    <div class="success" id="okReset"></div>
+    <div class="field">
+      <label>Nueva contraseña</label>
+      <input type="password" id="newPass" placeholder="Mínimo 8 caracteres">
+    </div>
+    <div class="field">
+      <label>Repetir contraseña</label>
+      <input type="password" id="newPass2" placeholder="Repetí tu contraseña">
+    </div>
+    <button class="btn" id="resetBtn" onclick="doReset()">Guardar nueva contraseña</button>
+    <div class="back"><a href="/cosmart-training-login.html">← Volver al login</a></div>
+  </div>
+</div>
+
+<script>
+const API = 'https://cosmart-training.conglomeradocosmart.workers.dev';
+const params = new URLSearchParams(window.location.search);
+const resetToken = params.get('token');
+
+if(resetToken){
+  document.getElementById('stepForgot').style.display = 'none';
+  document.getElementById('stepReset').style.display = 'block';
+}
+
+async function sendForgot(){
+  const email = document.getElementById('emailForgot').value.trim();
+  if(!email){ document.getElementById('errForgot').textContent='Ingresá tu email'; document.getElementById('errForgot').style.display='block'; return; }
+  const btn = document.getElementById('forgotBtn');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    const r = await fetch(`${API}/auth/forgot`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email}) });
+    const d = await r.json().catch(()=>({}));
+    if(!r.ok){
+      document.getElementById('errForgot').textContent = 'Error ' + r.status + ': ' + (d.error || JSON.stringify(d));
+      document.getElementById('errForgot').style.display = 'block';
+    } else {
+      document.getElementById('okForgot').textContent = '✅ Si ese email tiene cuenta, llegará el link en unos minutos. Revisá también la carpeta de spam.';
+      document.getElementById('okForgot').style.display = 'block';
+      document.getElementById('errForgot').style.display = 'none';
+    }
+  } catch(e){
+    document.getElementById('errForgot').textContent = 'Error de red: ' + e.message;
+    document.getElementById('errForgot').style.display = 'block';
+  } finally { btn.disabled=false; btn.textContent='Enviar link de recuperación'; }
+}
+
+async function doReset(){
+  const p1 = document.getElementById('newPass').value;
+  const p2 = document.getElementById('newPass2').value;
+  if(p1.length<8){ document.getElementById('errReset').textContent='Mínimo 8 caracteres'; document.getElementById('errReset').style.display='block'; return; }
+  if(p1!==p2){ document.getElementById('errReset').textContent='Las contraseñas no coinciden'; document.getElementById('errReset').style.display='block'; return; }
+  const btn = document.getElementById('resetBtn');
+  btn.disabled=true; btn.textContent='Guardando...';
+  try {
+    const r = await fetch(`${API}/auth/reset`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({token:resetToken, newPassword:p1}) });
+    const d = await r.json();
+    if(!r.ok){ document.getElementById('errReset').textContent=d.error||'Error'; document.getElementById('errReset').style.display='block'; return; }
+    document.getElementById('okReset').textContent = '✅ ¡Contraseña actualizada! Redirigiendo al login...';
+    document.getElementById('okReset').style.display = 'block';
+    setTimeout(()=> window.location.href='/cosmart-training-login.html', 2500);
+  } catch(e){
+    document.getElementById('errReset').textContent='Error. Intentá de nuevo.'; document.getElementById('errReset').style.display='block';
+  } finally { btn.disabled=false; btn.textContent='Guardar nueva contraseña'; }
+}
+</script>
+<footer style="background:#060f22;border-top:1px solid #1e3a5f;padding:2.5rem 1rem 1.5rem;margin-top:2rem;font-family:'Inter',Arial,sans-serif">
+  <div style="max-width:900px;margin:0 auto">
+    <p style="color:#64748b;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:1.5rem">El ecosistema COSMART</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem">
+      <a href="https://rumbovoraz.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">📣</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Rumbo Voraz</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Publicidad digital en Meta y Google.</p></div>
+      </a>
+      <a href="https://design.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎨</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Diseño</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Identidad visual, branding y diseño.</p></div>
+      </a>
+      <a href="https://comunicos.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">💬</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">ComuniCOS</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Contenido y comunidades que crecen.</p></div>
+      </a>
+      <a href="https://euforia.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎬</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Euforia</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Creadores de contenido UGC.</p></div>
+      </a>
+      <a href="https://training.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎓</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Training</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Cursos para emprendedores digitales.</p></div>
+      </a>
+      <a href="https://www.cosmart.com.ar/brujula" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🔍</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Brújula</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Marketing y liderazgo integrados.</p></div>
+      </a>
+      <a href="https://mpg.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">⚙️</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">MPG</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Chatbots, email y flujos automáticos.</p></div>
+      </a>
+      <a href="https://talent.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">⭐</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Talent</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Representación de talentos digitales.</p></div>
+      </a>
+      <a href="https://shows.cosmart.com.ar" target="_blank" style="text-decoration:none;background:#0d1f3c;border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;transition:background .2s" onmouseover="this.style.background='#1a3560'" onmouseout="this.style.background='#0d1f3c'">
+        <span style="font-size:20px;flex-shrink:0">🎪</span>
+        <div><p style="color:#e2e8f0;font-size:12px;font-weight:700;margin:0 0 2px">Shows</p><p style="color:#64748b;font-size:11px;margin:0;line-height:1.4">Shows & entretenimiento con LED.</p></div>
+      </a>
+    </div>
+    <p style="color:#334155;font-size:11px;text-align:center;margin:0">© 2025 COSMART · <a href="https://cosmart.com.ar" style="color:#3A8FC7;text-decoration:none">cosmart.com.ar</a></p>
+  </div>
+</footer>
+</body>
+</html>

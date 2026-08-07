@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COSMART Training — Login</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://training.cosmart.com.ar/login">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpolygon%20points%3D%2250%2C18%2095%2C40%2050%2C62%205%2C40%22%20fill%3D%22%231d4ed8%22%2F%3E%3Cpolygon%20points%3D%2250%2C62%2080%2C48%2080%2C68%2050%2C78%2020%2C68%2020%2C48%22%20fill%3D%22%231d4ed8%22%2F%3E%3Crect%20x%3D%2291%22%20y%3D%2240%22%20width%3D%226%22%20height%3D%2222%22%20rx%3D%223%22%20fill%3D%22%231d4ed8%22%2F%3E%3Ccircle%20cx%3D%2294%22%20cy%3D%2264%22%20r%3D%225%22%20fill%3D%22%233b82f6%22%2F%3E%3C%2Fsvg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+  :root{--az1:#0D2B6B;--az2:#1A4DAA;--az3:#3A8FC7;--ro1:#E02020;--sans:'Inter',Arial,sans-serif;--font-display:'Playfair Display',Georgia,serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#060f22 0%,#0D2B6B 50%,#060f22 100%);font-family:var(--sans);padding:20px}
+  .card{background:#fff;border-radius:16px;padding:40px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  .logo-wrap{text-align:center;margin-bottom:28px}
+  .logo-text{font-size:26px;font-weight:900;letter-spacing:2px;color:var(--az1);font-family:var(--font-display)}
+  .logo-sub{font-size:11px;letter-spacing:4px;color:var(--az3);display:block;margin-top:2px}
+  h2{color:var(--az1);font-size:20px;margin-bottom:6px;text-align:center;font-family:var(--font-display)}
+  .sub{color:#64748b;font-size:13px;text-align:center;margin-bottom:24px}
+  label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:5px}
+  input{width:100%;border:1.5px solid #e2e8f0;border-radius:8px;padding:11px 14px;font-size:15px;
+    outline:none;transition:border-color .2s;font-family:var(--sans)}
+  input:focus{border-color:var(--az2)}
+  .field{margin-bottom:18px}
+  .btn{width:100%;background:var(--ro1);color:#fff;border:none;border-radius:8px;padding:14px;
+    font-size:16px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:background .2s;margin-top:4px}
+  .btn:hover{background:#c01010}
+  .btn:disabled{background:#94a3b8;cursor:not-allowed}
+  .links{text-align:center;margin-top:18px;font-size:13px;color:#64748b}
+  .links a{color:var(--az2);text-decoration:none;font-weight:600}
+  .links a:hover{text-decoration:underline}
+  .error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:8px;
+    padding:10px 14px;font-size:13px;margin-bottom:14px;display:none}
+  .success{background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;border-radius:8px;
+    padding:10px 14px;font-size:13px;margin-bottom:14px;display:none}
+  .sep{height:1px;background:#e2e8f0;margin:20px 0}
+  .olvidaste{text-align:right;margin-top:-12px;margin-bottom:16px}
+  .olvidaste a{font-size:12px;color:var(--az3);text-decoration:none}
+  .olvidaste a:hover{text-decoration:underline}
+  .consent{display:flex;align-items:flex-start;gap:10px;margin:16px 0 4px;padding:12px 14px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0}
+  .consent input[type=checkbox]{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--az1);cursor:pointer}
+  .consent label{font-size:12px;color:#374151;font-weight:400;line-height:1.5;cursor:pointer;margin:0}
+  .consent label a{color:var(--az2);text-decoration:none;font-weight:600}
+  .consent label a:hover{text-decoration:underline}
+  @media(max-width:600px){
+    body{font-size:17px}
+    label{font-size:15px}
+    input{font-size:17px}
+    .btn{font-size:17px}
+    .sub{font-size:15px}
+    .links{font-size:15px}
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-wrap">
+    <div class="logo-text">COSMART <span style="color:var(--az3);font-size:18px">Training</span></div>
+    <span class="logo-sub">✈️ PLATAFORMA DE CURSOS</span>
+  </div>
+  <h2>Iniciá sesión</h2>
+  <p class="sub">Accedé a tu curso de Productos Ganadores</p>
+  <div class="error" id="errMsg"></div>
+  <div class="success" id="okMsg"></div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="tu@email.com" autocomplete="email">
+  </div>
+  <div class="field">
+    <label for="pass">Contraseña</label>
+    <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
+  </div>
+  <div class="olvidaste"><a href="/cosmart-training-reset.html">¿Olvidaste tu contraseña?</a></div>
+  <div class="consent">
+    <input type="checkbox" id="consentMarketing" checked>
+    <label for="consentMarketing">Acepto recibir novedades, recursos y promociones de COSMART por email. Podés darte de baja en cualquier momento. <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank">Política de privacidad →</a></label>
+  </div>
+  <button class="btn" id="loginBtn" onclick="login()">Ingresar a mi curso ✈️</button>
+  <div class="sep"></div>
+  <div class="links">
+    ¿Todavía no compraste el curso? <a href="https://cosmart.com.ar/productos-ganadores">Acceder al programa →</a>
+  </div>
+</div>
+<script>
+const API = 'https://cosmart-training.conglomeradocosmart.workers.dev';
+
+function showErr(msg){ const e=document.getElementById('errMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('okMsg').style.display='none'; }
+function showOk(msg){ const e=document.getElementById('okMsg'); e.textContent=msg; e.style.display='block'; document.getElementById('errMsg').style.display='none'; }
+
+// Si ya está logueado, redirigir al curso
+const token = localStorage.getItem('ct_token');
+if (token) window.location.href = '/cosmart-training-plataforma.html';
+
+document.addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+
+async function login(){
+  const email = document.getElementById('email').value.trim();
+  const pass  = document.getElementById('pass').value;
+  if(!email||!pass){ showErr('Completá email y contraseña'); return; }
+  if(!document.getElementById('consentMarketing').checked){ showErr('Para acceder al curso necesitás aceptar recibir comunicaciones de COSMART.'); return; }
+
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.textContent = 'Ingresando...';
+
+  try {
+    const r = await fetch(`${API}/auth/login`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, password: pass})
+    });
+    const d = await r.json();
+    if(!r.ok){ showErr(d.error || 'Error al iniciar sesión'); return; }
+
+    localStorage.setItem('ct_token', d.token);
+    localStorage.setItem('ct_nombre', d.nombre);
+    localStorage.setItem('ct_apellido', d.apellido || '');
+    localStorage.setItem('ct_email', d.email);
+    if(d.startDate) localStorage.setItem('ct_startDate', d.startDate);
+    const marketing = document.getElementById('consentMarketing').checked;
+    localStorage.setItem('ct_marketing', marketing ? '1' : '0');
+    // Guardar preferencia de marketing en el servidor
+    fetch(`${API}/auth/marketing-consent`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':`Bearer ${d.token}`},
+      body: JSON.stringify({marketing})
+    }).catch(()=>{}); // silencioso, no bloquea el login
+
+    showOk('¡Bienvenid@! Redirigiendo...');
+    setTimeout(()=> window.location.href = '/cosmart-training-plataforma.html', 800);
+  } catch(e){
+    showErr('Error de conexión. Intentá de nuevo.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Ingresar a mi curso ✈️';
+  }
+}
+</script>
+<footer style="background:#060f22;border-top:1px solid #1e3a5f;padding:20px 24px;margin-top:2rem;font-family:'Inter',Arial,sans-serif;text-align:center">
+  <p style="color:#334155;font-size:11px;margin:0">© 2025 COSMART · <a href="https://cosmart.com.ar" style="color:#3A8FC7;text-decoration:none">cosmart.com.ar</a> · <a href="https://cosmart.com.ar/politica-de-privacidad" style="color:#3A8FC7;text-decoration:none">Política de privacidad</a></p>
+</footer>
+</body>
+</html>

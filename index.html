@@ -819,7 +819,6 @@ footer {
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .hero-inner, .liderazgo-inner, .quienes-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-  .hero-visual { order: -1; }
   .hero-stats { grid-template-columns: repeat(4, 1fr); }
   .recursos-grid { grid-template-columns: 1fr 1fr; }
   .puertos-grid { grid-template-columns: 1fr 1fr; }
@@ -828,7 +827,10 @@ footer {
 
 @media (max-width: 600px) {
   nav { padding: 1rem 1.25rem; }
-  .nav-links { display: none; }
+  .nav-links { display: none; flex-direction: column; position: fixed; top: 64px; left: 0; right: 0; background: #fff; padding: 1.5rem 1.25rem; gap: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 999; }
+  .nav-links.mobile-open { display: flex; }
+  .nav-links a { font-size: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(13,43,107,0.08); }
+  .nav-links .nav-cta { margin-top: 0.5rem; text-align: center; }
   .nav-toggle { display: flex; }
   .hero { padding: 6rem 1.25rem 3rem; }
   .recursos-grid { grid-template-columns: 1fr; }
@@ -871,7 +873,7 @@ footer {
     <a href="https://www.cosmart.com.ar/bitacora">Bitácora</a>
     <a href="https://api.whatsapp.com/send?phone=5491123605739&text=Hola!%20Vengo%20del%20sitio%20web%20de%20COSMART" class="nav-cta">Contactanos</a>
   </div>
-  <div class="nav-toggle" onclick="this.classList.toggle('open')">
+  <div class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open');this.classList.toggle('open')">
     <span></span><span></span><span></span>
   </div>
 </nav>
@@ -992,25 +994,23 @@ footer {
   </div>
   <div class="recursos-grid">
 
-    <!-- Desafío 30 días -->
+    <!-- Estrategia de Contenido -->
     <div class="producto-card">
       <div class="producto-img rojo-bg">
         <div class="producto-badge">Más vendido</div>
-        <div class="producto-emoji">📅</div>
-        <div class="producto-img-num">30</div>
+        <div class="producto-img-num" style="font-size:1.6rem;line-height:1.2">2026<br/>27</div>
       </div>
       <div class="producto-body">
-        <h3>Desafío COSMART: 30 días de contenido para tus RRSS</h3>
-        <p>31 días, 47 pasos. Te doy un esquema completo de ideas + tu propio GPT entrenado con la identidad de tu marca para que tus redes despeguen de verdad.</p>
+        <h3>Estrategia de Contenido 2026/27</h3>
+        <p>30 ideas de contenido actualizadas + formatos validados en Instagram y TikTok + tu propio asistente de IA entrenado con la identidad de tu marca.</p>
         <ul class="producto-includes">
           <li>30 ideas de contenido listas para usar</li>
-          <li>Bonus: Identidad de marca + Chat GPT personalizado</li>
-          <li>Check list diario y plantillas de Canva</li>
+          <li>Formatos validados en Instagram y TikTok</li>
+          <li>Asistente de IA con identidad de marca</li>
           <li>Certificado al completar</li>
         </ul>
         <div class="producto-footer">
-          <div class="producto-precio">$30.000 <span>ARS · pago único</span></div>
-          <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=3902ad8a05c1446982d6f9c3ff1cc52d" class="btn-comprar" target="_blank">Comprar</a>
+          <a href="https://training.cosmart.com.ar" class="btn-comprar" target="_blank">Ver curso</a>
         </div>
       </div>
     </div>
@@ -1019,12 +1019,11 @@ footer {
     <div class="producto-card">
       <div class="producto-img azul-bg">
         <div class="producto-badge" style="background:var(--celeste)">E-commerce</div>
-        <div class="producto-emoji">🛒</div>
         <div class="producto-img-num">36</div>
       </div>
       <div class="producto-body">
         <h3>Cómo Identificar Productos Ganadores en E-commerce</h3>
-        <p>3 días, 36 pasos. Aprende a detectar los productos que realmente venden, calcular precios rentables y entrar al mercado con estrategia.</p>
+        <p>3 días, 36 pasos. Detectá los productos que realmente venden, calculá precios rentables y entrá al mercado con estrategia.</p>
         <ul class="producto-includes">
           <li>Análisis de mercado y detección de oportunidades</li>
           <li>Fórmula del "por tres" para precios rentables</li>
@@ -1032,34 +1031,50 @@ footer {
           <li>Certificado al completar</li>
         </ul>
         <div class="producto-footer">
-          <div class="producto-precio"><span style="text-decoration:line-through;opacity:.5;font-size:.85em;margin-right:6px">$65.000</span>$45.000 <span>ARS · pago único · por tiempo limitado</span></div>
-          <a href="https://www.cosmart.com.ar/productos-ganadores" class="btn-comprar azul" target="_blank">Ver oferta</a>
+          <a href="https://training.cosmart.com.ar" class="btn-comprar azul" target="_blank">Ver curso</a>
         </div>
       </div>
     </div>
 
-    <!-- Faro VIP -->
+    <!-- IA para Principiantes -->
     <div class="producto-card">
       <div class="producto-img pronto-bg">
         <div class="producto-badge pronto">Próximamente</div>
-        <div class="producto-emoji">🧭</div>
-        <div class="producto-img-num">∞</div>
+        <div class="producto-img-num" style="font-size:1.4rem">IA</div>
       </div>
       <div class="producto-body">
-        <h3>Membresía Faro VIP</h3>
-        <span class="pronto-tag">El lanzamiento arranca en 30 días</span>
-        <p>Tu copiloto mensual: marketing avanzado, negocios digitales, meditaciones, herramientas de planificación y una comunidad de emprendedores reales.</p>
+        <h3>IA para Principiantes</h3>
+        <span class="pronto-tag">En desarrollo</span>
+        <p>Aprendé a usar inteligencia artificial en tu negocio desde cero. Herramientas prácticas para crear contenido, automatizar tareas y vender más.</p>
         <ul class="producto-includes">
-          <li>Clases nuevas de marketing todas las semanas</li>
-          <li>Meditaciones, manifestaciones y hábitos saludables</li>
-          <li>Mentoría grupal semanal (próximamente)</li>
-          <li>Precio de fundador congelado para los primeros</li>
+          <li>ChatGPT, Claude y Canva IA aplicados a tu negocio</li>
+          <li>Prompts listos para usar</li>
+          <li>Sin conocimientos técnicos previos</li>
         </ul>
         <div class="producto-footer">
-          <div class="producto-precio">$31.500 <span>ARS/mes</span></div>
-          <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=3902ad8a05c1446982d6f9c3ff1cc52d" class="btn-comprar" target="_blank" style="background:#1A4DAA">Suscribirme</a>
+          <span class="btn-comprar" style="background:#94a3b8;cursor:default">Próximamente</span>
         </div>
-        <a href="#faro" class="btn-pronto" style="background:rgba(13,43,107,0.08); color:var(--azul); margin-top:0.75rem; font-size:0.82rem;">También anotate en lista de espera ↑</a>
+      </div>
+    </div>
+
+    <!-- Liderazgo 360 -->
+    <div class="producto-card">
+      <div class="producto-img" style="background:linear-gradient(135deg,#0D2B6B,#1A4DAA)">
+        <div class="producto-badge" style="background:rgba(255,255,255,0.2)">Para empresas</div>
+        <div class="producto-img-num">360°</div>
+      </div>
+      <div class="producto-body">
+        <h3>Liderazgo 360° BienSmart</h3>
+        <p>Capacitación y consultoría en liderazgo para potenciar líderes y equipos hacia un crecimiento sostenible, equilibrando productividad y bienestar.</p>
+        <ul class="producto-includes">
+          <li>Liderazgo consciente y gestión del tiempo</li>
+          <li>Comunicación en equipos de alto rendimiento</li>
+          <li>Consultoría 1:1 para CEOs y directivos</li>
+        </ul>
+        <div class="producto-footer" style="gap:0.5rem;flex-wrap:wrap">
+          <a href="https://api.whatsapp.com/send?phone=5491123605739&text=Hola!%20Me%20interesa%20el%20programa%20Liderazgo%20360%20BienSmart" class="btn-comprar" target="_blank" style="background:#1A4DAA">Consultar</a>
+          <a href="./assets/liderazgo-360-biensmart.pdf" class="btn-comprar" download style="background:transparent;border:2px solid #0D2B6B;color:#0D2B6B">Descargar programa</a>
+        </div>
       </div>
     </div>
 
@@ -1074,59 +1089,59 @@ footer {
     <p>Cada vertical es un puerto especializado. Todos navegan juntos hacia tu crecimiento.</p>
   </div>
   <div class="puertos-grid">
-    <a href="https://comunicos.cosmart.com.ar" class="puerto-card" target="_blank">
-      <div class="puerto-label">Puerto</div>
-      <div class="puerto-icon">💬</div>
-      <h3>ComuniCOS</h3>
-      <p>Mensajes efectivos y comunidades que crecen. Contenido y RRSS.</p>
-    </a>
-    <a href="https://api.whatsapp.com/send?phone=5491123605739&text=Hola!%20Me%20interesa%20conocer%20m%C3%A1s%20sobre%20Euforia" class="puerto-card" target="_blank">
-      <div class="puerto-label">Puerto</div>
-      <div class="puerto-icon">🎬</div>
-      <h3>Euforia</h3>
-      <p>Creadores de contenido UGC para tu marca. Alineados con tus valores.</p>
+    <a href="https://www.cosmart.com.ar/brujula" class="puerto-card" target="_blank">
+      <div class="puerto-label">Servicio premium</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
+      <h3>Estrategia digital</h3>
+      <p>Marketing, comunicación y liderazgo integrados en un solo plan. Con Vaneh.</p>
     </a>
     <a href="https://rumbovoraz.cosmart.com.ar" class="puerto-card" target="_blank">
       <div class="puerto-label">Puerto</div>
-      <div class="puerto-icon">📣</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
       <h3>Rumbo Voraz</h3>
-      <p>Publicidad digital en Meta y Google. Resultados medibles desde el día 1.</p>
+      <p>Publicidad digital en Meta, Google, TikTok y LinkedIn. Resultados medibles.</p>
     </a>
-    <a href="https://shows.cosmart.com.ar" class="puerto-card" target="_blank">
-      <div class="puerto-label">Puerto · Nuevo</div>
-      <div class="puerto-icon">🎪</div>
-      <h3>Shows</h3>
-      <p>Shows & entretenimiento con tecnología LED. El show que nadie olvida.</p>
+    <a href="https://training.cosmart.com.ar" class="puerto-card" target="_blank">
+      <div class="puerto-label">Puerto</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+      <h3>Training</h3>
+      <p>Cursos paso a paso para emprendedores y profesionales digitales.</p>
+    </a>
+    <a href="https://comunicos.cosmart.com.ar" class="puerto-card" target="_blank">
+      <div class="puerto-label">Puerto</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>ComuniCOS</h3>
+      <p>Mensajes efectivos y comunidades que crecen. Contenido y RRSS.</p>
     </a>
     <a href="https://design.cosmart.com.ar" class="puerto-card" target="_blank">
       <div class="puerto-label">Puerto</div>
-      <div class="puerto-icon">🎨</div>
-      <h3>Diseño</h3>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <h3>Desing</h3>
       <p>Identidad visual, branding y diseño gráfico para tu marca.</p>
+    </a>
+    <a href="https://euforia.cosmart.com.ar" class="puerto-card" target="_blank">
+      <div class="puerto-label">Puerto</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+      <h3>Euforia</h3>
+      <p>Creadores de contenido UGC para tu marca. Alineados con tus valores.</p>
+    </a>
+    <a href="https://talent.cosmart.com.ar" class="puerto-card" target="_blank">
+      <div class="puerto-label">Puerto</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <h3>Talent</h3>
+      <p>Representación de talentos digitales y artistas para eventos.</p>
+    </a>
+    <a href="https://shows.cosmart.com.ar" class="puerto-card" target="_blank">
+      <div class="puerto-label">Puerto</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+      <h3>Shows</h3>
+      <p>Shows & entretenimiento con tecnología LED. El show que nadie olvida.</p>
     </a>
     <a href="https://mpg.cosmart.com.ar" class="puerto-card" target="_blank">
       <div class="puerto-label">Puerto</div>
-      <div class="puerto-icon">⚙️</div>
+      <div class="puerto-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
       <h3>Automatizaciones</h3>
       <p>Chatbots, email marketing y flujos automáticos para tu negocio.</p>
-    </a>
-    <a href="https://talent.cosmart.com.ar" class="puerto-card" target="_blank">
-      <div class="puerto-label">Puerto · Nuevo</div>
-      <div class="puerto-icon">⭐</div>
-      <h3>COSMART Talent</h3>
-      <p>Representación de talentos digitales y creadores de contenido.</p>
-    </a>
-    <a href="https://training.cosmart.com.ar" class="puerto-card" target="_blank">
-      <div class="puerto-label">Training</div>
-      <div class="puerto-icon">🎓</div>
-      <h3>Programas digitales</h3>
-      <p>Cursos paso a paso para emprendedores y profesionales digitales.</p>
-    </a>
-    <a href="https://www.cosmart.com.ar/brujula" class="puerto-card" target="_blank">
-      <div class="puerto-label">Servicio premium</div>
-      <div class="puerto-icon">🔍</div>
-      <h3>Estrategia integral</h3>
-      <p>Marketing, comunicación y liderazgo integrados en un solo plan. Con Vaneh.</p>
     </a>
   </div>
 </section>
@@ -1243,6 +1258,19 @@ function handleFaro(e) {
   window.location.href = mailto;
 }
 </script>
+
+<!-- WhatsApp flotante -->
+<style>
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;align-items:center;gap:10px;cursor:pointer}
+.wa-float a{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:#25D366;box-shadow:0 4px 16px rgba(37,211,102,0.4);transition:transform .2s,box-shadow .2s}
+.wa-float a:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(37,211,102,0.5)}
+.wa-float svg{width:28px;height:28px}
+</style>
+<div class="wa-float">
+  <a href="https://api.whatsapp.com/send?phone=5491123605739&text=Hola!%20Vengo%20del%20sitio%20web%20de%20COSMART" target="_blank" aria-label="Contactanos por WhatsApp">
+    <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C8.28 2 2 8.28 2 16c0 2.45.64 4.84 1.87 6.94L2 30l7.26-1.84A14 14 0 0 0 16 30c7.72 0 14-6.28 14-14S23.72 2 16 2zm7.21 19.22c-.3.85-1.77 1.63-2.43 1.73-.62.1-1.4.14-2.26-.14-.52-.17-1.19-.4-2.04-.78-3.58-1.55-5.92-5.16-6.1-5.4-.18-.24-1.47-1.96-1.47-3.73 0-1.77.93-2.64 1.26-3 .33-.36.72-.45.96-.45.24 0 .48.01.69.01.22.01.52-.08.81.62.3.72 1.03 2.49 1.12 2.67.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.47-.54.63-.18.18-.37.37-.16.73.21.36.93 1.53 2 2.48 1.37 1.22 2.53 1.6 2.89 1.78.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.87-.21 1.72z"/></svg>
+  </a>
+</div>
 
 </body>
 </html>

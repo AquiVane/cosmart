@@ -710,6 +710,10 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
       </div>
 
       <div class="mpw">
+        <label style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1rem;cursor:pointer;">
+          <input type="checkbox" id="privacyCheck" required style="width:16px;height:16px;padding:0;margin:2px 0 0;flex-shrink:0;accent-color:#0D2B6B;">
+          <span style="font-size:.78rem;color:#475569;line-height:1.5;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" style="color:#3A8FC7;">Política de Privacidad</a> de COSMART y consiento recibir comunicaciones del ecosistema COSMART.</span>
+        </label>
         <div class="pay-tabs">
           <button class="pay-tab active" id="tab-mp" onclick="switchPayTab('mp')">Pesos (ARS)</button>
           <button class="pay-tab" id="tab-pp" onclick="switchPayTab('pp')">Dólares (USD)</button>
@@ -824,6 +828,10 @@ function mostrarBannerCodigo() {
         <p style="font-size:14px;color:#64748b;margin-bottom:24px">Código <strong>${_codigoUrl}</strong> aplicado correctamente.</p>
         <input id="free-email" type="email" placeholder="Tu email" style="width:100%;max-width:320px;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;margin-bottom:12px;box-sizing:border-box"/>
         <br/>
+        <label style="display:flex;align-items:flex-start;gap:.5rem;max-width:320px;margin:0 auto 12px;text-align:left;cursor:pointer;">
+          <input type="checkbox" id="free-privacyCheck" style="width:16px;height:16px;padding:0;margin:2px 0 0;flex-shrink:0;accent-color:#0D2B6B;">
+          <span style="font-size:13px;color:#64748b;line-height:1.5;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" style="color:#3A8FC7;">Política de Privacidad</a> de COSMART y consiento recibir comunicaciones del ecosistema COSMART.</span>
+        </label>
         <button onclick="canjearFree()" style="background:#0D2B6B;color:#fff;padding:14px 32px;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;width:100%;max-width:320px">
           Acceder al curso gratis →
         </button>
@@ -852,6 +860,8 @@ async function canjearFree() {
   const email = document.getElementById('free-email').value.trim();
   const msg = document.getElementById('free-msg');
   if (!email || !email.includes('@')) { msg.textContent = 'Ingresá un email válido.'; return; }
+  const consent = document.getElementById('free-privacyCheck');
+  if (consent && !consent.checked) { msg.textContent = 'Debés aceptar la Política de Privacidad para continuar.'; return; }
   msg.textContent = 'Procesando...';
   try {
     const r = await fetch(`${TRAINING_URL}/api/codigo/canjear`, {
@@ -907,6 +917,12 @@ async function initBrick() {
       callbacks: {
         onReady: () => { clearTimeout(fallbackTimer); },
         onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+          const consent = document.getElementById('privacyCheck');
+          if (consent && !consent.checked) {
+            msg.style.color = '#E02020';
+            msg.textContent = 'Debés aceptar la Política de Privacidad para continuar.';
+            reject(); return;
+          }
           try {
             const pr = await fetch(WORKER_URL + '/pay', {
               method: 'POST',
@@ -987,6 +1003,15 @@ function initPayPal() {
   ppInitialized = true;
   paypal.Buttons({
     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 48 },
+    onClick: function(data, actions) {
+      const consent = document.getElementById('privacyCheck');
+      if (consent && !consent.checked) {
+        const msg = document.getElementById('ppmsg');
+        if (msg) { msg.style.color = '#E02020'; msg.textContent = 'Debés aceptar la Política de Privacidad para continuar.'; }
+        return actions.reject();
+      }
+      return actions.resolve();
+    },
     createOrder: function(data, actions) {
       return actions.order.create({
         purchase_units: [{

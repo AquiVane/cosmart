@@ -239,6 +239,11 @@
           <input type="text"  id="input-negocio" placeholder="Nombre de tu negocio (opcional)" />
         </div>
 
+        <label style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:14px;cursor:pointer;">
+          <input type="checkbox" id="privacyCheck" required style="width:16px;height:16px;padding:0;margin:2px 0 0;flex-shrink:0;accent-color:var(--blue);">
+          <span style="font-size:13px;color:var(--muted);line-height:1.5;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" style="color:var(--sky);">Política de Privacidad</a> de COSMART y consiento recibir comunicaciones del ecosistema COSMART.</span>
+        </label>
+
         <button class="btn-confirm" id="btn-confirmar" onclick="confirmarTurno()">
           Confirmar este horario →
         </button>
@@ -415,6 +420,11 @@
 
     if (!nombre || !email || !selectedDate) {
       errEl.textContent = 'Completá tu nombre y email para confirmar.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!document.getElementById('privacyCheck').checked) {
+      errEl.textContent = 'Necesitamos que aceptes la Política de Privacidad para continuar.';
       errEl.style.display = 'block';
       return;
     }

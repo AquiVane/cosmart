@@ -38,6 +38,11 @@
   .pago-badge strong{display:block;font-size:15px}
   .pago-badge span{font-size:12px;color:rgba(255,255,255,.7)}
   .hint{font-size:11px;color:#94a3b8;margin-top:5px}
+  .consent{display:flex;align-items:flex-start;gap:10px;margin:16px 0 4px;padding:12px 14px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0}
+  .consent input[type=checkbox]{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--az1);cursor:pointer}
+  .consent label{font-size:12px;color:#374151;font-weight:400;line-height:1.5;cursor:pointer;margin:0}
+  .consent label a{color:var(--az2);text-decoration:none;font-weight:600}
+  .consent label a:hover{text-decoration:underline}
   .loading-wrap{text-align:center;padding:20px;display:none}
   .loading-wrap .spin{font-size:32px;animation:spin 1s linear infinite;display:inline-block}
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
@@ -107,6 +112,10 @@
       <label>Repetir contraseña</label>
       <input type="password" id="pass2" placeholder="Repetí tu contraseña" autocomplete="new-password">
     </div>
+    <div class="consent">
+      <input type="checkbox" id="privacyCheck">
+      <label for="privacyCheck">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank">Política de Privacidad</a> de COSMART y consiento el tratamiento de mis datos para gestionar mi cuenta y recibir comunicaciones del ecosistema COSMART.</label>
+    </div>
     <button class="btn" id="regBtn" onclick="register()">Crear mi cuenta ✈️</button>
   </div>
 </div>
@@ -147,6 +156,7 @@ async function register(){
   if(!nombre||!apellido||!pass||!pass2){ showErr('Completá todos los campos'); return; }
   if(pass.length < 8){ showErr('La contraseña debe tener al menos 8 caracteres'); return; }
   if(pass !== pass2){ showErr('Las contraseñas no coinciden'); return; }
+  if(!document.getElementById('privacyCheck').checked){ showErr('Necesitamos que aceptes la Política de Privacidad para continuar'); return; }
 
   const btn = document.getElementById('regBtn');
   btn.disabled = true;

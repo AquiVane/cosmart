@@ -1213,6 +1213,10 @@
             <label for="aud-mensaje">¿Cuál es tu mayor desafío ahora mismo? <span style="color:var(--texto-claro);font-weight:400;">(opcional)</span></label>
             <textarea id="aud-mensaje" placeholder="Contame brevemente qué te preocupa o qué querés mejorar..."></textarea>
           </div>
+          <label class="full" style="display:flex;align-items:flex-start;gap:.6rem;grid-column:1/-1;cursor:pointer;">
+            <input type="checkbox" id="privacyCheck" required style="width:16px;height:16px;padding:0;margin:2px 0 0;flex-shrink:0;background:transparent;border:1px solid rgba(255,255,255,.3);border-radius:3px;accent-color:var(--az3);">
+            <span style="font-size:.78rem;color:var(--texto-claro);line-height:1.55;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" style="color:var(--az3);">Política de Privacidad</a> de COSMART y consiento recibir comunicaciones del ecosistema COSMART.</span>
+          </label>
           <button type="submit" class="form-submit" id="form-submit-btn">
             Enviar →
           </button>

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import type { Env, FlowDefinition } from "../types";
+import type { CommentRule, Env, FlowDefinition } from "../types";
 import { requireAdmin } from "../security";
 import {
   getAllSettings,
@@ -9,18 +9,18 @@ import {
   deleteFlow,
   setFlowActive,
   listContacts,
+  listContactsByFilter,
   getContactById,
   getRecentMessages,
   setContactAiEnabled,
   logMessage,
+  listCommentRules,
+  upsertCommentRule,
+  deleteCommentRule,
+  setCommentRuleActive,
 } from "../db";
 import { sendToChannel } from "../channels/send";
-import {
-  DEFAULT_SYSTEM_PROMPT,
-  DEFAULT_FALLBACK_MESSAGE,
-  DEFAULT_HANDOFF_KEYWORDS,
-  DEFAULT_FLOW,
-} from "../knowledge/seed";
+import { VERTICALS, DEFAULT_FALLBACK_MESSAGE, DEFAULT_HANDOFF_KEYWORDS, DEFAULT_FLOW } from "../knowledge/verticals";
 
 export const adminRoutes = new Hono<{ Bindings: Env }>();
 
@@ -28,11 +28,10 @@ adminRoutes.use("*", requireAdmin);
 
 adminRoutes.get("/me", (c) => c.json({ ok: true }));
 
-// Carga la base de conocimiento y el flujo de bienvenida por defecto. Es seguro llamarla
-// varias veces: solo completa lo que todavía esté vacío, nunca pisa ediciones ya hechas.
+// Carga los ajustes y el flujo de bienvenida por defecto. Es seguro llamarla varias
+// veces: solo completa lo que todavía esté vacío, nunca pisa ediciones ya hechas.
 adminRoutes.post("/seed", async (c) => {
   const settings = await getAllSettings(c.env.DB);
-  if (!settings.ai_system_prompt) await setSetting(c.env.DB, "ai_system_prompt", DEFAULT_SYSTEM_PROMPT);
   if (!settings.fallback_message) await setSetting(c.env.DB, "fallback_message", DEFAULT_FALLBACK_MESSAGE);
   if (!settings.handoff_keywords) await setSetting(c.env.DB, "handoff_keywords", DEFAULT_HANDOFF_KEYWORDS);
   if (!settings.ai_enabled) await setSetting(c.env.DB, "ai_enabled", "1");
@@ -42,6 +41,25 @@ adminRoutes.post("/seed", async (c) => {
     await upsertFlow(c.env.DB, DEFAULT_FLOW);
   }
 
+  return c.json({ ok: true });
+});
+
+// ---------- Verticales (personas de IA) ----------
+
+adminRoutes.get("/verticals", async (c) => {
+  const settings = await getAllSettings(c.env.DB);
+  const list = VERTICALS.map((v) => ({
+    ...v,
+    knowledge: settings["vertical_kb_" + v.id] || v.knowledge,
+    isCustom: Boolean(settings["vertical_kb_" + v.id]),
+  }));
+  return c.json(list);
+});
+
+adminRoutes.put("/verticals/:id/knowledge", async (c) => {
+  const id = c.req.param("id");
+  const { knowledge } = await c.req.json<{ knowledge: string }>();
+  await setSetting(c.env.DB, "vertical_kb_" + id, knowledge || "");
   return c.json({ ok: true });
 });
 
@@ -93,6 +111,71 @@ adminRoutes.put("/flows/:id/active", async (c) => {
 adminRoutes.delete("/flows/:id", async (c) => {
   await deleteFlow(c.env.DB, c.req.param("id"));
   return c.json({ ok: true });
+});
+
+// ---------- Reglas de comentarios (Instagram) ----------
+
+adminRoutes.get("/comment-rules", async (c) => {
+  const rules = await listCommentRules(c.env.DB);
+  return c.json(rules);
+});
+
+adminRoutes.post("/comment-rules", async (c) => {
+  const body = await c.req.json<CommentRule>();
+  if (!body.name || !body.dm_message) {
+    return c.json({ error: "Faltan campos: name y dm_message" }, 400);
+  }
+  const rule = await upsertCommentRule(c.env.DB, {
+    id: body.id,
+    name: body.name,
+    media_id: body.media_id || null,
+    keyword: body.keyword || null,
+    public_reply: body.public_reply || null,
+    dm_message: body.dm_message,
+    vertical: body.vertical || null,
+    active: body.active !== false,
+  });
+  return c.json(rule);
+});
+
+adminRoutes.put("/comment-rules/:id/active", async (c) => {
+  const { active } = await c.req.json<{ active: boolean }>();
+  await setCommentRuleActive(c.env.DB, c.req.param("id"), !!active);
+  return c.json({ ok: true });
+});
+
+adminRoutes.delete("/comment-rules/:id", async (c) => {
+  await deleteCommentRule(c.env.DB, c.req.param("id"));
+  return c.json({ ok: true });
+});
+
+// ---------- Difusiones ----------
+
+adminRoutes.get("/broadcasts/preview", async (c) => {
+  const channel = c.req.query("channel") || "all";
+  const vertical = c.req.query("vertical") || "all";
+  const contacts = await listContactsByFilter(c.env.DB, channel, vertical);
+  return c.json({ count: contacts.length });
+});
+
+adminRoutes.post("/broadcasts/send", async (c) => {
+  const { channel, vertical, text } = await c.req.json<{ channel: string; vertical: string; text: string }>();
+  if (!text?.trim()) return c.json({ error: "Falta el mensaje" }, 400);
+
+  const contacts = await listContactsByFilter(c.env.DB, channel || "all", vertical || "all");
+  let sent = 0;
+  let failed = 0;
+  for (const contact of contacts) {
+    try {
+      await sendToChannel(c.env, contact.channel, contact.external_id, { text, buttons: [] });
+      await logMessage(c.env.DB, contact.id, "out", "human", text);
+      sent++;
+    } catch (err) {
+      console.error("Fallo al enviar difusión a un contacto", contact.id, err);
+      failed++;
+    }
+  }
+  return c.json({ sent, failed, total: contacts.length });
 });
 
 // ---------- Conversaciones ----------

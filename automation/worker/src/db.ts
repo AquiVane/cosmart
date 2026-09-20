@@ -1,4 +1,4 @@
-import type { Channel, Contact, FlowDefinition } from "./types";
+import type { Channel, CommentRule, Contact, FlowDefinition } from "./types";
 
 function newId(): string {
   return crypto.randomUUID();
@@ -39,9 +39,18 @@ export async function getOrCreateContact(
     ai_enabled: 1,
     current_flow_id: null,
     current_step_key: null,
+    vertical: null,
     created_at: new Date().toISOString(),
     last_message_at: null,
   };
+}
+
+export async function setContactVertical(
+  db: D1Database,
+  contactId: string,
+  vertical: string
+): Promise<void> {
+  await db.prepare("UPDATE contacts SET vertical = ? WHERE id = ?").bind(vertical, contactId).run();
 }
 
 export async function touchContact(db: D1Database, contactId: string): Promise<void> {
@@ -120,6 +129,30 @@ export async function listContacts(db: D1Database, limit = 100) {
 
 export async function getContactById(db: D1Database, id: string): Promise<Contact | null> {
   return db.prepare("SELECT * FROM contacts WHERE id = ?").bind(id).first<Contact>();
+}
+
+/** Contactos que matchean un filtro de difusión (canal y/o vertical, "all" = sin filtro). */
+export async function listContactsByFilter(
+  db: D1Database,
+  channel: string,
+  vertical: string
+): Promise<Contact[]> {
+  const clauses: string[] = [];
+  const params: string[] = [];
+  if (channel && channel !== "all") {
+    clauses.push("channel = ?");
+    params.push(channel);
+  }
+  if (vertical && vertical !== "all") {
+    clauses.push("vertical = ?");
+    params.push(vertical);
+  }
+  const where = clauses.length ? "WHERE " + clauses.join(" AND ") : "";
+  const { results } = await db
+    .prepare(`SELECT * FROM contacts ${where}`)
+    .bind(...params)
+    .all<Contact>();
+  return results || [];
 }
 
 // ---------- Settings ----------
@@ -233,4 +266,75 @@ export async function deleteFlow(db: D1Database, id: string): Promise<void> {
 
 export async function setFlowActive(db: D1Database, id: string, active: boolean): Promise<void> {
   await db.prepare("UPDATE flows SET active = ? WHERE id = ?").bind(active ? 1 : 0, id).run();
+}
+
+// ---------- Reglas de comentarios (Instagram) ----------
+
+export async function listCommentRules(db: D1Database): Promise<CommentRule[]> {
+  const { results } = await db
+    .prepare("SELECT * FROM comment_rules ORDER BY created_at DESC")
+    .all<any>();
+  return (results || []).map((r) => ({ ...r, active: r.active === 1 }));
+}
+
+export async function listActiveCommentRules(db: D1Database): Promise<CommentRule[]> {
+  const { results } = await db
+    .prepare("SELECT * FROM comment_rules WHERE active = 1 ORDER BY created_at DESC")
+    .all<any>();
+  return (results || []).map((r) => ({ ...r, active: true }));
+}
+
+export async function upsertCommentRule(
+  db: D1Database,
+  rule: Omit<CommentRule, "id"> & { id?: string }
+): Promise<CommentRule> {
+  const id = rule.id || newId();
+  const existing = rule.id
+    ? await db.prepare("SELECT id FROM comment_rules WHERE id = ?").bind(rule.id).first()
+    : null;
+
+  if (existing) {
+    await db
+      .prepare(
+        `UPDATE comment_rules SET name=?, media_id=?, keyword=?, public_reply=?, dm_message=?, vertical=?, active=? WHERE id=?`
+      )
+      .bind(
+        rule.name,
+        rule.media_id,
+        rule.keyword,
+        rule.public_reply,
+        rule.dm_message,
+        rule.vertical,
+        rule.active ? 1 : 0,
+        id
+      )
+      .run();
+  } else {
+    await db
+      .prepare(
+        `INSERT INTO comment_rules (id, name, media_id, keyword, public_reply, dm_message, vertical, active)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .bind(
+        id,
+        rule.name,
+        rule.media_id,
+        rule.keyword,
+        rule.public_reply,
+        rule.dm_message,
+        rule.vertical,
+        rule.active ? 1 : 0
+      )
+      .run();
+  }
+
+  return { ...rule, id };
+}
+
+export async function deleteCommentRule(db: D1Database, id: string): Promise<void> {
+  await db.prepare("DELETE FROM comment_rules WHERE id = ?").bind(id).run();
+}
+
+export async function setCommentRuleActive(db: D1Database, id: string, active: boolean): Promise<void> {
+  await db.prepare("UPDATE comment_rules SET active = ? WHERE id = ?").bind(active ? 1 : 0, id).run();
 }

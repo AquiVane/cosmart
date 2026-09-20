@@ -1,4 +1,4 @@
-import type { Env, InboundMessage, OutboundContent } from "../types";
+import type { Env, InboundComment, InboundMessage, OutboundContent } from "../types";
 
 const GRAPH_VERSION = "v21.0";
 
@@ -28,6 +28,60 @@ export function parseInstagramWebhook(body: any): InboundMessage[] {
   }
 
   return out;
+}
+
+/**
+ * Los comentarios en publicaciones/reels de Instagram llegan en `entry[].changes[]`
+ * con field "comments" (a diferencia de los DM, que llegan en `entry[].messaging[]`).
+ */
+export function parseInstagramCommentWebhook(body: any): InboundComment[] {
+  const out: InboundComment[] = [];
+  const entries = body?.entry || [];
+
+  for (const entry of entries) {
+    for (const change of entry.changes || []) {
+      if (change.field !== "comments") continue;
+      const value = change.value;
+      if (!value?.id || !value?.from?.id) continue;
+      out.push({
+        commentId: value.id,
+        mediaId: value.media?.id || "",
+        text: value.text || "",
+        fromId: value.from.id,
+      });
+    }
+  }
+
+  return out;
+}
+
+/** Respuesta pública debajo del comentario original. */
+export async function sendInstagramCommentReply(env: Env, commentId: string, text: string): Promise<void> {
+  const url = `https://graph.facebook.com/${GRAPH_VERSION}/${commentId}/replies?access_token=${encodeURIComponent(
+    env.IG_PAGE_ACCESS_TOKEN
+  )}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text }),
+  });
+  if (!res.ok) console.error("Error respondiendo comentario de Instagram", res.status, await res.text());
+}
+
+/**
+ * DM privado a partir de un comentario (Private Replies API de Meta). Solo funciona
+ * dentro de los 7 días de hecho el comentario, y una sola vez por comentario.
+ */
+export async function sendInstagramPrivateReply(env: Env, commentId: string, text: string): Promise<void> {
+  const url = `https://graph.facebook.com/${GRAPH_VERSION}/${commentId}/private_replies?access_token=${encodeURIComponent(
+    env.IG_PAGE_ACCESS_TOKEN
+  )}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text }),
+  });
+  if (!res.ok) console.error("Error mandando DM privado por comentario", res.status, await res.text());
 }
 
 export async function sendInstagramMessage(

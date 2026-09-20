@@ -29,6 +29,8 @@ export interface FlowStep {
   message: string;
   buttons: ButtonOption[];
   is_end: boolean;
+  /** Si se llega a este paso, la conversación queda etiquetada con esta vertical. */
+  vertical?: string;
 }
 
 export interface FlowDefinition {
@@ -48,6 +50,7 @@ export interface Contact {
   ai_enabled: number;
   current_flow_id: string | null;
   current_step_key: string | null;
+  vertical: string | null;
   created_at: string;
   last_message_at: string | null;
 }
@@ -65,4 +68,26 @@ export interface InboundMessage {
 export interface OutboundContent {
   text: string;
   buttons: ButtonOption[];
+}
+
+export interface CommentRule {
+  id: string;
+  name: string;
+  /** ID de la publicación de Instagram a la que aplica, o null = cualquier publicación. */
+  media_id: string | null;
+  /** Palabra que tiene que contener el comentario, o null = cualquier comentario. */
+  keyword: string | null;
+  /** Respuesta pública opcional debajo del comentario. */
+  public_reply: string | null;
+  /** Mensaje privado (DM) que se manda por la Private Replies API. */
+  dm_message: string;
+  vertical: string | null;
+  active: boolean;
+}
+
+export interface InboundComment {
+  commentId: string;
+  mediaId: string;
+  text: string;
+  fromId: string;
 }

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 640" font-family="DM Sans, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0A1A40"/>
+    </marker>
+    <marker id="arrowMint" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#21A883"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1180" height="640" fill="#F4F6FA"/>
+
+  <!-- Título -->
+  <text x="40" y="45" font-size="26" font-weight="800" fill="#0A1A40">Cómo funciona MPG · Torre de Control</text>
+  <text x="40" y="70" font-size="14" fill="#5B6478">De un mensaje o comentario a una respuesta automática, en tiempo real</text>
+
+  <!-- Columna 1: canales de entrada -->
+  <text x="60" y="120" font-size="13" font-weight="700" fill="#5B6478" letter-spacing="1">CANALES</text>
+
+  <rect x="40" y="135" width="210" height="60" rx="14" fill="#DCF8E7" stroke="#12783B" stroke-width="1.5"/>
+  <text x="145" y="171" font-size="16" text-anchor="middle" fill="#12783B" font-weight="700">💬 WhatsApp</text>
+
+  <rect x="40" y="215" width="210" height="60" rx="14" fill="#FCE4EF" stroke="#9C1A5F" stroke-width="1.5"/>
+  <text x="145" y="251" font-size="16" text-anchor="middle" fill="#9C1A5F" font-weight="700">📩 DM de Instagram</text>
+
+  <rect x="40" y="295" width="210" height="60" rx="14" fill="#FCE4EF" stroke="#9C1A5F" stroke-width="1.5"/>
+  <text x="145" y="325" font-size="15" text-anchor="middle" fill="#9C1A5F" font-weight="700">💭 Comentarios de</text>
+  <text x="145" y="343" font-size="15" text-anchor="middle" fill="#9C1A5F" font-weight="700">Instagram</text>
+
+  <!-- Flechas col1 -> col2 -->
+  <path d="M250,165 L330,220" stroke="#0A1A40" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M250,245 L330,255" stroke="#0A1A40" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M250,325 L330,290" stroke="#0A1A40" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Columna 2: Torre de Control -->
+  <text x="345" y="120" font-size="13" font-weight="700" fill="#5B6478" letter-spacing="1">MPG · TORRE DE CONTROL</text>
+  <rect x="330" y="135" width="290" height="330" rx="18" fill="#0A1A40"/>
+  <text x="475" y="170" font-size="15" text-anchor="middle" fill="#ffffff" font-weight="800">🧭 Cloudflare Worker</text>
+  <text x="475" y="190" font-size="11" text-anchor="middle" fill="#93A2C7">(un solo lugar, GitHub + Cloudflare)</text>
+
+  <rect x="352" y="210" width="246" height="70" rx="12" fill="#21A883"/>
+  <text x="475" y="238" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="700">🔀 Flujos por</text>
+  <text x="475" y="256" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="700">palabra clave (botones)</text>
+
+  <rect x="352" y="292" width="246" height="90" rx="12" fill="#E02020"/>
+  <text x="475" y="318" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="700">🤖 IA por vertical</text>
+  <text x="475" y="338" font-size="11.5" text-anchor="middle" fill="#FDEAEA">Aurora.G · Norte.G · Rayo.G</text>
+  <text x="475" y="354" font-size="11.5" text-anchor="middle" fill="#FDEAEA">Estrella.G · Eco.G · Brisa.G ...</text>
+  <text x="475" y="370" font-size="11.5" text-anchor="middle" fill="#FDEAEA">Mapa.G · Faro.G · Timón.G</text>
+
+  <rect x="352" y="394" width="246" height="55" rx="12" fill="#F47920"/>
+  <text x="475" y="426" font-size="13" text-anchor="middle" fill="#ffffff" font-weight="700">🗄️ Base de datos (D1)</text>
+
+  <!-- Flechas internas -->
+  <path d="M475,280 L475,292" stroke="#ffffff" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Columna 3: resultados -->
+  <text x="660" y="120" font-size="13" font-weight="700" fill="#5B6478" letter-spacing="1">RESULTADO</text>
+
+  <rect x="650" y="135" width="230" height="65" rx="14" fill="#ffffff" stroke="#E4E8F0" stroke-width="1.5"/>
+  <text x="765" y="163" font-size="14" text-anchor="middle" fill="#101728" font-weight="700">📲 Respuesta automática</text>
+  <text x="765" y="181" font-size="12" text-anchor="middle" fill="#5B6478">al contacto, al instante</text>
+
+  <rect x="650" y="218" width="230" height="65" rx="14" fill="#ffffff" stroke="#E4E8F0" stroke-width="1.5"/>
+  <text x="765" y="246" font-size="14" text-anchor="middle" fill="#101728" font-weight="700">🗂️ CRM Marketing Hub</text>
+  <text x="765" y="264" font-size="12" text-anchor="middle" fill="#5B6478">el lead cae solo, con vertical</text>
+
+  <rect x="650" y="301" width="230" height="65" rx="14" fill="#ffffff" stroke="#E4E8F0" stroke-width="1.5"/>
+  <text x="765" y="329" font-size="14" text-anchor="middle" fill="#101728" font-weight="700">📊 Panel de Vaneh</text>
+  <text x="765" y="347" font-size="12" text-anchor="middle" fill="#5B6478">conversaciones, flujos, IA</text>
+
+  <path d="M620,190 L650,168" stroke="#0A1A40" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M620,260 L650,250" stroke="#0A1A40" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M620,330 L650,333" stroke="#0A1A40" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Difusiones: flecha de vuelta -->
+  <rect x="960" y="135" width="180" height="65" rx="14" fill="#FEF3E3" stroke="#F47920" stroke-width="1.5"/>
+  <text x="1050" y="163" font-size="14" text-anchor="middle" fill="#7A4B00" font-weight="700">📢 Difusiones</text>
+  <text x="1050" y="181" font-size="11.5" text-anchor="middle" fill="#7A4B00">a contactos por segmento</text>
+
+  <path d="M880,167 L960,167" stroke="#F47920" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M1050,200 C1050,470 145,470 145,375" stroke="#F47920" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#arrow)"/>
+  <text x="600" y="490" font-size="12" fill="#7A4B00" text-anchor="middle">las difusiones vuelven a los mismos canales (WhatsApp / Instagram), a los contactos que elijas</text>
+
+  <!-- Comentarios -> DM privado, aclaración -->
+  <rect x="40" y="530" width="1100" height="70" rx="14" fill="#ffffff" stroke="#E4E8F0" stroke-width="1.5"/>
+  <text x="60" y="558" font-size="13" font-weight="700" fill="#101728">💭 → 📩 Comentario a DM automático</text>
+  <text x="60" y="578" font-size="12" fill="#5B6478">Alguien comenta en una publicación con la palabra clave → responde en público (opcional) y le manda un DM privado, todo automático.</text>
+</svg>

@@ -2,8 +2,9 @@ import { Hono } from "hono";
 import type { Env } from "../types";
 import { verifyMetaSignature } from "../security";
 import { parseWhatsappWebhook } from "../channels/whatsapp";
-import { parseInstagramWebhook } from "../channels/instagram";
+import { parseInstagramWebhook, parseInstagramCommentWebhook } from "../channels/instagram";
 import { handleInboundMessage } from "../engine/flowEngine";
+import { handleInboundComment } from "../engine/commentEngine";
 
 export const webhookRoutes = new Hono<{ Bindings: Env }>();
 
@@ -44,6 +45,17 @@ webhookRoutes.post("/meta", async (c) => {
       await handleInboundMessage(c.env, msg);
     } catch (err) {
       console.error("Error procesando mensaje entrante", err);
+    }
+  }
+
+  if (body.object === "instagram") {
+    const comments = parseInstagramCommentWebhook(body);
+    for (const comment of comments) {
+      try {
+        await handleInboundComment(c.env, comment);
+      } catch (err) {
+        console.error("Error procesando comentario entrante", err);
+      }
     }
   }
 

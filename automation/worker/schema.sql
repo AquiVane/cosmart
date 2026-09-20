@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS contacts (
   ai_enabled INTEGER NOT NULL DEFAULT 1,   -- 0 = tomado por un humano, el bot no contesta
   current_flow_id TEXT,
   current_step_key TEXT,
+  vertical TEXT,                      -- qué vertical terminó atendiendo esta conversación (cosmart, mpg, rumbovoraz, ...)
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   last_message_at TEXT,
   UNIQUE(channel, external_id)
@@ -41,4 +42,17 @@ CREATE TABLE IF NOT EXISTS flows (
 CREATE TABLE IF NOT EXISTS settings (
   key TEXT PRIMARY KEY,
   value TEXT
+);
+
+-- Reglas de "comentario -> DM automático" para publicaciones de Instagram.
+CREATE TABLE IF NOT EXISTS comment_rules (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  media_id TEXT,          -- NULL = aplica a cualquier publicación
+  keyword TEXT,           -- NULL = aplica a cualquier comentario
+  public_reply TEXT,      -- NULL = no responde el comentario en público
+  dm_message TEXT NOT NULL,
+  vertical TEXT,
+  active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );

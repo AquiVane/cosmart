@@ -6,19 +6,15 @@ import {
   getRecentMessages,
   setContactFlowState,
   setContactAiEnabled,
+  setContactVertical,
   getAllSettings,
   listActiveFlows,
   getFlow,
 } from "../db";
 import { sendToChannel } from "../channels/send";
 import { generateAiReply } from "./ai";
-
-const DEFAULT_SYSTEM_PROMPT =
-  "Sos un asistente de ventas de COSMART. Respondé en español, de forma breve, cálida y directa. " +
-  "Si no sabés un precio o un dato con certeza, no lo inventes: proponé agendar una auditoría gratis o una asesoría 1:1.";
-
-const DEFAULT_FALLBACK =
-  "¡Gracias por escribirnos! En breve te responde alguien del equipo de COSMART.";
+import { getVertical, buildSystemPrompt, DEFAULT_FALLBACK_MESSAGE, DEFAULT_HANDOFF_KEYWORDS } from "../knowledge/verticals";
+import { notifyLeadCapture } from "../integrations/marketingHub";
 
 function matchKeyword(text: string, keywords: string[]): boolean {
   const t = text.toLowerCase().trim();
@@ -41,6 +37,23 @@ async function sendAndLog(
   await logMessage(env.DB, contactId, "out", source, bodyForLog);
 }
 
+/** Si el paso trae `.vertical`, etiqueta la conversación y avisa al CRM la primera vez. */
+async function applyStepVertical(
+  env: Env,
+  contact: { id: string; vertical: string | null; name: string | null; channel: InboundMessage["channel"]; external_id: string },
+  stepVertical: string | undefined
+): Promise<void> {
+  if (!stepVertical || stepVertical === contact.vertical) return;
+  const wasUntagged = !contact.vertical;
+  await setContactVertical(env.DB, contact.id, stepVertical);
+  if (wasUntagged) {
+    await notifyLeadCapture(
+      { ...contact, vertical: stepVertical } as any,
+      getVertical(stepVertical).label
+    );
+  }
+}
+
 export async function handleInboundMessage(env: Env, msg: InboundMessage): Promise<void> {
   const contact = await getOrCreateContact(env.DB, msg.channel, msg.externalId, msg.name);
   await touchContact(env.DB, contact.id);
@@ -53,9 +66,9 @@ export async function handleInboundMessage(env: Env, msg: InboundMessage): Promi
 
   const settings = await getAllSettings(env.DB);
   const aiEnabled = settings.ai_enabled !== "0"; // por defecto encendida
-  const systemPrompt = settings.ai_system_prompt || DEFAULT_SYSTEM_PROMPT;
-  const fallback = settings.fallback_message || DEFAULT_FALLBACK;
-  const handoffKeywords = (settings.handoff_keywords || "hablar con una persona,hablar con alguien,humano")
+  const extraInstructions = settings.ai_system_prompt || "";
+  const fallback = settings.fallback_message || DEFAULT_FALLBACK_MESSAGE;
+  const handoffKeywords = (settings.handoff_keywords || DEFAULT_HANDOFF_KEYWORDS)
     .split(",")
     .map((k) => k.trim().toLowerCase())
     .filter(Boolean);
@@ -68,7 +81,7 @@ export async function handleInboundMessage(env: Env, msg: InboundMessage): Promi
       msg.channel,
       msg.externalId,
       contact.id,
-      { text: "¡Listo! Ya avisamos al equipo, en breve te responde una persona 🙌", buttons: [] },
+      { text: "¡Listo! Ya avisamos al equipo, en breve te responde una persona 🧲🧭", buttons: [] },
       "human"
     );
     return;
@@ -83,7 +96,7 @@ export async function handleInboundMessage(env: Env, msg: InboundMessage): Promi
       msg.channel,
       msg.externalId,
       contact.id,
-      { text: "¡Listo! Ya avisamos al equipo, en breve te responde una persona 🙌", buttons: [] },
+      { text: "¡Listo! Ya avisamos al equipo, en breve te responde una persona 🧲🧭", buttons: [] },
       "human"
     );
     return;
@@ -99,6 +112,7 @@ export async function handleInboundMessage(env: Env, msg: InboundMessage): Promi
       } else {
         await setContactFlowState(env.DB, contact.id, flow.id, msg.buttonPayload);
       }
+      await applyStepVertical(env, contact, step.vertical);
       await sendAndLog(
         env,
         msg.channel,
@@ -125,6 +139,7 @@ export async function handleInboundMessage(env: Env, msg: InboundMessage): Promi
         entryStep.is_end ? null : triggered.id,
         entryStep.is_end ? null : triggered.entry_step_key
       );
+      await applyStepVertical(env, contact, entryStep.vertical);
       await sendAndLog(
         env,
         msg.channel,
@@ -139,6 +154,11 @@ export async function handleInboundMessage(env: Env, msg: InboundMessage): Promi
 
   // 3) Sin flujo que aplique: responde la IA (si está encendida) o el mensaje por defecto.
   if (aiEnabled) {
+    const vertical = getVertical(contact.vertical);
+    const kbOverride = settings["vertical_kb_" + vertical.id];
+    const effectiveVertical = kbOverride ? { ...vertical, knowledge: kbOverride } : vertical;
+    const systemPrompt = buildSystemPrompt(effectiveVertical, extraInstructions);
+
     const history = await getRecentMessages(env.DB, contact.id, 12);
     const reply = await generateAiReply(env, systemPrompt, settings.ai_model || null, history);
     await sendAndLog(env, msg.channel, msg.externalId, contact.id, { text: reply, buttons: [] }, "ai");

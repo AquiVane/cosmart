@@ -1,0 +1,11 @@
+# Copiá este archivo a ".dev.vars" (sin .example) para probar en local con `wrangler dev`.
+# En producción, estos mismos valores se cargan como secretos con `wrangler secret put <NOMBRE>`
+# o automáticamente desde los secrets de GitHub Actions (ver README.md).
+
+ADMIN_TOKEN=elegí-un-token-largo-y-secreto-para-entrar-al-panel
+META_VERIFY_TOKEN=elegí-cualquier-palabra-y-usala-igual-en-el-webhook-de-meta
+META_APP_SECRET=app-secret-de-tu-app-de-meta
+WHATSAPP_TOKEN=token-permanente-de-whatsapp-cloud-api
+WHATSAPP_PHONE_NUMBER_ID=id-del-numero-de-telefono-de-whatsapp
+IG_PAGE_ACCESS_TOKEN=token-de-la-pagina-de-facebook-conectada-a-instagram
+ANTHROPIC_API_KEY=sk-ant-tu-api-key

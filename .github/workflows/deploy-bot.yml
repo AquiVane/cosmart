@@ -1,0 +1,53 @@
+name: Deploy COSMART Bot (Cloudflare Workers)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "automation/worker/**"
+      - ".github/workflows/deploy-bot.yml"
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: automation/worker
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Sincronizar secretos del bot en Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ADMIN_TOKEN: ${{ secrets.BOT_ADMIN_TOKEN }}
+          META_VERIFY_TOKEN: ${{ secrets.BOT_META_VERIFY_TOKEN }}
+          META_APP_SECRET: ${{ secrets.BOT_META_APP_SECRET }}
+          WHATSAPP_TOKEN: ${{ secrets.BOT_WHATSAPP_TOKEN }}
+          WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.BOT_WHATSAPP_PHONE_NUMBER_ID }}
+          IG_PAGE_ACCESS_TOKEN: ${{ secrets.BOT_IG_PAGE_ACCESS_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.BOT_ANTHROPIC_API_KEY }}
+        run: |
+          set -e
+          for name in ADMIN_TOKEN META_VERIFY_TOKEN META_APP_SECRET WHATSAPP_TOKEN WHATSAPP_PHONE_NUMBER_ID IG_PAGE_ACCESS_TOKEN ANTHROPIC_API_KEY; do
+            value="${!name}"
+            if [ -n "$value" ]; then
+              echo "$value" | npx wrangler secret put "$name"
+            else
+              echo "Aviso: falta el secret de GitHub para $name, no se actualiza en Cloudflare."
+            fi
+          done
+
+      - name: Desplegar Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy

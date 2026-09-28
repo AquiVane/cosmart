@@ -73,6 +73,54 @@
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuánto cuesta un Fractional CMO en Latinoamérica?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Un Fractional CMO cuesta entre un 20% y un 40% de lo que sale un CMO full-time, porque pagás solo las horas estratégicas que tu negocio necesita. En COSMART los planes se arman a medida según el alcance (horas mensuales, canales a gestionar, tamaño del equipo a dirigir), siempre con precios en USD."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué diferencia hay entre un Fractional CMO y una agencia de marketing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Una agencia ejecuta tareas (redes, ads, diseño); un Fractional CMO dirige la estrategia y puede coordinar a esa misma agencia u otros proveedores. Es la diferencia entre quién hace el trabajo y quién decide qué trabajo hay que hacer y por qué. Muchas empresas usan ambos a la vez."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Necesito un Fractional CMO si ya tengo un equipo de marketing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, si tu equipo ejecuta bien pero falta una cabeza estratégica que fije objetivos, prioridades y mida resultados. El Fractional CMO no reemplaza al equipo, lo dirige."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto tiempo dedica un Fractional CMO a mi empresa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Depende del plan contratado: puede ser desde unas horas semanales hasta una dedicación part-time sostenida. Se define según la etapa del negocio y la complejidad de lo que hay que resolver."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿En qué países de Latinoamérica trabaja COSMART?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "100% remoto, con clientes en Argentina, México, Colombia, Chile, Uruguay, Panamá, Costa Rica, República Dominicana y el resto de LATAM. Precios siempre en USD."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
@@ -903,6 +951,45 @@
     .fade-up-delay-2 { transition-delay: 0.2s; }
     .fade-up-delay-3 { transition-delay: 0.3s; }
 
+    /* ─── FAQ ─── */
+    .faq-section {
+      padding: 6rem 2rem;
+      background: #081c55;
+    }
+    .faq-list { max-width: 780px; margin: 2rem auto 0; }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      padding: 1.2rem 0;
+      cursor: pointer;
+    }
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #ffffff;
+    }
+    .faq-icon {
+      color: var(--ro1);
+      font-size: 1.5rem;
+      font-weight: 300;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+    .faq-a {
+      color: var(--texto-claro);
+      font-size: 0.92rem;
+      font-weight: 300;
+      line-height: 1.75;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s, padding 0.3s;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-top: 0.8rem; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       .que-es-grid,
@@ -931,6 +1018,7 @@
       .como-section,
       .para-quien-section,
       .porque-section,
+      .faq-section,
       .cta-section { padding: 4rem 1rem; }
       .footer { padding: 2.5rem 1rem 1.5rem; }
       .hero-stats { gap: 2rem; }
@@ -1232,6 +1320,36 @@
     </div>
   </section>
 
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section-label" style="margin-bottom:1.25rem;">Antes de contratar</div>
+      <h2 class="section-title" style="color:#ffffff;">Preguntas frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">¿Cuánto cuesta un Fractional CMO en Latinoamérica? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Un Fractional CMO cuesta entre un 20% y un 40% de lo que sale un CMO full-time, porque pagás solo las horas estratégicas que tu negocio necesita. En COSMART los planes se arman a medida según el alcance (horas mensuales, canales a gestionar, tamaño del equipo a dirigir), siempre con precios en USD.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿Qué diferencia hay entre un Fractional CMO y una agencia de marketing? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Una agencia ejecuta tareas (redes, ads, diseño); un Fractional CMO dirige la estrategia y puede coordinar a esa misma agencia u otros proveedores. Es la diferencia entre quién hace el trabajo y quién decide qué trabajo hay que hacer y por qué. Muchas empresas usan ambos a la vez.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿Necesito un Fractional CMO si ya tengo un equipo de marketing? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Sí, si tu equipo ejecuta bien pero falta una cabeza estratégica que fije objetivos, prioridades y mida resultados. El Fractional CMO no reemplaza al equipo, lo dirige.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿Cuánto tiempo dedica un Fractional CMO a mi empresa? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Depende del plan contratado: puede ser desde unas horas semanales hasta una dedicación part-time sostenida. Se define según la etapa del negocio y la complejidad de lo que hay que resolver.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿En qué países de Latinoamérica trabaja COSMART? <span class="faq-icon">+</span></div>
+          <div class="faq-a">100% remoto, con clientes en Argentina, México, Colombia, Chile, Uruguay, Panamá, Costa Rica, República Dominicana y el resto de LATAM. Precios siempre en USD.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA PRINCIPAL -->
   <section class="cta-section">
     <div class="container">
@@ -1290,6 +1408,15 @@
       );
       document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
     })();
+  </script>
+  <script>
+    document.querySelectorAll('.faq-item').forEach((item) => {
+      item.addEventListener('click', () => {
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach((i) => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
   </script>
 
 </body>

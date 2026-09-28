@@ -19,7 +19,7 @@
 
   <url>
     <loc>https://cosmart.com.ar/fractional-cmo</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -78,6 +78,27 @@
   <url>
     <loc>https://cosmart.com.ar/marketing-digital-republica-dominicana</loc>
     <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://cosmart.com.ar/marketing-digital-mexico</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://cosmart.com.ar/marketing-digital-colombia</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://cosmart.com.ar/marketing-digital-chile</loc>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

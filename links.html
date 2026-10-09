@@ -21,14 +21,14 @@
 :root{--navy:#091C47;--navy-2:#0D2B6B;--blue:#1A4DAA;--sky:#3A8FC7;--red:#E3000F;--red-h:#C40000;
   --serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{font-family:var(--sans);background:var(--navy);color:#fff;line-height:1.45;font-size:15px;overflow-x:hidden;
+html{-webkit-text-size-adjust:100%;overflow-x:clip;height:auto;min-height:0}
+body{font-family:var(--sans);background:var(--navy);color:#fff;line-height:1.45;font-size:15px;overflow-x:clip;min-height:0;
   background-image:radial-gradient(600px 380px at 50% -60px,rgba(58,143,199,.35),transparent 70%);background-repeat:no-repeat}
 img{display:block;max-width:100%;height:auto}
 [hidden]{display:none!important}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:10px}
-.wrap{max-width:480px;margin:0 auto;padding:28px 16px 40px}
+.wrap{max-width:480px;margin:0 auto;padding:28px 16px 24px}
 .sans{font-family:var(--sans)}
 
 /* Cabecera */
@@ -223,7 +223,7 @@ var CONFIG = {
     guiaRuta:      "https://training.cosmart.com.ar/guia/capacitacion-marketing",
     guiaIA:        "https://training.cosmart.com.ar/leadmagnet-iaprincipiantes",
     guiaContenido: "https://training.cosmart.com.ar/leadmagnet-contenidosrrss",
-    training:      "https://training.cosmart.com.ar",
+    training:      "https://training.cosmart.com.ar/tienda",
     plata:         "https://academy.vamatienda.com.ar/plata-en-orden/",
     instagram:     "https://www.instagram.com/aqui.vaneh",
     tiktok:        "https://www.tiktok.com/@aqui_vaneh"   /* cambiar a @aqui.vaneh cuando se actualice el usuario */

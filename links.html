@@ -18,222 +18,172 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --navy:#091C47; --navy-2:#0D2B6B; --blue:#1A4DAA; --sky:#3A8FC7; --mist:#E6F0FA;
-  --red:#E3000F; --red-hover:#C40000;
-  --line:rgba(255,255,255,.18);
-  --serif:'Playfair Display',Georgia,serif; --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
-}
+:root{--navy:#091C47;--navy-2:#0D2B6B;--blue:#1A4DAA;--sky:#3A8FC7;--red:#E3000F;--red-h:#C40000;
+  --serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{font-family:var(--sans);background:var(--navy);color:#fff;line-height:1.5;font-size:15px;overflow-x:hidden;
-  background-image:radial-gradient(700px 420px at 90% -4%,rgba(58,143,199,.30),transparent 62%);background-repeat:no-repeat}
+body{font-family:var(--sans);background:var(--navy);color:#fff;line-height:1.45;font-size:15px;overflow-x:hidden;
+  background-image:radial-gradient(600px 380px at 50% -60px,rgba(58,143,199,.35),transparent 70%);background-repeat:no-repeat}
 img{display:block;max-width:100%;height:auto}
 [hidden]{display:none!important}
-a{color:inherit}
-:focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:8px}
-.wrap{width:100%;max-width:520px;margin:0 auto;padding:22px 16px 36px}
-.brand{font:700 11px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7);text-align:center;margin-bottom:16px}
-.brand img{height:28px;width:auto;margin:0 auto}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:10px}
+.wrap{max-width:480px;margin:0 auto;padding:28px 16px 40px}
 .sans{font-family:var(--sans)}
 
 /* Cabecera */
-.hero{text-align:center}
-.avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid var(--red);margin:0 auto 12px}
-h1{font:900 clamp(32px,9vw,40px)/1.1 var(--serif)}
-h1 span{color:#fff;border-bottom:4px solid var(--red);padding-bottom:1px}
-.tag{font:italic 700 20px/1.3 var(--serif);margin-top:12px}
-.lead{margin:8px auto 0;max-width:36ch;color:rgba(255,255,255,.9)}
-.hero-img{margin:16px auto 0;max-width:300px;background:#fff;border-radius:16px;padding:4px;overflow:hidden}
-.hero-img img{border-radius:12px;width:100%}
-.pick{margin:22px 0 4px;text-align:center;font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#8FC3E8}
+.top{text-align:center;padding:4px 8px 6px}
+.brand{font:700 11px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:14px}
+.brand img{height:28px;width:auto;margin:0 auto}
+.avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid var(--red);margin:0 auto 12px}
+h1{font:900 38px/1.1 var(--serif)}
+h1 i{font-style:normal;color:var(--red);background:#fff;padding:0 .18em;border-radius:6px}
+.tag{font:italic 700 19px/1.3 var(--serif);margin-top:10px}
+.lead{margin-top:8px;color:rgba(255,255,255,.88)}
+.pick{margin-top:14px;font-size:13.5px;color:#9CCBEB}
 
-/* Bloques */
-.stack{display:grid;gap:12px;margin-top:12px}
-h2{font:700 20px/1.2 var(--serif)}
-p{margin-top:6px}
-.eyebrow{display:inline-block;font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:46px;margin-top:14px;padding:11px 16px;border:0;border-radius:12px;
-  background:var(--red);color:#fff;font:700 15.5px/1.2 var(--sans);text-decoration:none;text-align:center;cursor:pointer;transition:background .15s,transform .15s}
-.btn:hover{background:var(--red-hover);transform:translateY(-1px)}
-.btn svg{width:17px;height:17px;flex:none}
-.btn.line{background:transparent;border:2px solid #fff;color:#fff}
-.btn.line:hover{background:#fff;color:var(--navy)}
-.btn[aria-disabled="true"],.btn:disabled{background:rgba(255,255,255,.10);color:rgba(255,255,255,.72);border:1px dashed rgba(255,255,255,.45);cursor:not-allowed;transform:none}
-.btn.sm{min-height:44px;margin-top:10px;font-size:14.5px}
+/* Grupos */
+.group{margin-top:26px}
+.label{display:flex;align-items:center;gap:10px;margin:0 2px 10px;font:700 11.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#9CCBEB}
+.label::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--red)}
+.list{display:grid;gap:10px}
 
-/* 1 · Brújula: tarjeta blanca */
-.brujula{background:#fff;color:var(--navy);border-radius:18px;padding:18px;display:grid;grid-template-columns:48px 1fr;gap:4px 14px}
-.brujula .ico{width:48px;height:48px;grid-row:span 2}
-.brujula .eyebrow{color:var(--red)}
-.brujula p{color:#2a3a5e}
-.brujula .btn,.brujula .body-end{grid-column:1/-1}
+/* Enlace principal: toda la tarjeta es el botón */
+.link{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;background:#fff;color:var(--navy);border-radius:18px;padding:12px;
+  box-shadow:0 10px 24px -14px rgba(0,0,0,.6);transition:transform .15s}
+.link:hover{transform:translateY(-2px)}
+.thumb{width:76px;height:76px;border-radius:12px;overflow:hidden;background:#fff;border:1px solid #DCE5F2;display:grid;place-items:center}
+.thumb img{width:100%;height:100%;object-fit:contain}
+.link h2{font:700 17.5px/1.2 var(--serif)}
+.link p{margin-top:4px;font-size:13.5px;line-height:1.4;color:#3b4a6b}
+.cta{display:inline-flex;align-items:center;gap:6px;margin-top:9px;min-height:36px;padding:8px 14px;border-radius:10px;background:var(--red);color:#fff;font:700 14px/1 var(--sans)}
+.link:hover .cta{background:var(--red-h)}
+.cta svg{width:15px;height:15px}
 
-/* 2 · IA: azul con miniatura */
-.ia{background:linear-gradient(150deg,var(--blue),var(--navy-2));border-radius:18px;padding:16px;display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:start}
-.ia .thumb{background:#fff;border-radius:12px;padding:3px;overflow:hidden}
-.ia .thumb img{border-radius:9px}
-.ia .eyebrow{color:#BFE0F7}
-.ia .btn{grid-column:1/-1;margin-top:2px}
+/* Próximamente (sin acción) */
+.off{display:block;border:1.5px dashed rgba(255,255,255,.45);border-radius:18px;padding:16px}
+.pill{display:inline-block;font:700 10.5px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:999px;margin-bottom:8px}
+.pill.g{border:1px solid rgba(255,255,255,.6)}
+.pill.r{background:var(--red)}
+.off h2{font:700 19px/1.2 var(--serif)}
+.off p{margin-top:5px;color:rgba(255,255,255,.88)}
+.dis{display:flex;align-items:center;justify-content:center;width:100%;min-height:46px;margin-top:12px;border-radius:12px;border:1px dashed rgba(255,255,255,.5);
+  background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);font:700 15px/1 var(--sans);cursor:not-allowed}
 
-/* 3 · Clase: fila fina punteada */
-.soon{border:1.5px dashed rgba(255,255,255,.45);border-radius:16px;padding:16px}
-.pill{display:inline-block;font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:999px;margin-bottom:8px}
-.pill.ghost{border:1px solid rgba(255,255,255,.6)}
-.pill.red{background:var(--red)}
+/* Destacado */
+.feat{display:block;border-radius:22px;background:linear-gradient(160deg,var(--blue),var(--navy-2) 60%);border:3px solid var(--red);padding:14px 14px 18px;box-shadow:0 20px 40px -20px rgba(0,0,0,.8)}
+.feat .img{background:#fff;border-radius:14px;overflow:hidden;margin-bottom:14px}
+.feat h2{font:700 24px/1.15 var(--serif)}
+.feat .lede{font:italic 700 18px/1.3 var(--serif);margin-top:8px;color:#fff}
+.feat p{margin-top:8px;color:rgba(255,255,255,.92)}
 
-/* 4 · Destacado */
-.feat{background:#fff;color:var(--navy);border-radius:22px;border:3px solid var(--red);padding:16px 16px 18px;box-shadow:0 18px 40px -18px rgba(0,0,0,.7)}
-.feat .img{border-radius:14px;overflow:hidden;background:#fff}
-.feat h2{font-size:25px;margin-top:2px}
-.feat .lede{font:italic 700 18px/1.3 var(--serif);color:var(--red);margin-top:8px}
-.feat p{color:#2a3a5e}
-.feat .btn:disabled{background:#E9EDF5;color:#46547a;border:1px dashed #8d9ac0}
+/* Recursos: filas simples */
+.row{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 12px 10px 14px;border-radius:14px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);transition:background .15s}
+.row:hover{background:rgba(255,255,255,.16)}
+.row b{display:block;font:700 15px/1.25 var(--sans)}
+.row span.d{display:block;font-size:13px;color:rgba(255,255,255,.82);margin-top:2px}
+.row .go{margin-left:auto;flex:none;min-height:40px;padding:0 12px;display:grid;place-items:center;border-radius:10px;border:2px solid #fff;font:700 13.5px/1 var(--sans)}
+.row:hover .go{background:#fff;color:var(--navy)}
 
-/* 5 · Recursos */
-details{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.06)}
-summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;min-height:60px}
-summary::-webkit-details-marker{display:none}
-summary p{margin-top:2px;font-size:14px;color:rgba(255,255,255,.85)}
-.chev{flex:none;width:32px;height:32px;border-radius:50%;background:var(--red);display:grid;place-items:center;transition:transform .25s}
-details[open] .chev{transform:rotate(180deg)}
-.chev svg{width:14px;height:14px}
-.res{padding:0 12px 12px;display:grid;gap:8px}
-.res article{background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px 14px}
-.res h3{font:700 16px/1.25 var(--sans)}
-.res article p{font-size:14px;margin-top:3px;color:rgba(255,255,255,.88)}
+/* Training y Plata */
+.tr{display:block;border-left:4px solid var(--sky);border-radius:14px;background:rgba(10,40,100,.55);border-top:1px solid rgba(255,255,255,.16);border-right:1px solid rgba(255,255,255,.16);border-bottom:1px solid rgba(255,255,255,.16);padding:14px 16px}
+.tr h2{font:700 18px/1.2 var(--serif)}
+.tr p{margin-top:5px;color:rgba(255,255,255,.9)}
+.tr .go2{display:inline-flex;margin-top:10px;min-height:40px;align-items:center;padding:0 14px;border:2px solid #fff;border-radius:10px;font:700 14px/1 var(--sans)}
+.tr:hover .go2{background:#fff;color:var(--navy)}
+.pl{display:block;background:#E6F0FA;color:var(--navy);border-radius:16px;padding:16px}
+.pl h2{font:700 19px/1.2 var(--serif)}
+.pl .s{font:700 16px/1.3 var(--serif);margin-top:8px}
+.pl p{margin-top:5px;font-size:14px;color:#3b4a6b}
+.pl .s{color:var(--navy)}
 
-/* 6 · Training */
-.training{border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:16px;padding:16px;background:rgba(10,40,100,.45)}
-.training h2{font-size:18px}
-.training p{color:rgba(255,255,255,.9)}
-
-/* 7 · Plata en Orden */
-.plata{background:var(--mist);color:var(--navy);border-radius:18px;padding:18px}
-.plata .eyebrow{color:var(--blue)}
-.plata .strong{font:700 17px/1.3 var(--serif);margin-top:10px}
-.plata p{color:#2a3a5e}
-.plata .strong{color:var(--navy)}
-
-/* Pie */
-footer{margin-top:26px;text-align:center}
+footer{margin-top:30px;text-align:center}
 .social{display:flex;justify-content:center;gap:12px}
-.social a{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:background .15s}
+.social a{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center}
 .social a:hover{background:var(--red)}
 .social svg{width:22px;height:22px;fill:#fff}
 .handles{margin-top:8px;font-size:13px;color:rgba(255,255,255,.8)}
-.copy{margin-top:14px;font-size:12.5px;color:rgba(255,255,255,.7)}
-
-@media (prefers-reduced-motion:no-preference){
-  .rise{opacity:0;transform:translateY(10px);animation:rise .5s ease forwards}
-  @keyframes rise{to{opacity:1;transform:none}}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media (max-width:340px){.ia{grid-template-columns:1fr}.ia .thumb{max-width:150px}}
-@media (min-width:700px){
-  .wrap{max-width:620px;padding-top:40px}
-  .hero-img{max-width:360px}
-  .res{grid-template-columns:repeat(3,1fr)}
-  .res .btn{width:100%}
-  .feat{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
-  .feat .btn{width:auto;min-width:200px}
-}
+.copy{margin-top:12px;font-size:12.5px;color:rgba(255,255,255,.7)}
+[aria-disabled="true"]{pointer-events:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:340px){.link{grid-template-columns:1fr}.thumb{width:64px;height:64px}}
+@media (min-width:700px){.wrap{padding-top:48px}}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <div class="brand" id="brand">COSMART</div>
-
-  <header class="hero">
-    <img class="avatar" id="avatar" alt="Aquí Vaneh" width="84" height="84" hidden>
-    <h1>Aquí <span>Vaneh</span></h1>
+  <header class="top">
+    <div class="brand" id="brand">COSMART</div>
+    <img class="avatar" id="avatar" alt="Aquí Vaneh" width="88" height="88" hidden>
+    <h1>Aquí <i>Vaneh</i></h1>
     <p class="tag">Tu próximo paso empieza aquí.</p>
     <p class="lead">Te ayudo a hacer crecer tu negocio con estrategia, marketing e IA, cuidando también tu tiempo.</p>
-    <div class="hero-img"><img src="/images/links/hero-brujula-valija-mar.webp" width="960" height="640" alt="Brújula, valija roja y mapa con ruta frente al mar" fetchpriority="high"></div>
+    <p class="pick">Elegí por dónde querés empezar.</p>
   </header>
-  <p class="pick">Elegí por dónde querés empezar</p>
 
-  <div class="stack">
-
-    <section class="brujula rise" aria-labelledby="t-brujula">
-      <svg class="ico" viewBox="0 0 48 48" aria-hidden="true" fill="none"><circle cx="24" cy="24" r="21" stroke="#091C47" stroke-width="2.5"/><path d="M24 8l5 16-5 16-5-16z" fill="#091C47" opacity=".2"/><path d="M24 8l5 16h-10z" fill="#E3000F"/><circle cx="24" cy="24" r="2.5" fill="#091C47"/></svg>
-      <div>
-        <span class="eyebrow">Auditoría gratuita</span>
-        <h2 id="t-brujula">Tu negocio, con más rumbo</h2>
-      </div>
-      <div class="body-end"><p>¿Hacés de todo y no sabés qué mejorar? Brújula, la auditoría gratuita, te ayuda a detectar oportunidades.</p></div>
-      <a class="btn" data-link="brujula">Quiero mi Brújula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </section>
-
-    <section class="ia rise" aria-labelledby="t-ia">
-      <div class="thumb"><img src="/images/links/ia-laptop-mapa-brujula.webp" width="800" height="533" loading="lazy" alt="Laptop con un sistema de IA, mapa con ruta y brújula"></div>
-      <div>
-        <span class="eyebrow">Curso</span>
-        <h2 id="t-ia">Usá IA sin perder tu voz</h2>
+  <section class="group" aria-label="Para empezar hoy">
+    <div class="list">
+      <a class="link" data-link="brujula">
+        <div class="thumb"><img src="/images/links/hero-brujula-valija-mar.webp" width="960" height="640" alt="" fetchpriority="high"></div>
+        <div><h2>Tu negocio, con más rumbo</h2>
+        <p>¿Hacés de todo y no sabés qué mejorar? Brújula, la auditoría gratuita, te ayuda a detectar oportunidades.</p>
+        <span class="cta">Quiero mi Brújula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="link" data-link="ia">
+        <div class="thumb"><img src="/images/links/ia-laptop-mapa-brujula.webp" width="800" height="533" alt="" loading="lazy"></div>
+        <div><h2>Usá IA sin perder tu voz</h2>
         <p>Ahorrá tiempo sin sonar igual a todos. Aprendé a crear un sistema de IA que entienda tu marca.</p>
+        <span class="cta">Quiero el sistema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="group" aria-label="Próximamente">
+    <div class="label">Lo que viene</div>
+    <div class="list">
+      <div class="off">
+        <span class="pill g">Próximamente</span>
+        <h2>Marketing desde cero</h2>
+        <p>¿Recién empezás? En esta clase gratuita vas a entender qué hacer primero y por qué.</p>
+        <button class="dis" type="button" data-link="clase" disabled>Quiero empezar</button>
       </div>
-      <a class="btn" data-link="ia">Quiero el sistema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </section>
-
-    <section class="soon rise" aria-labelledby="t-clase">
-      <span class="pill ghost">Próximamente</span>
-      <h2 id="t-clase">Marketing desde cero</h2>
-      <p>¿Recién empezás? En esta clase gratuita vas a entender qué hacer primero y por qué.</p>
-      <button class="btn sm" type="button" data-link="clase" disabled>Quiero empezar</button>
-    </section>
-
-    <section class="feat rise" aria-labelledby="t-curso">
-      <div class="img"><img src="/images/links/curso-valija-ruta-puerto.webp" width="960" height="640" loading="lazy" alt="Valija abierta con cuaderno, laptop y brújula, y una ruta que lleva a un puerto"></div>
-      <div>
-        <span class="pill red">Próximamente · En vivo</span>
-        <h2 id="t-curso">Marketing + IA de <span class="sans">0</span> a <span class="sans">100</span></h2>
+      <div class="feat">
+        <div class="img"><img src="/images/links/curso-valija-ruta-puerto.webp" width="960" height="640" alt="Valija abierta con cuaderno, laptop y brújula, y una ruta que lleva a un puerto" loading="lazy"></div>
+        <span class="pill r">Próximamente · En vivo</span>
+        <h2>Marketing + IA de <span class="sans">0</span> a <span class="sans">100</span></h2>
         <p class="lede">Dejá de juntar ideas. Empezá a construir una estrategia.</p>
         <p>Tres encuentros conmigo para dar tus primeros pasos en branding y posicionamiento digital. Incluye guía de apoyo.</p>
-        <button class="btn" type="button" data-link="curso" disabled>Quiero mi lugar</button>
+        <button class="dis" type="button" data-link="curso" disabled>Quiero mi lugar</button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <details class="rise">
-      <summary>
-        <div>
-          <h2>Recursos gratuitos</h2>
-          <p>Un primer paso que podés dar hoy.</p>
-        </div>
-        <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-      </summary>
-      <div class="res">
-        <article>
-          <h3>Tu primera ruta de marketing</h3>
-          <p>Ordená tus ideas y encontrá por dónde empezar.</p>
-          <a class="btn line sm" data-link="guiaRuta">Descargar</a>
-        </article>
-        <article>
-          <h3>5 formas de usar IA esta semana</h3>
-          <p>Llevá la IA a tareas concretas de tu emprendimiento.</p>
-          <a class="btn line sm" data-link="guiaIA">Descargar</a>
-        </article>
-        <article>
-          <h3>31 ideas de contenido que nunca se agotan</h3>
-          <p>Dejá de arrancar de cero cada vez que publicás.</p>
-          <a class="btn line sm" data-link="guiaContenido">Descargar</a>
-        </article>
-      </div>
-    </details>
+  <section class="group" aria-labelledby="t-rec">
+    <div class="label" id="t-rec">Recursos gratuitos</div>
+    <p style="margin:-2px 2px 10px;color:rgba(255,255,255,.88)">Un primer paso que podés dar hoy.</p>
+    <div class="list">
+      <a class="row" data-link="guiaRuta"><div><b>Tu primera ruta de marketing</b><span class="d">Ordená tus ideas y encontrá por dónde empezar.</span></div><span class="go">Descargar</span></a>
+      <a class="row" data-link="guiaIA"><div><b>5 formas de usar IA esta semana</b><span class="d">Llevá la IA a tareas concretas de tu emprendimiento.</span></div><span class="go">Descargar</span></a>
+      <a class="row" data-link="guiaContenido"><div><b>31 ideas de contenido que nunca se agotan</b><span class="d">Dejá de arrancar de cero cada vez que publicás.</span></div><span class="go">Descargar</span></a>
+    </div>
+  </section>
 
-    <section class="training rise" aria-labelledby="t-training">
-      <h2 id="t-training">Seguí aprendiendo en COSMART Training</h2>
-      <p>Elegí tu próxima capacitación: marketing, creación de contenido y productos para vender en internet.</p>
-      <a class="btn line sm" data-link="training">Ir a la plataforma <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </section>
-
-    <section class="plata rise" aria-labelledby="t-plata">
-      <span class="eyebrow">Planilla</span>
-      <h2 id="t-plata">Plata en Orden</h2>
-      <p class="strong">Que tus números dejen de ser una incógnita.</p>
-      <p>Una planilla para organizar tu plata y ver con más claridad cómo la estás usando.</p>
-      <a class="btn" data-link="plata">Quiero ordenar mi plata <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </section>
-  </div>
+  <section class="group" aria-label="Más para vos">
+    <div class="label">Más para vos</div>
+    <div class="list">
+      <a class="tr" data-link="training">
+        <h2>Seguí aprendiendo en COSMART Training</h2>
+        <p>Elegí tu próxima capacitación: marketing, creación de contenido y productos para vender en internet.</p>
+        <span class="go2">Ir a la plataforma</span>
+      </a>
+      <a class="pl" data-link="plata">
+        <h2>Plata en Orden</h2>
+        <p class="s">Que tus números dejen de ser una incógnita.</p>
+        <p>Una planilla para organizar tu plata y ver con más claridad cómo la estás usando.</p>
+        <span class="cta" style="margin-top:12px">Quiero ordenar mi plata <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </section>
 
   <footer>
     <div class="social">

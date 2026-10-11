@@ -37,8 +37,8 @@ a{color:inherit;text-decoration:none}
 .brand img{height:28px;width:auto;margin:0 auto}
 .avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid var(--red);margin:0 auto 12px}
 h1{font:900 38px/1.1 var(--serif)}
-h1 i{font-style:normal;color:#fff}
-.tag{font:700 19px/1.3 var(--serif);margin-top:26px}
+h1 i{font-style:normal;color:#fff;border-bottom:4px solid var(--red);padding-bottom:1px}
+.tag{font:700 19px/1.3 var(--serif);margin-top:18px}
 .lead{margin-top:8px;color:rgba(255,255,255,.88)}
 .pick{margin-top:14px;font-size:13.5px;color:#9CCBEB}
 
@@ -114,16 +114,11 @@ footer{margin-top:30px;text-align:center}
 .copy{margin-top:12px;font-size:12.5px;color:rgba(255,255,255,.7)}
 [aria-disabled="true"]{pointer-events:none}
 /* Movimiento */
-h1 i{position:relative;display:inline-block;border-bottom:0;padding-bottom:0}
-h1 i::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:4px;background:var(--red);transform-origin:left center}
+h1 i{display:inline-block}
 @media (prefers-reduced-motion:no-preference){
-  h1 i span{display:inline-block;-webkit-mask-image:linear-gradient(90deg,#000 55%,transparent 100%);mask-image:linear-gradient(90deg,#000 55%,transparent 100%);
-    -webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:100% 0;mask-position:100% 0;
-    animation:vtxt 7s ease-in-out infinite}
-  h1 i::after{transform:scaleX(0);animation:vline 7s ease-out infinite}
+  h1 i{animation:vaneh 6.5s ease-in-out infinite}
 }
-@keyframes vtxt{0%{-webkit-mask-position:100% 0;mask-position:100% 0}23%,80%{-webkit-mask-position:0 0;mask-position:0 0}97%,100%{-webkit-mask-position:100% 0;mask-position:100% 0}}
-@keyframes vline{0%,24%{transform:scaleX(0)}33%,74%{transform:scaleX(1)}82%,100%{transform:scaleX(0)}}
+@keyframes vaneh{0%{clip-path:inset(-6px 100% -6px -6px)}26%,74%{clip-path:inset(-6px -6px -6px -6px)}98%,100%{clip-path:inset(-6px 100% -6px -6px)}}
 .thumb{position:relative}
 .screen{position:absolute;inset:0;pointer-events:none;clip-path:polygon(20.7% 10.3%,57.7% 15.6%,53.5% 54.9%,15.4% 45.7%)}
 .bub{position:absolute;left:var(--l);top:var(--t);width:var(--w);aspect-ratio:1;border-radius:50%;opacity:0;
@@ -150,7 +145,7 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
   <header class="top">
     <div class="brand" id="brand">COSMART</div>
     <img class="avatar" id="avatar" alt="Aquí Vaneh" width="88" height="88" hidden>
-    <h1>Aquí <i><span>Vaneh</span></i></h1>
+    <h1>Aquí <i>Vaneh</i></h1>
     <p class="tag">Tu próximo paso empieza aquí.</p>
     <p class="lead">¡Hola, soy Vaneh y voy a ayudarte con el crecimiento de tu negocio con estrategia, marketing e IA, cuidando también tu tiempo!</p>
     <p class="pick">Elegí por dónde querés empezar.</p>

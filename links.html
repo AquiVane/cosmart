@@ -173,13 +173,6 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
   <section class="group rec" aria-labelledby="t-prox">
     <div class="label" id="t-prox">Lo que viene</div>
     <div class="list">
-      <div class="off">
-        <span class="pill g">Próximamente</span>
-        <h2>Marketing + IA de <span class="sans">0</span> a <span class="sans">100</span></h2>
-        <p>Una estructura sólida, desde cero, para que dejes de perder tiempo y dinero.</p>
-        <p>Sumate a la lista de espera. Cupos limitados.</p>
-        <button class="dis" type="button" data-link="curso" disabled>Ingresar en lista de espera</button>
-      </div>
       <div class="feat">
         <div class="img"><img src="/images/links/curso-valija-ruta-puerto.webp" width="960" height="640" alt="Valija abierta con cuaderno, laptop y brújula, y una ruta que lleva a un puerto" loading="lazy"><svg class="sail" id="sailsvg" viewBox="0 0 1536 1024" preserveAspectRatio="none" aria-hidden="true">
           <path id="ruta" d="M1000,415 C1070,402 1170,385 1210,320 C1230,285 1130,300 1085,250 C1100,225 1180,215 1260,196 C1290,188 1300,170 1307,152" fill="none" stroke="none"/>
@@ -226,6 +219,16 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
     </div>
   </section>
 
+  <section class="group" style="margin-top:18px" aria-label="Clase gratuita">
+    <div class="list">
+      <div class="off">
+        <h2>Marketing desde cero</h2>
+        <p>En esta clase gratuita vas a entender qué hacer primero y por qué.</p>
+        <a class="cta" data-link="guiaClase">Quiero empezar</a>
+      </div>
+    </div>
+  </section>
+
   <section class="group rec" aria-labelledby="t-tr">
     <div class="label" id="t-tr">Seguí aprendiendo en <span style="white-space:nowrap">COSMART Training</span></div>
     <div class="list">
@@ -260,7 +263,7 @@ var CONFIG = {
   links: {
     brujula:       "https://cosmart.com.ar/brujula",
     ia:            "https://training.cosmart.com.ar/iaprincipiantes",
-    clase:         "",   /* LISTA DE ESPERA de la clase gratuita: pegar acá el link y el botón se activa solo */
+    guiaClase:     "https://training.cosmart.com.ar/guia/capacitacion-marketing",   /* card "Marketing desde cero": lleva a la descarga del PDF gratuito (embudo: PDF -> clase gratis -> curso) */
     curso:         "https://training.cosmart.com.ar/cursos/capacitacion-marketing/proximamente",   /* lista de espera del curso en vivo */
     guiaRuta:      "https://training.cosmart.com.ar/guia/capacitacion-marketing",
     guiaIA:        "https://training.cosmart.com.ar/leadmagnet-iaprincipiantes",

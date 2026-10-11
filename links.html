@@ -130,10 +130,16 @@ h1 i::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:4px;b
   background:radial-gradient(circle at 35% 30%,#fff,rgba(160,225,255,.9) 35%,rgba(70,150,255,.45) 68%,transparent 72%);mix-blend-mode:screen;
   box-shadow:0 0 14px 2px rgba(120,200,255,.85);animation:bub var(--d) ease-in-out infinite;animation-delay:var(--s)}
 @keyframes bub{0%{opacity:0;transform:translate(0,60%) scale(.6)}20%{opacity:.95}75%{opacity:.8}100%{opacity:0;transform:translate(var(--x),-170%) scale(1.15)}}
+.dialwrap{position:absolute;left:41.6%;top:48.2%;width:24.8%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;
+  -webkit-mask-image:linear-gradient(41.6deg,transparent 12%,#000 19%,#000 81%,transparent 88%),linear-gradient(131.6deg,transparent 36%,#000 42%,#000 58%,transparent 64%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(41.6deg,transparent 12%,#000 19%,#000 81%,transparent 88%),linear-gradient(131.6deg,transparent 36%,#000 42%,#000 58%,transparent 64%);mask-composite:intersect}
+.dial{position:absolute;inset:0;background:url(/images/links/hero-brujula-valija-mar.webp) no-repeat;background-size:403.2% auto;background-position:38.83% 47.1%;
+  animation:aguja 7s ease-in-out infinite}
+@keyframes aguja{0%,52%,100%{transform:rotate(0)}7%{transform:rotate(4.5deg)}15%{transform:rotate(-3.5deg)}23%{transform:rotate(2.4deg)}31%{transform:rotate(-1.5deg)}40%{transform:rotate(.7deg)}}
 .cta,.go2{animation:tum 1.7s ease-in-out infinite;will-change:transform}
 @keyframes tum{0%,100%{transform:scale(1)}30%{transform:scale(.95)}60%{transform:scale(1.035)}}
 a:hover .cta,a:hover .go2{animation-play-state:paused}
-@media (prefers-reduced-motion:reduce){.cta,.go2{animation:none}.screen{display:none}}
+@media (prefers-reduced-motion:reduce){.cta,.go2{animation:none}.screen,.dialwrap{display:none}}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (min-width:700px){.wrap{padding-top:48px}}
@@ -160,7 +166,7 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
       </a>
       <a class="link" data-link="brujula">
         <h2>Consultoría personalizada para Pymes y marcas</h2>
-        <div class="thumb"><img src="/images/links/hero-brujula-valija-mar.webp" width="960" height="640" alt="" loading="lazy"></div>
+        <div class="thumb"><img src="/images/links/hero-brujula-valija-mar.webp" width="960" height="640" alt="" loading="lazy"><div class="dialwrap" aria-hidden="true"><div class="dial"></div></div></div>
         <p>Tu negocio, con más rumbo. Brújula, la auditoría gratuita, te ayuda a detectar oportunidades.</p>
         <span class="cta">Quiero mi Brújula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>

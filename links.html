@@ -112,6 +112,20 @@ footer{margin-top:30px;text-align:center}
 .handles{margin-top:8px;font-size:13px;color:rgba(255,255,255,.8)}
 .copy{margin-top:12px;font-size:12.5px;color:rgba(255,255,255,.7)}
 [aria-disabled="true"]{pointer-events:none}
+/* Movimiento */
+h1 i{animation:vaneh 4.6s ease-in-out infinite}
+@keyframes vaneh{0%,52%{opacity:1}72%,82%{opacity:.06}100%{opacity:1}}
+.thumb{position:relative}
+.screen{position:absolute;inset:0;pointer-events:none;clip-path:polygon(20.7% 10.3%,57.7% 15.6%,53.5% 54.9%,15.4% 45.7%)}
+.bub{position:absolute;left:var(--l);top:var(--t);width:var(--w);aspect-ratio:1;border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 35% 30%,#fff,rgba(160,225,255,.9) 35%,rgba(70,150,255,.45) 68%,transparent 72%);mix-blend-mode:screen;
+  box-shadow:0 0 14px 2px rgba(120,200,255,.85);animation:bub var(--d) ease-in-out infinite;animation-delay:var(--s)}
+@keyframes bub{0%{opacity:0;transform:translate(0,60%) scale(.6)}20%{opacity:.95}75%{opacity:.8}100%{opacity:0;transform:translate(var(--x),-170%) scale(1.15)}}
+.cta,.go2{animation:tum 1.7s ease-in-out infinite;will-change:transform}
+@keyframes tum{0%,100%{transform:scale(1)}30%{transform:scale(.95)}60%{transform:scale(1.035)}}
+a:hover .cta,a:hover .go2{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){h1 i,.cta,.go2{animation:none}.screen{display:none}}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (min-width:700px){.wrap{padding-top:48px}}
 </style>
@@ -131,7 +145,7 @@ footer{margin-top:30px;text-align:center}
     <div class="list">
       <a class="link" data-link="ia">
         <h2>Aprendé a ganar tiempo y dinero usando IA de manera inteligente</h2>
-        <div class="thumb"><img src="/images/links/ia-laptop-mapa-brujula.webp" width="800" height="533" alt="" fetchpriority="high"></div>
+        <div class="thumb"><img src="/images/links/ia-laptop-mapa-brujula.webp" width="800" height="533" alt="" fetchpriority="high"><div class="screen" aria-hidden="true"><i class="bub" style="--l:24%;--t:36%;--w:3.2%;--d:6.5s;--s:-1s;--x:10%"></i><i class="bub" style="--l:31%;--t:23%;--w:2.2%;--d:5.5s;--s:-3s;--x:-8%"></i><i class="bub" style="--l:38%;--t:38%;--w:4%;--d:8s;--s:-5s;--x:12%"></i><i class="bub" style="--l:45%;--t:21%;--w:2.6%;--d:6s;--s:-2s;--x:-10%"></i><i class="bub" style="--l:49%;--t:33%;--w:3.4%;--d:7.5s;--s:-4s;--x:6%"></i><i class="bub" style="--l:34%;--t:29%;--w:1.8%;--d:5s;--s:-.5s;--x:8%"></i><i class="bub" style="--l:27%;--t:42%;--w:2.4%;--d:7s;--s:-6s;--x:-6%"></i><i class="bub" style="--l:42%;--t:29%;--w:1.6%;--d:4.8s;--s:-2.5s;--x:-5%"></i></div></div>
         <p>Ahorrá tiempo sin sonar igual a todos. Aprendé a crear un sistema de IA que entienda tu marca.</p>
         <span class="cta">Quiero el sistema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
@@ -191,7 +205,7 @@ footer{margin-top:30px;text-align:center}
         <h2>Marketing + IA de <span class="sans">0</span> a <span class="sans">100</span></h2>
         <p class="lede">Dejá de juntar ideas. Empezá a construir una estrategia.</p>
         <p>Tres encuentros conmigo para dar tus primeros pasos en branding y posicionamiento digital. Incluye guía de apoyo.</p>
-        <button class="dis" type="button" data-link="curso" disabled>Quiero mi lugar</button>
+        <button class="dis" type="button" data-link="curso" disabled>Ingresar en lista de espera</button>
       </div>
     </div>
   </section>
@@ -219,7 +233,7 @@ var CONFIG = {
     brujula:       "https://cosmart.com.ar/brujula",
     ia:            "https://training.cosmart.com.ar/iaprincipiantes",
     clase:         "",   /* PRÓXIMAMENTE: se activa cuando exista la clase */
-    curso:         "",   /* PRÓXIMAMENTE: se activa cuando abra la inscripción */
+    curso:         "",   /* LISTA DE ESPERA: pegar acá el link de la landing de lista de espera y el botón se activa solo */
     guiaRuta:      "https://training.cosmart.com.ar/guia/capacitacion-marketing",
     guiaIA:        "https://training.cosmart.com.ar/leadmagnet-iaprincipiantes",
     guiaContenido: "https://training.cosmart.com.ar/leadmagnet-contenidosrrss",
@@ -233,11 +247,14 @@ var CONFIG = {
   var L = CONFIG.links;
   document.querySelectorAll('[data-link]').forEach(function(el){
     var url = L[el.getAttribute('data-link')];
-    if(url){
-      if(el.tagName === 'A'){
-        el.href = url;
-        if(url.indexOf(location.origin) !== 0){ el.target = '_blank'; el.rel = 'noopener'; }
-      }
+    if(url && el.tagName === 'A'){
+      el.href = url;
+      if(url.indexOf(location.origin) !== 0){ el.target = '_blank'; el.rel = 'noopener'; }
+    } else if(url && el.tagName === 'BUTTON'){
+      var a = document.createElement('a');
+      a.className = 'cta'; a.href = url; a.textContent = el.textContent;
+      if(url.indexOf(location.origin) !== 0){ a.target = '_blank'; a.rel = 'noopener'; }
+      el.replaceWith(a);
     } else if(el.tagName === 'A'){
       el.setAttribute('aria-disabled','true'); el.setAttribute('role','link'); el.tabIndex = -1;
       el.addEventListener('click', function(e){ e.preventDefault(); });

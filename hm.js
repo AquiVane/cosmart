@@ -151,9 +151,14 @@
         }
         var dEv = t.closest('[data-hm-event]'); if (dEv) accion(dEv.getAttribute('data-hm-event'));
         if (clics >= MAX_CLICS) return; clics++;
-        var cw = ancho();
-        empujar({ type: 'click', x: Math.round((e.pageX / cw) * 1000) / 1000, y: Math.round(e.pageY),
-          el: inter ? descriptor(inter) : '', txt: inter ? texto(inter) : '', href: a ? destino(a) : '' });
+        var cw = ancho(), ev = { type: 'click', x: Math.round((e.pageX / cw) * 1000) / 1000, y: Math.round(e.pageY),
+          el: inter ? descriptor(inter) : '', txt: inter ? texto(inter) : '', href: a ? destino(a) : '' };
+        if (inter) { // rectángulo del botón (para dibujarlo iluminado sobre la página en el Hub)
+          var rc = inter.getBoundingClientRect();
+          ev.r = [Math.round(((rc.left + (window.pageXOffset || 0)) / cw) * 1000) / 1000, Math.round(rc.top + (window.pageYOffset || 0)),
+            Math.round((rc.width / cw) * 1000) / 1000, Math.round(rc.height)];
+        }
+        empujar(ev);
       } catch (err) { /* nunca romper la página */ }
     }
     doc.addEventListener('click', alClic, true);

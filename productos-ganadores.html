@@ -390,6 +390,7 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
 .pay-tab.active{border-color:var(--az3);background:rgba(58,143,199,.08);color:var(--az3)}
 .pay-tab:hover:not(.active){border-color:#6b7a90;color:#6b7a90}
 </style>
+<script src="js/checkout-robusto.js?v=20261012c"></script>
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script src="https://www.paypal.com/sdk/js?client-id=AYuQX3JJShvSkgNn0C195h3GEHGiKNtx44X3wd_5PEoBI1iinpysmDzNRqdZ7blNuZvFWIwcwhc9qiOP&currency=USD&intent=capture" data-sdk-integration-source="button-factory"></script>
 </head>
@@ -776,6 +777,7 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
           <div class="mps">Pago seguro procesado por Mercado Pago. Tarjetas de crédito, débito, Rapipago y transferencia.</div>
           <div id="paymentBrick_container"></div>
           <div class="mpseg" style="margin-top:.8rem">🔒 Pago seguro · procesado por <span class="mpbrand">Mercado Pago</span></div>
+          <div id="mpAlternativa"></div>
           <div id="mpmsg" style="font-size:.78rem;text-align:center;margin-top:.3rem;min-height:1.2rem;font-family:var(--sans)"></div>
         </div>
         <div id="pp-section" style="display:none">
@@ -783,6 +785,7 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
           <div class="mps">Pago seguro procesado por PayPal. Aceptamos todas las tarjetas y saldo PayPal desde cualquier país.</div>
           <div id="paypal_container" style="min-height:150px"></div>
           <div class="mpseg" style="margin-top:.8rem">🔒 Pago seguro · procesado por <span style="color:#003087;font-weight:700;background:#fff;padding:.1rem .4rem;border-radius:4px;font-size:.8rem">Pay<span style="color:#009cde">Pal</span></span></div>
+          <div id="ppAlternativa"></div>
           <div id="ppmsg" style="font-size:.78rem;text-align:center;margin-top:.3rem;min-height:1.2rem;font-family:var(--sans)"></div>
         </div>
       </div>
@@ -865,8 +868,7 @@ function mostrarBannerCodigo() {
       // Timer ya expiró: mostrar mensaje y brick de pago normal
       if (badgeDesc) badgeDesc.textContent = 'Acceso gratuito expirado';
       container.innerHTML = `<div class="codigo-banner" style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:12px 16px;margin-bottom:16px;text-align:center;font-size:14px;color:#991b1b;font-weight:600">⏰ El acceso gratuito expiró — Los 10 minutos terminaron. El precio volvió a <strong>$65.000</strong></div>`;
-      brickInitialized = false;
-      initBrick();
+      brickMP.reiniciar();
       return;
     }
     if (timerWrap) timerWrap.innerHTML = `<span id="pcaja-timer-label">🎁 Acceso gratuito por los próximos</span> <span id="pcaja-cdt">10:00</span>`;
@@ -935,41 +937,39 @@ async function canjearFree() {
   }
 }
 
-let brickInitialized = false;
-async function initBrick() {
-  if (brickInitialized) return;
-  brickInitialized = true;
-  const msg = document.getElementById('mpmsg');
-
-  // Seguro adicional: si a los 6 segundos el Brick no avisó "listo",
-  // mostramos la alternativa igual — algunos fallos del SDK de MP no
-  // se pueden atrapar con try/catch (quedan como "Uncaught in promise"),
-  // así que no podemos depender solo del catch de acá abajo.
-  const fallbackTimer = setTimeout(() => mostrarAlternativaMP(), 6000);
-
-  try {
-    const ctrl = new AbortController();
-    const tmo = setTimeout(() => ctrl.abort(), 5000);
-    const r = await fetch(WORKER_URL + '/preference', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: getPrecioConDescuento() }),
-      signal: ctrl.signal
-    });
-    clearTimeout(tmo);
-    const json = await r.json();
-    const preference_id = json.preference_id;
-    if (!preference_id) throw new Error('No preference_id');
-    const mp = new MercadoPago('APP_USR-057d290b-5af9-4b00-8a08-6753dc47aec4', { locale: 'es-AR' });
-    await mp.bricks().create('payment', 'paymentBrick_container', {
-      initialization: { amount: getPrecioConDescuento(), preferenceId: preference_id },
-      customization: {
-        visual: { hideFormTitle: true, style: { theme: 'default' } },
-        paymentMethods: { creditCard: 'all', debitCard: 'all' }
-      },
-      callbacks: {
-        onReady: () => { clearTimeout(fallbackTimer); },
-        onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+// Robusto (Safari/Instagram incluidos): ver js/checkout-robusto.js. Reintenta solo, recarga el SDK,
+// alterna modos de respaldo; nunca saca a la persona del checkout.
+var brickMP = CTPago.brick({
+  contenedor: 'paymentBrick_container', alt: 'mpAlternativa',
+  crear: () => new Promise(async (resolveReady, rejectReady) => {
+    const msg = document.getElementById('mpmsg');
+    try {
+      let preference_id = null;
+      if (CTPago.modo() === 'pref') { // los modos de respaldo no necesitan preferencia
+        const ctrl = new AbortController();
+        const tmo = setTimeout(() => ctrl.abort(), 15000);
+        const r = await fetch(WORKER_URL + '/preference', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: getPrecioConDescuento() }),
+          signal: ctrl.signal
+        });
+        clearTimeout(tmo);
+        const json = await r.json();
+        preference_id = json.preference_id;
+        if (!preference_id) throw new Error('No preference_id');
+      }
+      const mp = CTPago.adaptar(new MercadoPago('APP_USR-057d290b-5af9-4b00-8a08-6753dc47aec4', { locale: 'es-AR' }));
+      let controller = null;
+      controller = await mp.bricks().create('payment', 'paymentBrick_container', {
+        initialization: { amount: getPrecioConDescuento(), preferenceId: preference_id },
+        customization: {
+          visual: { hideFormTitle: true, style: { theme: 'default' } },
+          paymentMethods: { creditCard: 'all', debitCard: 'all' }
+        },
+        callbacks: {
+          onReady: () => resolveReady(controller || { unmount() {} }),
+          onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
           const consent = document.getElementById('privacyCheck');
           if (consent && !consent.checked) {
             msg.style.color = '#E02020';
@@ -994,33 +994,14 @@ async function initBrick() {
             }
             resolve();
           } catch(e) { msg.style.color='#E02020'; msg.textContent='Error de conexión. Intentá de nuevo.'; reject(); }
-        }),
-        onError: (e) => console.error(e)
-      }
-    });
-  } catch(e) {
-    brickInitialized = false; // permitir reintentar
-    clearTimeout(fallbackTimer);
-    mostrarAlternativaMP();
-  }
-}
-
-function mostrarAlternativaMP() {
-  const container = document.getElementById('paymentBrick_container');
-  if (container.dataset.altShown === '1') return; // no duplicar
-  container.dataset.altShown = '1';
-  container.innerHTML = `
-      <div style="text-align:center;padding:24px 16px;font-family:var(--sans)">
-        <div style="font-size:32px;margin-bottom:12px">⚠️</div>
-        <p style="color:#334155;font-size:14px;margin-bottom:16px">El formulario de pago está tardando en cargar.<br>Podés pagar directamente por Mercado Pago:</p>
-        <a href="https://mpago.la/productos-ganadores-cosmart" target="_blank"
-           style="display:inline-block;background:#009EE3;color:#fff;padding:12px 28px;border-radius:8px;
-           font-weight:700;text-decoration:none;font-size:15px;font-family:var(--sans)">
-          💳 Pagar con Mercado Pago →
-        </a>
-        <p style="color:#94a3b8;font-size:12px;margin-top:12px">O escribinos a <a href="mailto:info@cosmart.com.ar" style="color:var(--az3)">info@cosmart.com.ar</a></p>
-      </div>`;
-}
+          }),
+          onError: (e) => console.error(e)
+        }
+      });
+    } catch(e) { rejectReady(e); }
+  }),
+});
+function initBrick() { return brickMP.iniciar(); }
 
 // Inicializa el Brick cuando la sección de pago entra en pantalla
 const brickObserver = new IntersectionObserver((entries) => {
@@ -1048,12 +1029,12 @@ function getPrecioUSD(){ return timerExpired() ? 47.00 : 32.90; }
 let ppInitialized = false;
 function initPayPal() {
   if (ppInitialized) return;
-  if (typeof paypal === 'undefined') {
-    const msg = document.getElementById('ppmsg');
-    if (msg) { msg.style.color = '#E02020'; msg.textContent = 'No se pudo cargar PayPal. Revisá tu conexión.'; }
-    return;
-  }
+  CTPago._ppReintento = () => { ppInitialized = false; initPayPal(); };
   ppInitialized = true;
+  CTPago.paypal({ alt: 'ppAlternativa', montar: montarPayPal }).then(ok => { if (!ok) ppInitialized = false; });
+}
+function montarPayPal() {
+  return new Promise((resolve, reject) => { try {
   paypal.Buttons({
     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 48 },
     onClick: function(data, actions) {
@@ -1102,7 +1083,8 @@ function initPayPal() {
       ppInitialized = false;
     },
     onCancel: function() {}
-  }).render('#paypal_container');
+  }).render('#paypal_container').then(resolve, reject);
+  } catch(e) { reject(e); } });
 }
 
 function switchPayTab(tab) {
@@ -1186,11 +1168,7 @@ function applyExpired(){
   if(timerWrapUsd)    timerWrapUsd.style.display       = 'none';
   if(expiredMsgUsd)   expiredMsgUsd.style.display      = 'block';
   // Reinicializar brick con nuevo precio si ya estaba activo
-  if(brickInitialized){
-    brickInitialized = false;
-    document.getElementById('paymentBrick_container').innerHTML = '';
-    initBrick();
-  }
+  if(brickMP.estado() !== 'idle'){ brickMP.reiniciar(); }
 }
 
 (function(){

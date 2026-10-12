@@ -21,6 +21,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
+  <script src="/js/checkout-robusto.js?v=20261012c"></script>
   <script src="https://sdk.mercadopago.com/js/v2"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -412,6 +413,7 @@
   <!-- Mercado Pago Brick -->
   <p style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;">Mercado Pago · ARS</p>
   <div id="paymentBrick_container"></div>
+  <div id="mpAlternativa"></div>
   <div id="mpmsg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
 </div>
 
@@ -489,7 +491,7 @@
       document.getElementById('timer-label').style.display = 'none';
       document.getElementById('timer-expired-msg').style.display = 'block';
       setPrice(300);
-      if (brickInitialized) { brickInitialized = false; document.getElementById('paymentBrick_container').innerHTML = ''; initMPBrick(); }
+      if (typeof brickMP !== 'undefined' && brickMP.estado() !== 'idle') { brickMP.reiniciar(); }
       return;
     }
     const diff = timerExpires - Date.now();
@@ -578,31 +580,32 @@
   }
 
   // ── MP Brick ──────────────────────────────────────────────────
-  async function initMPBrick() {
-    if (brickInitialized) return;
-    brickInitialized = true;
-    const msg = document.getElementById('mpmsg');
-    const container = document.getElementById('paymentBrick_container');
-    try {
-      const res  = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, { method: 'POST' });
-      const json = await res.json();
-      if (!json.preference_id) throw new Error('Sin preference_id');
-
-      // Guardar init_point como fallback por si el brick falla
-      const initPoint = json.init_point || null;
-      // Usar el precio real de la preferencia para que MP no la rechace
-      const brickAmount = json.precio_ars || precioArs;
-
-      const mp = new MercadoPago(MP_KEY, { locale: 'es-AR' });
-      await mp.bricks().create('payment', 'paymentBrick_container', {
-        initialization: { amount: brickAmount, preferenceId: json.preference_id },
-        customization: {
-          visual: { hideFormTitle: true, style: { theme: 'default' } },
-          paymentMethods: { creditCard: 'all', debitCard: 'all' }
-        },
-        callbacks: {
-          onReady: () => {},
-          onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+  // Robusto (Safari/Instagram incluidos): ver /js/checkout-robusto.js. Nunca saca a la persona del checkout.
+  var brickMP = CTPago.brick({
+    contenedor: 'paymentBrick_container', alt: 'mpAlternativa',
+    crear: () => new Promise(async (resolveReady, rejectReady) => {
+      const msg = document.getElementById('mpmsg');
+      try {
+        let preferenceId = null, brickAmount = precioArs;
+        if (CTPago.modo() === 'pref') { // los modos de respaldo no necesitan preferencia
+          const res  = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, { method: 'POST' });
+          const json = await res.json();
+          if (!json.preference_id) throw new Error('Sin preference_id');
+          preferenceId = json.preference_id;
+          // Usar el precio real de la preferencia para que MP no la rechace
+          brickAmount = json.precio_ars || precioArs;
+        }
+        const mp = CTPago.adaptar(new MercadoPago(MP_KEY, { locale: 'es-AR' }));
+        let controller = null;
+        controller = await mp.bricks().create('payment', 'paymentBrick_container', {
+          initialization: { amount: brickAmount, preferenceId },
+          customization: {
+            visual: { hideFormTitle: true, style: { theme: 'default' } },
+            paymentMethods: { creditCard: 'all', debitCard: 'all' }
+          },
+          callbacks: {
+            onReady: () => resolveReady(controller || { unmount() {} }),
+            onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
             try {
               const pr   = await fetch(`${API}/asesoria/mp/pay?lead_id=${encodeURIComponent(leadId)}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -621,23 +624,14 @@
                 resolve();
               }
             } catch(e) { msg.style.color='#E02020'; msg.textContent='Error de conexión. Intentá de nuevo.'; reject(); }
-          }),
-          onError: (e) => console.error('MP error:', e)
-        }
-      });
-    } catch(e) {
-      brickInitialized = false;
-      // Si tenemos init_point, ofrecer botón directo a checkout MP
-      const initPointFallback = typeof initPoint !== 'undefined' && initPoint ? initPoint : null;
-      container.innerHTML = initPointFallback
-        ? `<div style="text-align:center;padding:16px 0">
-            <a href="${initPointFallback}" style="display:inline-block;background:#009EE3;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
-              Pagar con Mercado Pago (ARS ${precioArs.toLocaleString('es-AR')}) →
-            </a>
-           </div>`
-        : `<p style="text-align:center;color:#9ca3af;font-size:13px;padding:16px 0;">El formulario de pago no está disponible en este momento.</p>`;
-    }
-  }
+            }),
+            onError: (e) => console.error('MP error:', e)
+          }
+        });
+      } catch(e) { rejectReady(e); }
+    }),
+  });
+  function initMPBrick() { return brickMP.iniciar(); }
 
   // ── PayPal SDK ────────────────────────────────────────────────
   // Se carga dinámicamente con el Client ID del worker

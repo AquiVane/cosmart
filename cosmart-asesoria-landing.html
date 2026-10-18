@@ -679,7 +679,14 @@
         onApprove: (data, actions) => {
           const msg = document.getElementById('ppmsg');
           if (msg) { msg.style.color = '#0D2B6B'; msg.textContent = 'Procesando pago…'; }
-          return actions.order.capture().then(() => {
+          return actions.order.capture().then(async () => {
+            // Verificación y aviso en el servidor (best-effort: nunca demora ni bloquea a quien ya pagó)
+            try {
+              await Promise.race([
+                fetch(`${API}/asesoria/paypal/confirmar`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orderID: data.orderID, lead_id: leadId }), keepalive: true }),
+                new Promise(r => setTimeout(r, 2500)),
+              ]);
+            } catch (e) {}
             location.href = `/brujula/asesoria/gracias?lead_id=${encodeURIComponent(leadId)}&nombre=${encodeURIComponent(nombre)}&negocio=${encodeURIComponent(negocio)}`;
           });
         },

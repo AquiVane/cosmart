@@ -279,10 +279,11 @@
     .hora li::before { content: counter(paso); flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
     .hora li strong { color: var(--navy); }
     .foto-aro { position: relative; width: 150px; height: 150px; margin: 12px auto 26px; }
-    .foto-aro::before { content: ''; position: absolute; inset: -8px; border-radius: 50%; background: conic-gradient(from 0deg, #3A8FC7, #1A4DAA, #E02020, #1A4DAA, #3A8FC7); opacity: .85; }
+    .foto-aro::before { content: ''; position: absolute; inset: -9px; border-radius: 50%; background: conic-gradient(from 0deg, #3A8FC7, #1A4DAA, #E02020, #1A4DAA, #3A8FC7); opacity: 1; }
     @media (prefers-reduced-motion: no-preference) { .foto-aro::before { animation: giro 8s linear infinite; } }
     @keyframes giro { to { transform: rotate(360deg); } }
-    .foto-aro img { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
+    .foto-aro .zoom { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
+    .foto-aro img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); transform-origin: 50% 38%; }
     .reserva { max-width: 640px; margin: 0 auto; padding: 44px 24px 48px; }
     .reserva .cta-group { padding: 0; }
 
@@ -448,7 +449,7 @@
 <!-- Con quién vas a hablar -->
 <div class="about">
   <h2>¿Con quién vas a hablar?</h2>
-  <div class="foto-aro"><img src="Foto de Perfil - Aquí Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART y Fractional CMO" width="150" height="150" loading="lazy"></div>
+  <div class="foto-aro"><span class="zoom"><img src="Foto de Perfil - Aquí Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART y Fractional CMO" width="150" height="150" loading="lazy"></span></div>
   <p>Soy Vaneh Fernández, fundadora de COSMART y Fractional CMO. Hace más de 10 años acompaño marcas y negocios en Argentina y Latinoamérica con estrategia, marketing e inteligencia artificial, cuidando también tu tiempo.</p>
 </div>
 

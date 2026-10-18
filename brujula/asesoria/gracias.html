@@ -281,8 +281,7 @@
 </div>
 
 <footer>
-  © 2025 COSMART · cosmart.com.ar ·
-  <a href="mailto:vaneh@cosmart.com.ar" style="color:rgba(255,255,255,0.4);">vaneh@cosmart.com.ar</a>
+  © 2025 COSMART · cosmart.com.ar
 </footer>
 
 <script>
@@ -503,7 +502,7 @@
         `Te enviamos un email de confirmación a <strong>${email}</strong>.<br/>Vaneh se va a poner en contacto antes del turno para mandarte el link de la videollamada.`;
 
     } catch (e) {
-      errEl.textContent = 'Error de conexión. Intentá de nuevo o escribinos a vaneh@cosmart.com.ar';
+      errEl.textContent = 'Error de conexión. Intentá de nuevo en unos minutos.';
       errEl.style.display = 'block';
       btn.disabled = false;
       btn.textContent = 'Confirmar este horario →';

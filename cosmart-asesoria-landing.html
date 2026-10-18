@@ -264,6 +264,28 @@
     .about h2 { font-size: 22px; font-weight: 700; margin-bottom: 14px; }
     .about p  { font-size: 15px; color: rgba(255,255,255,0.75); max-width: 540px; margin: 0 auto; }
 
+
+    /* ── Persuasión (secciones nuevas) ── */
+    .dolor, .hora { max-width: 640px; margin: 0 auto; padding: 44px 24px 8px; }
+    .dolor h2, .hora h2, .reserva h2 { font-size: clamp(22px, 4.6vw, 28px); font-weight: 800; line-height: 1.25; color: var(--navy); text-align: center; margin-bottom: 20px; }
+    .dolor ul { list-style: none; display: grid; gap: 10px; margin-bottom: 8px; }
+    .dolor li { display: flex; gap: 12px; align-items: flex-start; background: #fff; border-radius: 12px; padding: 14px 16px; font-size: 15.5px; line-height: 1.5; box-shadow: 0 1px 4px rgba(9,28,71,.08); }
+    .dolor li::before { content: ''; flex-shrink: 0; width: 10px; height: 10px; margin-top: 7px; border-radius: 50%; background: var(--red); }
+    .giro { background: var(--navy); color: #fff; text-align: center; padding: 40px 24px; margin-top: 36px; }
+    .giro h2 { color: #fff; margin-bottom: 14px; }
+    .giro p { max-width: 560px; margin: 0 auto; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.9); }
+    .hora ol { list-style: none; counter-reset: paso; display: grid; gap: 12px; margin-bottom: 8px; }
+    .hora li { counter-increment: paso; display: flex; gap: 14px; align-items: flex-start; background: #fff; border-radius: 12px; padding: 16px; font-size: 15.5px; line-height: 1.55; box-shadow: 0 1px 4px rgba(9,28,71,.08); }
+    .hora li::before { content: counter(paso); flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .hora li strong { color: var(--navy); }
+    .foto-aro { position: relative; width: 150px; height: 150px; margin: 12px auto 26px; }
+    .foto-aro::before { content: ''; position: absolute; inset: -8px; border-radius: 50%; background: conic-gradient(from 0deg, #3A8FC7, #1A4DAA, #E02020, #1A4DAA, #3A8FC7); opacity: .85; }
+    @media (prefers-reduced-motion: no-preference) { .foto-aro::before { animation: giro 8s linear infinite; } }
+    @keyframes giro { to { transform: rotate(360deg); } }
+    .foto-aro img { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
+    .reserva { max-width: 640px; margin: 0 auto; padding: 44px 24px 48px; }
+    .reserva .cta-group { padding: 0; }
+
     /* ── Footer ── */
     footer {
       background: var(--navy);
@@ -329,6 +351,32 @@
   <h1 id="hero-title">Una hora.<br/>Una dirección clara.</h1>
   <p id="hero-sub">Revisamos tu negocio, identificamos las palancas reales y salís con el primer paso concreto para los próximos 90 días.</p>
 </div>
+
+<!-- ¿Te pasa algo de esto? -->
+<section class="dolor">
+  <h2>¿Te pasa algo de esto?</h2>
+  <ul>
+    <li>Publicás todo el tiempo y no sabés si eso te trae clientes.</li>
+    <li>Invertís en pauta y no entendés qué está funcionando.</li>
+    <li>Tenés mil ideas, pero ninguna prioridad.</li>
+    <li>Probás herramientas e inteligencia artificial sin una estrategia detrás.</li>
+    <li>Sentís que tu negocio podría crecer más rápido de lo que crece.</li>
+  </ul>
+</section>
+
+<section class="giro">
+  <h2>Eso no es falta de esfuerzo. Es falta de dirección.</h2>
+  <p>Cuando no sabés qué hacer primero, todo parece urgente y nada avanza. Una hora de estrategia con alguien que mira tu negocio desde afuera puede ordenarte meses de decisiones.</p>
+</section>
+
+<section class="hora">
+  <h2>Cómo es la hora conmigo</h2>
+  <ol>
+    <li><span><strong>Antes:</strong> me contás cómo funciona tu negocio y qué querés lograr.</span></li>
+    <li><span><strong>Durante:</strong> revisamos tu situación actual, detectamos qué tiene más impacto y qué podés dejar de hacer.</span></li>
+    <li><span><strong>Después:</strong> salís con un primer paso concreto y una dirección para los próximos 90 días, no con un PDF.</span></li>
+  </ol>
+</section>
 
 <!-- Timer -->
 <div id="timer-section">
@@ -397,11 +445,27 @@
   </div>
 </div>
 
-<!-- About -->
+<!-- Con quién vas a hablar -->
 <div class="about">
-  <h2>¿Quién es Vaneh?</h2>
-  <p>Fractional CMO con +10 años acompañando marcas y negocios en Argentina y LATAM. Fundadora de COSMART — el ecosistema de marketing digital que integra estrategia, contenidos, performance, diseño y tecnología bajo una misma dirección.</p>
+  <h2>¿Con quién vas a hablar?</h2>
+  <div class="foto-aro"><img src="Foto de Perfil - Aquí Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART y Fractional CMO" width="150" height="150" loading="lazy"></div>
+  <p>Soy Vaneh Fernández, fundadora de COSMART y Fractional CMO. Hace más de 10 años acompaño marcas y negocios en Argentina y Latinoamérica con estrategia, marketing e inteligencia artificial, cuidando también tu tiempo.</p>
 </div>
+
+<!-- Reserva final -->
+<section class="reserva">
+  <h2>Reservá tu hora y salí con claridad.</h2>
+  <div class="cta-group">
+    <button class="btn btn-paypal" onclick="pagarPaypal(this)">
+      <span>💳</span>
+      <span>Pagar con PayPal (USD)</span>
+    </button>
+    <button class="btn btn-mp" onclick="pagarMP(this)">
+      <span>🇦🇷</span>
+      <span>Pagar con Mercado Pago (ARS)</span>
+    </button>
+  </div>
+</section>
 
 <footer>
   © 2025 COSMART · cosmart.com.ar ·
@@ -520,8 +584,9 @@
   }
 
   // ── PayPal ───────────────────────────────────────────────────
-  async function pagarPaypal() {
-    const btn = document.getElementById('btn-paypal');
+  async function pagarPaypal(el) {
+    const btn = el || document.getElementById('btn-paypal');
+    const original = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span>⏳</span><span>Creando orden…</span>';
 
@@ -535,18 +600,19 @@
       } else {
         alert('Hubo un error al crear la orden de PayPal. Escribinos a vaneh@cosmart.com.ar');
         btn.disabled = false;
-        btn.innerHTML = '<span>💳</span><span>Pagar con PayPal (USD)</span>';
+        btn.innerHTML = original;
       }
     } catch (e) {
       alert('Error de conexión. Intentá de nuevo o escribinos.');
       btn.disabled = false;
-      btn.innerHTML = '<span>💳</span><span>Pagar con PayPal (USD)</span>';
+      btn.innerHTML = original;
     }
   }
 
   // ── Mercado Pago ─────────────────────────────────────────────
-  async function pagarMP() {
-    const btn = document.getElementById('btn-mp');
+  async function pagarMP(el) {
+    const btn = el || document.getElementById('btn-mp');
+    const original = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span>⏳</span><span>Creando preferencia…</span>';
 
@@ -560,12 +626,12 @@
       } else {
         alert('Hubo un error con Mercado Pago. Escribinos a vaneh@cosmart.com.ar');
         btn.disabled = false;
-        btn.innerHTML = '<span>🇦🇷</span><span>Pagar con Mercado Pago (ARS)</span>';
+        btn.innerHTML = original;
       }
     } catch (e) {
       alert('Error de conexión. Intentá de nuevo o escribinos.');
       btn.disabled = false;
-      btn.innerHTML = '<span>🇦🇷</span><span>Pagar con Mercado Pago (ARS)</span>';
+      btn.innerHTML = original;
     }
   }
 

@@ -67,7 +67,7 @@
       font-size: 11px; font-weight: 700; color: var(--muted);
       text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 0;
     }
-    .day-headers span.friday { color: var(--sky); }
+    .day-headers span.turno { color: var(--sky); }
 
     .cal-grid {
       display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
@@ -80,17 +80,17 @@
     }
     .cal-grid .day-cell.empty { background: transparent; }
     .cal-grid .day-cell.past  { color: #d1d5db; }
-    .cal-grid .day-cell.friday-available {
+    .cal-grid .day-cell.turno-available {
       background: #eff6ff; color: var(--sky); font-weight: 700; cursor: pointer;
       border: 1.5px solid #bfdbfe;
     }
-    .cal-grid .day-cell.friday-available:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
-    .cal-grid .day-cell.friday-taken {
+    .cal-grid .day-cell.turno-available:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
+    .cal-grid .day-cell.turno-taken {
       background: #f3f4f6; color: #c4c9d4; cursor: not-allowed;
       border: 1.5px solid #e5e7eb; text-decoration: line-through;
       opacity: 0.55;
     }
-    .cal-grid .day-cell.friday-taken::after {
+    .cal-grid .day-cell.turno-taken::after {
       content: '✕';
       display: block;
       font-size: 9px;
@@ -105,6 +105,13 @@
       width: 5px; height: 5px; border-radius: 50%;
       background: currentColor; margin-top: 3px; opacity: 0.5;
     }
+
+    /* Horarios del día elegido */
+    .hora-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 18px; }
+    .hora-btn { padding: 12px 6px; border-radius: 10px; border: 1.5px solid #bfdbfe; background: #eff6ff; color: var(--sky); font-size: 14px; white-space: nowrap; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .hora-btn:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
+    .hora-btn.sel { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .hora-btn:disabled { background: #f3f4f6; color: #c4c9d4; border-color: #e5e7eb; text-decoration: line-through; cursor: not-allowed; }
 
     /* Confirm panel */
     #confirm-panel {
@@ -190,14 +197,14 @@
   <div class="check-circle">✓</div>
   <p class="eyebrow">Pago confirmado</p>
   <h1>¡Listo<span id="nombre-hero"></span>!</h1>
-  <p>Tu asesoría está paga. Ahora elegí el viernes que mejor te quede.</p>
+  <p>Tu asesoría está paga. Ahora elegí el día y el horario que mejor te queden.</p>
 </div>
 
 <!-- Booking card -->
 <div style="padding: 0 24px;">
   <div class="cal-card">
     <h2>Agendá tu horario</h2>
-    <p class="subtitle">Viernes · 12:00 – 13:00 hs (Argentina) · Los viernes tachados ya están reservados.</p>
+    <p class="subtitle">Lunes y miércoles · turnos de 30 minutos a las 14:00 o 15:00 hs (Argentina) · Los turnos tachados ya están reservados.</p>
 
     <div id="calendar-view">
       <!-- Month navigation -->
@@ -209,8 +216,8 @@
 
       <!-- Day labels -->
       <div class="day-headers">
-        <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span>
-        <span>Jue</span><span class="friday">Vie</span><span>Sáb</span>
+        <span>Dom</span><span class="turno">Lun</span><span>Mar</span><span class="turno">Mié</span>
+        <span>Jue</span><span>Vie</span><span>Sáb</span>
       </div>
 
       <!-- Days grid -->
@@ -229,7 +236,8 @@
       <div id="confirm-panel">
         <p class="slot-label">Turno seleccionado</p>
         <p class="slot-date" id="slot-date-label">—</p>
-        <p class="slot-time">12:00 – 13:00 hs · Videollamada</p>
+        <p class="slot-time" id="slot-time-label">Elegí un horario · Videollamada</p>
+        <div class="hora-opciones" id="hora-opciones"></div>
 
         <div class="form-row">
           <input type="text"  id="input-nombre"  placeholder="Tu nombre *" required />
@@ -266,15 +274,14 @@
     <h3>¿Qué pasa después?</h3>
     <ol>
       <li>Confirmás el turno arriba y te llega un email de confirmación.</li>
-      <li>Antes del viernes, Vaneh te manda el link de la videollamada por email.</li>
+      <li>Antes del turno, Vaneh te manda el link de la videollamada por email.</li>
       <li>En la asesoría revisamos tu situación y salís con pasos concretos.</li>
     </ol>
   </div>
 </div>
 
 <footer>
-  © 2025 COSMART · cosmart.com.ar ·
-  <a href="mailto:vaneh@cosmart.com.ar" style="color:rgba(255,255,255,0.4);">vaneh@cosmart.com.ar</a>
+  © 2025 COSMART · cosmart.com.ar
 </footer>
 
 <script>
@@ -296,8 +303,10 @@
 
   // ── State ──
   let currentYear, currentMonth;
-  let availableSlots = {}; // { 'YYYY-MM-DD': true/false }
+  let availableSlots = {}; // { 'YYYY-MM-DD': { '14:00': true/false, '15:00': true/false } }
   let selectedDate   = null;
+  let selectedHora   = null;
+  const HORAS = { '14:00': '14:00 – 14:30', '15:00': '15:00 – 15:30' };
 
   const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -317,9 +326,12 @@
       const res  = await fetch(`${API}/asesoria/slots?from=${from}&weeks=12`);
       const data = await res.json();
       availableSlots = {};
-      (data.slots || []).forEach(s => { availableSlots[s.fecha] = s.disponible; });
+      (data.slots || []).forEach(s => {
+        availableSlots[s.fecha] = {};
+        (s.turnos || []).forEach(t => { availableSlots[s.fecha][t.hora] = t.disponible; });
+      });
     } catch (e) {
-      // Si el worker no está disponible, mostrar todos los viernes como disponibles
+      // Si el worker no está disponible, mostrar todos los turnos como disponibles
       availableSlots = {};
     }
     renderCalendar();
@@ -356,33 +368,31 @@
 
     for (let d = 1; d <= daysInMonth; d++) {
       const date = new Date(currentYear, currentMonth, d);
-      const isFriday = date.getDay() === 5;
-      const isPast   = date < today;
+      const dow = date.getDay();
+      const esTurno = dow === 1 || dow === 3; // lunes y miércoles
+      const isPast  = date < today;
       // Fecha en formato YYYY-MM-DD local
       const key = `${currentYear}-${String(currentMonth + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const isSelected = key === selectedDate;
 
       let cls = 'day-cell';
       let dot = '';
+      const hayLugar = esTurno && !isPast && turnosLibres(key).length > 0;
 
       if (isPast) {
         cls += ' past';
-      } else if (isFriday) {
-        // Si tenemos info del slot, usarla; si no (clave no existe), asumir disponible
-        const disp = availableSlots[key] !== undefined ? availableSlots[key] : true;
-        if (disp) {
-          cls += ' friday-available';
+      } else if (esTurno) {
+        if (hayLugar) {
+          cls += ' turno-available';
           dot  = '<div class="dot"></div>';
         } else {
-          cls += ' friday-taken';
+          cls += ' turno-taken';
         }
       }
 
       if (isSelected) cls += ' selected';
 
-      const onclick = (isFriday && !isPast && (availableSlots[key] !== false))
-        ? `onclick="selectDate('${key}')"`
-        : '';
+      const onclick = hayLugar ? `onclick="selectDate('${key}')"` : '';
 
       html += `<div class="${cls}" ${onclick}>${d}${dot}</div>`;
     }
@@ -390,9 +400,30 @@
     grid.innerHTML = html;
   }
 
+  // Horarios libres de un día (si el servidor no informó ese día, se asumen libres)
+  function turnosLibres(fecha) {
+    const info = availableSlots[fecha];
+    return Object.keys(HORAS).filter(h => !info || info[h] !== false);
+  }
+
+  function elegirHora(hora) {
+    selectedHora = hora;
+    document.querySelectorAll('.hora-btn').forEach(b => b.classList.toggle('sel', b.dataset.hora === hora));
+    document.getElementById('slot-time-label').textContent = HORAS[hora] + ' hs · Videollamada';
+  }
+
   function selectDate(fecha) {
     selectedDate = fecha;
+    selectedHora = null;
     renderCalendar();
+
+    // Botones de horario del día elegido
+    const libres = turnosLibres(fecha);
+    document.getElementById('hora-opciones').innerHTML = Object.keys(HORAS).map(h =>
+      `<button type="button" class="hora-btn" data-hora="${h}" ${libres.includes(h) ? '' : 'disabled'} onclick="elegirHora('${h}')">${HORAS[h]}</button>`
+    ).join('');
+    document.getElementById('slot-time-label').textContent = 'Elegí un horario · Videollamada';
+    if (libres.length === 1) elegirHora(libres[0]);
 
     // Mostrar panel de confirmación
     const panel = document.getElementById('confirm-panel');
@@ -418,6 +449,11 @@
 
     errEl.style.display = 'none';
 
+    if (!selectedHora) {
+      errEl.textContent = 'Elegí el horario del turno.';
+      errEl.style.display = 'block';
+      return;
+    }
     if (!nombre || !email || !selectedDate) {
       errEl.textContent = 'Completá tu nombre y email para confirmar.';
       errEl.style.display = 'block';
@@ -442,13 +478,13 @@
       const res = await fetch(`${API}/asesoria/booking`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lead_id: leadId, fecha: selectedDate, nombre, email, negocio }),
+        body: JSON.stringify({ tipo: 'asesoria', lead_id: leadId, fecha: selectedDate, hora: selectedHora, nombre, email, negocio }),
       });
       const data = await res.json();
 
       if (!res.ok) {
-        errEl.textContent = data.error === 'Ese viernes ya está reservado'
-          ? 'Ese viernes ya lo reservó alguien más. Elegí otra fecha.'
+        errEl.textContent = data.error === 'Ese turno ya está reservado'
+          ? 'Ese turno ya lo reservó alguien más. Elegí otro.'
           : (data.error || 'Hubo un error. Intentá de nuevo.');
         errEl.style.display = 'block';
         btn.disabled = false;
@@ -463,10 +499,10 @@
       const successPanel = document.getElementById('success-panel');
       successPanel.style.display = 'block';
       document.getElementById('success-msg').innerHTML =
-        `Te enviamos un email de confirmación a <strong>${email}</strong>.<br/>Vaneh se va a poner en contacto antes del viernes para mandarte el link de la videollamada.`;
+        `Te enviamos un email de confirmación a <strong>${email}</strong>.<br/>Vaneh se va a poner en contacto antes del turno para mandarte el link de la videollamada.`;
 
     } catch (e) {
-      errEl.textContent = 'Error de conexión. Intentá de nuevo o escribinos a vaneh@cosmart.com.ar';
+      errEl.textContent = 'Error de conexión. Intentá de nuevo en unos minutos.';
       errEl.style.display = 'block';
       btn.disabled = false;
       btn.textContent = 'Confirmar este horario →';

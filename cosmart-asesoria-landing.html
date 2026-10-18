@@ -6,6 +6,8 @@
   <title>Asesoría 1:1 · Vaneh Fernández — COSMART</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://cosmart.com.ar/brujula/asesoria" />
+  <script src="/js/checkout-robusto.js?v=20261012c"></script>
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -285,7 +287,10 @@
     .foto-aro .zoom { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
     .foto-aro img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); transform-origin: 50% 38%; }
     .reserva { max-width: 640px; margin: 0 auto; padding: 44px 24px 48px; }
-    .reserva .cta-group { padding: 0; }
+    .pago-label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; text-align: center; }
+    .btn-reservar { background: var(--red); color: #fff; text-decoration: none; }
+    #paypal-button-container a { display: flex; align-items: center; justify-content: center; width: 100%; padding: 16px 24px; border-radius: 12px; background: #FFC439; color: #003087; font-size: 16px; font-weight: 700; text-decoration: none; }
+    html { scroll-behavior: smooth; }
 
     /* ── Footer ── */
     footer {
@@ -408,19 +413,23 @@
   </div>
 </div>
 
-<!-- CTA Buttons -->
-<div class="cta-group">
+<!-- CTA Pago -->
+<div class="cta-group" id="pago">
   <p class="section-label">Elegí cómo pagar</p>
 
-  <button class="btn btn-paypal" id="btn-paypal" onclick="pagarPaypal()">
-    <span>💳</span>
-    <span>Pagar con PayPal (USD)</span>
-  </button>
+  <!-- PayPal -->
+  <div style="margin-bottom:16px;">
+    <p class="pago-label">PayPal · USD</p>
+    <div id="paypal-button-container"></div>
+  </div>
 
-  <button class="btn btn-mp" id="btn-mp" onclick="pagarMP()">
-    <span>🇦🇷</span>
-    <span>Pagar con Mercado Pago (ARS)</span>
-  </button>
+  <div style="text-align:center;color:var(--muted);font-size:12px;margin-bottom:16px;">— o pagá en pesos —</div>
+
+  <!-- Mercado Pago Brick -->
+  <p class="pago-label">Mercado Pago · ARS</p>
+  <div id="paymentBrick_container"></div>
+  <div id="mpAlternativa"></div>
+  <div id="mpmsg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
 </div>
 
 <!-- CMO Block -->
@@ -456,16 +465,7 @@
 <!-- Reserva final -->
 <section class="reserva">
   <h2>Reservá tu hora y salí con claridad.</h2>
-  <div class="cta-group">
-    <button class="btn btn-paypal" onclick="pagarPaypal(this)">
-      <span>💳</span>
-      <span>Pagar con PayPal (USD)</span>
-    </button>
-    <button class="btn btn-mp" onclick="pagarMP(this)">
-      <span>🇦🇷</span>
-      <span>Pagar con Mercado Pago (ARS)</span>
-    </button>
-  </div>
+  <a class="btn btn-reservar" href="#pago">Elegir cómo pagar</a>
 </section>
 
 <footer>
@@ -475,7 +475,8 @@
 
 <script>
   // ── Config ──────────────────────────────────────────────────
-  const API = 'https://api.cosmart.com.ar';
+  const API    = 'https://cosmart-training.conglomeradocosmart.workers.dev';
+  const MP_KEY = 'APP_USR-057d290b-5af9-4b00-8a08-6753dc47aec4';
 
   // ── URL params ──────────────────────────────────────────────
   const params = new URLSearchParams(location.search);
@@ -510,6 +511,7 @@
       lbl.style.display = 'none';
       expMsg.style.display = 'block';
       setPrice(300);
+      if (typeof brickMP !== 'undefined' && brickMP.estado() !== 'idle') { brickMP.reiniciar(); }
       return;
     }
 
@@ -584,60 +586,79 @@
     setTimeout(() => overlay.style.display = 'none', 400);
   }
 
-  // ── PayPal ───────────────────────────────────────────────────
-  async function pagarPaypal(el) {
-    const btn = el || document.getElementById('btn-paypal');
-    const original = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span><span>Creando orden…</span>';
+  // ── Mercado Pago Brick ───────────────────────────────────────
+  // Robusto (Safari/Instagram incluidos): ver /js/checkout-robusto.js. Nunca saca a la persona del checkout.
+  const LEAD = leadId || 'sin-lead';
+  var brickMP = CTPago.brick({
+    contenedor: 'paymentBrick_container', alt: 'mpAlternativa',
+    crear: () => new Promise(async (resolveReady, rejectReady) => {
+      const msg = document.getElementById('mpmsg');
+      try {
+        let preferenceId = null, brickAmount = precioActual === 100 ? 145000 : 435000;
+        if (CTPago.modo() === 'pref') { // los modos de respaldo no necesitan preferencia
+          const res  = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(LEAD)}`, { method: 'POST' });
+          const json = await res.json();
+          if (!json.preference_id) throw new Error('Sin preference_id');
+          preferenceId = json.preference_id;
+          brickAmount = json.precio_ars || brickAmount; // precio real de la preferencia para que MP no la rechace
+        }
+        const mp = CTPago.adaptar(new MercadoPago(MP_KEY, { locale: 'es-AR' }));
+        let controller = null;
+        controller = await mp.bricks().create('payment', 'paymentBrick_container', {
+          initialization: { amount: brickAmount, preferenceId },
+          customization: {
+            visual: { hideFormTitle: true, style: { theme: 'default' } },
+            paymentMethods: { creditCard: 'all', debitCard: 'all' }
+          },
+          callbacks: {
+            onReady: () => resolveReady(controller || { unmount() {} }),
+            onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+              try {
+                const pr   = await fetch(`${API}/asesoria/mp/pay?lead_id=${encodeURIComponent(leadId)}`, {
+                  method: 'POST', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(formData)
+                });
+                const data = await pr.json();
+                if (data.status === 'approved') {
+                  location.href = `/brujula/asesoria/gracias?lead_id=${leadId}&nombre=${encodeURIComponent(nombre)}&negocio=${encodeURIComponent(negocio)}`;
+                } else if (data.status === 'in_process' || data.status === 'pending') {
+                  msg.style.color = '#B45309';
+                  msg.textContent = 'Pago en proceso. Te avisamos por email cuando se confirme.';
+                  resolve();
+                } else {
+                  msg.style.color = '#E02020';
+                  msg.textContent = 'No se pudo procesar. Revisá los datos e intentá de nuevo.';
+                  resolve();
+                }
+              } catch (e) { msg.style.color = '#E02020'; msg.textContent = 'Error de conexión. Intentá de nuevo.'; reject(); }
+            }),
+            onError: (e) => console.error('MP error:', e)
+          }
+        });
+      } catch (e) { rejectReady(e); }
+    }),
+  });
 
+  // ── PayPal ───────────────────────────────────────────────────
+  async function initPayPal() {
+    const cont = document.getElementById('paypal-button-container');
     try {
-      const res = await fetch(`${API}/asesoria/paypal/order?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, {
-        method: 'POST',
-      });
+      const res  = await fetch(`${API}/asesoria/paypal/order?lead_id=${encodeURIComponent(LEAD)}`, { method: 'POST' });
       const data = await res.json();
       if (data.approval_url) {
-        location.href = data.approval_url;
-      } else {
-        alert('Hubo un error al crear la orden de PayPal. Escribinos a vaneh@cosmart.com.ar');
-        btn.disabled = false;
-        btn.innerHTML = original;
-      }
+        cont.innerHTML = `<a href="${data.approval_url}">Pagar con PayPal (USD ${precioActual})</a>`;
+      } else { throw new Error('Sin approval_url'); }
     } catch (e) {
-      alert('Error de conexión. Intentá de nuevo o escribinos.');
-      btn.disabled = false;
-      btn.innerHTML = original;
-    }
-  }
-
-  // ── Mercado Pago ─────────────────────────────────────────────
-  async function pagarMP(el) {
-    const btn = el || document.getElementById('btn-mp');
-    const original = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span><span>Creando preferencia…</span>';
-
-    try {
-      const res = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, {
-        method: 'POST',
-      });
-      const data = await res.json();
-      if (data.init_point) {
-        location.href = data.init_point;
-      } else {
-        alert('Hubo un error con Mercado Pago. Escribinos a vaneh@cosmart.com.ar');
-        btn.disabled = false;
-        btn.innerHTML = original;
-      }
-    } catch (e) {
-      alert('Error de conexión. Intentá de nuevo o escribinos.');
-      btn.disabled = false;
-      btn.innerHTML = original;
+      cont.innerHTML = '<p style="text-align:center;font-size:13px;color:#6b7280;">PayPal no disponible en este momento. Usá Mercado Pago.</p>';
     }
   }
 
   // ── Init ─────────────────────────────────────────────────────
-  loadLead();
+  (async () => {
+    await loadLead();
+    initPayPal();
+    brickMP.iniciar();
+  })();
 </script>
 <script defer src="https://cosmart.com.ar/cookie-banner.js"></script>
 </body>

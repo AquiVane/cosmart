@@ -432,21 +432,10 @@
 
   <!-- Mercado Pago Brick -->
   <p class="pago-label">Mercado Pago · ARS</p>
+  <p id="mpPrecio" style="text-align:center;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;min-height:20px;"></p>
   <div id="paymentBrick_container"></div>
   <div id="mpAlternativa"></div>
   <div id="mpmsg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
-</div>
-
-<!-- CMO Block -->
-<div style="padding: 0 24px;">
-  <div class="cmo-block">
-    <p class="eyebrow">¿Querés ir más a fondo?</p>
-    <h3>Contratame como tu Chief Marketing Officer</h3>
-    <p>No una agencia. No un proveedor. Yo adentro de tu negocio — diseñando la estrategia, tomando decisiones de marketing con vos. Cada propuesta es a medida.</p>
-    <a class="btn btn-cmo" id="btn-cmo" href="mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO">
-      Escribirle a Vaneh →
-    </a>
-  </div>
 </div>
 
 <!-- Guarantee -->
@@ -474,8 +463,7 @@
 </section>
 
 <footer>
-  © 2025 COSMART · cosmart.com.ar ·
-  <a href="mailto:vaneh@cosmart.com.ar" style="color:rgba(255,255,255,0.4);">vaneh@cosmart.com.ar</a>
+  © 2025 COSMART · cosmart.com.ar
 </footer>
 
 <script>
@@ -492,10 +480,6 @@
   // Rellenar referencias en la página
   if (nombre)  document.getElementById('hero-title').innerHTML = `Una hora con <strong>${nombre}</strong>.<br/>Una dirección clara.`;
   if (negocio) document.getElementById('negocio-inline').textContent = negocio;
-  if (negocio) {
-    const cmoLink = `mailto:vaneh@cosmart.com.ar?subject=Quiero%20cotizar%20CMO%20-%20${encodeURIComponent(negocio)}`;
-    document.getElementById('btn-cmo').href = cmoLink;
-  }
 
   // ── Timer state ──────────────────────────────────────────────
   let timerExpires  = null;
@@ -591,6 +575,22 @@
     setTimeout(() => overlay.style.display = 'none', 400);
   }
 
+  // ── Precio en pesos: USD × dólar oficial del día (lo calcula el servidor) ──
+  let precioArs = 459000; // respaldo (USD 300 × 1530) hasta que el servidor responda
+  function mostrarPrecioArs(ars, tc) {
+    if (!ars) return;
+    precioArs = ars;
+    const el = document.getElementById('mpPrecio');
+    if (el) el.textContent = `Total: $${ars.toLocaleString('es-AR')} ARS` + (tc ? ` · dólar oficial del día: $${Number(tc).toLocaleString('es-AR')}` : '');
+  }
+  async function cargarPrecioArs() {
+    try {
+      const r = await fetch(`${API}/asesoria/precio?lead_id=${encodeURIComponent(LEAD)}`);
+      const j = await r.json();
+      mostrarPrecioArs(j.precio_ars, j.tc);
+    } catch (e) {}
+  }
+
   // ── Mercado Pago Brick ───────────────────────────────────────
   // Robusto (Safari/Instagram incluidos): ver /js/checkout-robusto.js. Nunca saca a la persona del checkout.
   const LEAD = leadId || 'sin-lead';
@@ -599,13 +599,14 @@
     crear: () => new Promise(async (resolveReady, rejectReady) => {
       const msg = document.getElementById('mpmsg');
       try {
-        let preferenceId = null, brickAmount = precioActual === 100 ? 145000 : 435000;
+        let preferenceId = null, brickAmount = precioArs;
         if (CTPago.modo() === 'pref') { // los modos de respaldo no necesitan preferencia
           const res  = await fetch(`${API}/asesoria/mp/preference?lead_id=${encodeURIComponent(LEAD)}`, { method: 'POST' });
           const json = await res.json();
           if (!json.preference_id) throw new Error('Sin preference_id');
           preferenceId = json.preference_id;
           brickAmount = json.precio_ars || brickAmount; // precio real de la preferencia para que MP no la rechace
+          mostrarPrecioArs(json.precio_ars, json.tc);
         }
         const mp = CTPago.adaptar(new MercadoPago(MP_KEY, { locale: 'es-AR' }));
         let controller = null;
@@ -684,6 +685,7 @@
   (async () => {
     await loadLead();
     initPayPal();
+    await cargarPrecioArs();
     brickMP.iniciar();
   })();
 </script>

@@ -423,6 +423,7 @@
 
   <!-- Mercado Pago Brick -->
   <p style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;">Mercado Pago · ARS</p>
+  <p id="mpPrecio" style="text-align:center;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;min-height:20px;"></p>
   <div id="paymentBrick_container"></div>
   <div id="mpAlternativa"></div>
   <div id="mpmsg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
@@ -437,12 +438,6 @@
       <p>Confirmás el pago y coordinamos la videollamada por email. Si por algún motivo no podemos encontrarnos en la fecha acordada, reagendamos sin costo adicional.</p>
     </div>
   </div>
-</div>
-
-<!-- Contacto discreto -->
-<div style="text-align:center;padding:0 24px 48px;font-size:13px;color:#9ca3af;">
-  En caso de necesitar otro tipo de ayuda —
-  <a href="mailto:vaneh@cosmart.com.ar?subject=Consulta%20asesor%C3%ADa" style="color:#6b7280;text-decoration:underline;">escribime</a>
 </div>
 
 <!-- About -->
@@ -478,7 +473,7 @@
 
   function setPrice(usd) {
     precioUsd = usd;
-    precioArs = usd === 100 ? 145000 : 435000;
+    precioArs = usd === 100 ? 153000 : 459000; // respaldo (dólar 1530); el valor real lo da el servidor
     const currentEl = document.getElementById('price-current');
     const oldEl     = document.getElementById('price-old');
     const badgeEl   = document.getElementById('price-badge');
@@ -588,6 +583,21 @@
     overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 400);
   }
 
+  // ── Precio en pesos: USD × dólar oficial del día (lo calcula el servidor) ──
+  function mostrarPrecioArs(ars, tc) {
+    if (!ars) return;
+    precioArs = ars;
+    const el = document.getElementById('mpPrecio');
+    if (el) el.textContent = `Total: $${ars.toLocaleString('es-AR')} ARS` + (tc ? ` · dólar oficial del día: $${Number(tc).toLocaleString('es-AR')}` : '');
+  }
+  async function cargarPrecioArs() {
+    try {
+      const r = await fetch(`${API}/asesoria/precio?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`);
+      const j = await r.json();
+      mostrarPrecioArs(j.precio_ars, j.tc);
+    } catch (e) {}
+  }
+
   // ── MP Brick ──────────────────────────────────────────────────
   // Robusto (Safari/Instagram incluidos): ver /js/checkout-robusto.js. Nunca saca a la persona del checkout.
   var brickMP = CTPago.brick({
@@ -603,6 +613,7 @@
           preferenceId = json.preference_id;
           // Usar el precio real de la preferencia para que MP no la rechace
           brickAmount = json.precio_ars || precioArs;
+          mostrarPrecioArs(json.precio_ars, json.tc);
         }
         const mp = CTPago.adaptar(new MercadoPago(MP_KEY, { locale: 'es-AR' }));
         let controller = null;
@@ -682,6 +693,7 @@
   (async () => {
     await loadLead();
     initPayPal();
+    await cargarPrecioArs();
     initMPBrick();
   })();
 </script>

@@ -36,12 +36,12 @@ a{color:inherit;text-decoration:none}
 .brand{font:700 11px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:14px}
 .brand img{height:28px;width:auto;margin:0 auto}
 .avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid var(--red);margin:0 auto 12px}
-.foto-aro{position:relative;width:144px;height:144px;margin:14px auto 20px}
-.foto-aro::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 0deg,#3A8FC7,#1A4DAA,#E3000F,#1A4DAA,#3A8FC7)}
+.foto-aro{position:relative;width:144px;height:144px;margin:16px auto 22px}
+.foto-aro::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#3A8FC7,#1A4DAA,#E3000F,#1A4DAA,#3A8FC7)}
 @media(prefers-reduced-motion:no-preference){.foto-aro::before{animation:giro 8s linear infinite}}
 @keyframes giro{to{transform:rotate(360deg)}}
 .foto-aro .zoom{position:relative;display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#0D2B6B;box-shadow:0 4px 14px rgba(0,0,0,.35)}
-.foto-aro img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 38%}
+.foto-aro img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.15);transform-origin:50% 38%}
 h1{font:900 38px/1.1 var(--serif)}
 h1 i{font-style:normal;color:#fff;border-bottom:4px solid var(--red);padding-bottom:1px}
 .tag{font:700 19px/1.3 var(--serif);margin-top:18px}

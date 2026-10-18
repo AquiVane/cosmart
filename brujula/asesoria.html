@@ -23,6 +23,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png">
   <script src="/js/checkout-robusto.js?v=20261012c"></script>
   <script src="https://sdk.mercadopago.com/js/v2"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AYuQX3JJShvSkgNn0C195h3GEHGiKNtx44X3wd_5PEoBI1iinpysmDzNRqdZ7blNuZvFWIwcwhc9qiOP&currency=USD&intent=capture&locale=es_AR" data-sdk-integration-source="button-factory"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -272,6 +273,15 @@
     .guarantee p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
     /* ── About ── */
+    #paypal-button-container { min-height: 48px; }
+    #ppAlternativa { text-align: center; font-size: 13px; color: var(--muted); }
+    #ppmsg { font-size: 13px; text-align: center; margin-top: 8px; min-height: 16px; }
+    .foto-aro { position: relative; width: 150px; height: 150px; margin: 12px auto 26px; }
+    .foto-aro::before { content: ''; position: absolute; inset: -9px; border-radius: 50%; background: conic-gradient(from 0deg, #3A8FC7, #1A4DAA, #E02020, #1A4DAA, #3A8FC7); }
+    @media (prefers-reduced-motion: no-preference) { .foto-aro::before { animation: giro 8s linear infinite; } }
+    @keyframes giro { to { transform: rotate(360deg); } }
+    .foto-aro .zoom { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
+    .foto-aro img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.35); transform-origin: 50% 38%; }
     .about {
       background: var(--blue);
       color: #fff;
@@ -405,7 +415,8 @@
   <div style="margin-bottom:16px;">
     <p style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;">PayPal · USD</p>
     <div id="paypal-button-container"></div>
-    <div id="paypal-msg" style="font-size:13px;text-align:center;margin-top:8px;min-height:16px;"></div>
+    <div id="ppAlternativa"></div>
+    <div id="ppmsg"></div>
   </div>
 
   <div style="text-align:center;color:var(--muted);font-size:12px;margin-bottom:16px;">— o pagá en pesos —</div>
@@ -436,9 +447,7 @@
 
 <!-- About -->
 <div class="about">
-  <img src="https://raw.githubusercontent.com/AquiVane/cosmart/main/Foto%20de%20Perfil%20-%20Aqu%C3%AD%20Vaneh.png"
-       alt="Vaneh Fernández"
-       style="width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.25);margin-bottom:16px;" />
+  <div class="foto-aro"><span class="zoom"><img src="/Foto%20de%20Perfil%20-%20Aqu%C3%AD%20Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART y Fractional CMO" width="150" height="150" loading="lazy"></span></div>
   <h2>¿Quién es Vaneh?</h2>
   <p>Fractional CMO con +10 años acompañando marcas y negocios en Argentina y LATAM. Fundadora de COSMART — el ecosistema de marketing digital que integra estrategia, contenidos, performance, diseño y tecnología bajo una misma dirección.</p>
 </div>
@@ -633,24 +642,40 @@
   });
   function initMPBrick() { return brickMP.iniciar(); }
 
-  // ── PayPal SDK ────────────────────────────────────────────────
-  // Se carga dinámicamente con el Client ID del worker
-  async function initPayPal() {
-    try {
-      const res  = await fetch(`${API}/asesoria/paypal/order?lead_id=${encodeURIComponent(leadId || 'sin-lead')}`, { method: 'POST' });
-      const data = await res.json();
-      // Si el worker devuelve approval_url, fallback a botón redirect
-      if (data.approval_url) {
-        document.getElementById('paypal-button-container').innerHTML = `
-          <a href="${data.approval_url}"
-             style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 24px;border-radius:12px;background:#FFC439;color:#003087;font-size:16px;font-weight:700;text-decoration:none;">
-            💳 Pagar con PayPal (USD ${precioUsd})
-          </a>`;
-      }
-    } catch(e) {
-      document.getElementById('paypal-button-container').innerHTML = `
-        <p style="text-align:center;font-size:13px;color:#6b7280;">PayPal no disponible en este momento. Usá Mercado Pago.</p>`;
-    }
+  // ── PayPal (botones embebidos, sin salir de la página) ───────
+  let ppInicializado = false;
+  function initPayPal() {
+    if (ppInicializado) return;
+    ppInicializado = true;
+    CTPago._ppReintento = () => { ppInicializado = false; initPayPal(); };
+    CTPago.paypal({ alt: 'ppAlternativa', montar: montarPayPal }).then(ok => { if (!ok) ppInicializado = false; });
+  }
+  function montarPayPal() {
+    return new Promise((resolve, reject) => { try {
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 48 },
+        createOrder: (data, actions) => actions.order.create({
+          purchase_units: [{
+            description: 'Asesoría 1:1 con Vaneh Fernández — COSMART',
+            custom_id: leadId || 'sin-lead',
+            amount: { value: (precioUsd).toFixed(2), currency_code: 'USD' },
+          }],
+        }),
+        onApprove: (data, actions) => {
+          const msg = document.getElementById('ppmsg');
+          if (msg) { msg.style.color = '#0D2B6B'; msg.textContent = 'Procesando pago…'; }
+          return actions.order.capture().then(() => {
+            location.href = `/brujula/asesoria/gracias?lead_id=${encodeURIComponent(leadId)}&nombre=${encodeURIComponent(nombre)}&negocio=${encodeURIComponent(negocio)}`;
+          });
+        },
+        onError: () => {
+          const msg = document.getElementById('ppmsg');
+          if (msg) { msg.style.color = '#E02020'; msg.textContent = 'No se pudo procesar el pago. Intentá de nuevo o pagá con Mercado Pago.'; }
+          ppInicializado = false;
+        },
+        onCancel: () => {},
+      }).render('#paypal-button-container').then(resolve, reject);
+    } catch (e) { reject(e); } });
   }
 
   // ── Init ──────────────────────────────────────────────────────

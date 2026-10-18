@@ -8,6 +8,7 @@
   <link rel="canonical" href="https://cosmart.com.ar/brujula/asesoria" />
   <script src="/js/checkout-robusto.js?v=20261012c"></script>
   <script src="https://sdk.mercadopago.com/js/v2"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AYuQX3JJShvSkgNn0C195h3GEHGiKNtx44X3wd_5PEoBI1iinpysmDzNRqdZ7blNuZvFWIwcwhc9qiOP&currency=USD&intent=capture&locale=es_AR" data-sdk-integration-source="button-factory"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -285,11 +286,13 @@
     @media (prefers-reduced-motion: no-preference) { .foto-aro::before { animation: giro 8s linear infinite; } }
     @keyframes giro { to { transform: rotate(360deg); } }
     .foto-aro .zoom { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
-    .foto-aro img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); transform-origin: 50% 38%; }
+    .foto-aro img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.35); transform-origin: 50% 38%; }
     .reserva { max-width: 640px; margin: 0 auto; padding: 44px 24px 48px; }
     .pago-label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; text-align: center; }
+    #paypal-button-container { min-height: 48px; }
+    #ppAlternativa { text-align: center; font-size: 13px; color: var(--muted); }
+    #ppmsg { font-size: 13px; text-align: center; margin-top: 8px; min-height: 16px; }
     .btn-reservar { background: var(--red); color: #fff; text-decoration: none; }
-    #paypal-button-container a { display: flex; align-items: center; justify-content: center; width: 100%; padding: 16px 24px; border-radius: 12px; background: #FFC439; color: #003087; font-size: 16px; font-weight: 700; text-decoration: none; }
     html { scroll-behavior: smooth; }
 
     /* ── Footer ── */
@@ -421,6 +424,8 @@
   <div style="margin-bottom:16px;">
     <p class="pago-label">PayPal · USD</p>
     <div id="paypal-button-container"></div>
+    <div id="ppAlternativa"></div>
+    <div id="ppmsg"></div>
   </div>
 
   <div style="text-align:center;color:var(--muted);font-size:12px;margin-bottom:16px;">— o pagá en pesos —</div>
@@ -639,18 +644,40 @@
     }),
   });
 
-  // ── PayPal ───────────────────────────────────────────────────
-  async function initPayPal() {
-    const cont = document.getElementById('paypal-button-container');
-    try {
-      const res  = await fetch(`${API}/asesoria/paypal/order?lead_id=${encodeURIComponent(LEAD)}`, { method: 'POST' });
-      const data = await res.json();
-      if (data.approval_url) {
-        cont.innerHTML = `<a href="${data.approval_url}">Pagar con PayPal (USD ${precioActual})</a>`;
-      } else { throw new Error('Sin approval_url'); }
-    } catch (e) {
-      cont.innerHTML = '<p style="text-align:center;font-size:13px;color:#6b7280;">PayPal no disponible en este momento. Usá Mercado Pago.</p>';
-    }
+  // ── PayPal (botones embebidos, sin salir de la página) ───────
+  let ppInicializado = false;
+  function initPayPal() {
+    if (ppInicializado) return;
+    ppInicializado = true;
+    CTPago._ppReintento = () => { ppInicializado = false; initPayPal(); };
+    CTPago.paypal({ alt: 'ppAlternativa', montar: montarPayPal }).then(ok => { if (!ok) ppInicializado = false; });
+  }
+  function montarPayPal() {
+    return new Promise((resolve, reject) => { try {
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 48 },
+        createOrder: (data, actions) => actions.order.create({
+          purchase_units: [{
+            description: 'Asesoría 1:1 con Vaneh Fernández — COSMART',
+            custom_id: leadId || 'sin-lead',
+            amount: { value: (precioActual).toFixed(2), currency_code: 'USD' },
+          }],
+        }),
+        onApprove: (data, actions) => {
+          const msg = document.getElementById('ppmsg');
+          if (msg) { msg.style.color = '#0D2B6B'; msg.textContent = 'Procesando pago…'; }
+          return actions.order.capture().then(() => {
+            location.href = `/brujula/asesoria/gracias?lead_id=${encodeURIComponent(leadId)}&nombre=${encodeURIComponent(nombre)}&negocio=${encodeURIComponent(negocio)}`;
+          });
+        },
+        onError: () => {
+          const msg = document.getElementById('ppmsg');
+          if (msg) { msg.style.color = '#E02020'; msg.textContent = 'No se pudo procesar el pago. Intentá de nuevo o pagá con Mercado Pago.'; }
+          ppInicializado = false;
+        },
+        onCancel: () => {},
+      }).render('#paypal-button-container').then(resolve, reject);
+    } catch (e) { reject(e); } });
   }
 
   // ── Init ─────────────────────────────────────────────────────

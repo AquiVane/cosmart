@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contratame como tu Chief Marketing Officer — Vaneh Fernández · COSMART</title>
+  <meta name="description" content="Dirección de marketing para negocios y marcas, con Vaneh Fernández como tu Chief Marketing Officer. Pedí una entrevista de 30 minutos y vemos cómo trabajar juntos.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://cosmart.com.ar/contratame-cmo">
+  <link rel="icon" type="image/png" href="https://cosmart.com.ar/favicon-cosmart.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #091C47; --blue: #0D2B6B; --mid: #1A4DAA;
+      --sky: #3A8FC7; --red: #E02020;
+      --text: #1a1a2e; --muted: #6b7280; --bg: #f0f4f8;
+    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    header { background: var(--navy); padding: 20px 24px; text-align: center; }
+    header img { height: 38px; width: auto; }
+
+    .hero {
+      background: var(--blue); color: #fff;
+      padding: 48px 24px 40px; text-align: center;
+    }
+    .check-circle {
+      width: 64px; height: 64px; background: rgba(255,255,255,0.12);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 30px; margin: 0 auto 20px;
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--sky); margin-bottom: 12px;
+    }
+    .hero h1 { font-size: clamp(24px, 5vw, 34px); font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+    .hero p  { font-size: 16px; color: rgba(255,255,255,0.75); max-width: 500px; margin: 0 auto; }
+
+    /* ── Calendar card ── */
+    .cal-card {
+      max-width: 640px; margin: 36px auto; padding: 32px 28px;
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(9,28,71,0.09);
+    }
+    .cal-card h2 { font-size: 20px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+    .cal-card .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+
+    /* Month nav */
+    .month-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .month-nav button {
+      background: none; border: 1px solid #e2e8f0; border-radius: 8px;
+      width: 36px; height: 36px; cursor: pointer; font-size: 18px; color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .month-nav button:hover { background: var(--bg); }
+    .month-nav .month-label { font-size: 16px; font-weight: 700; color: var(--blue); }
+
+    /* Day grid */
+    .day-headers {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      text-align: center; margin-bottom: 8px;
+    }
+    .day-headers span {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 0;
+    }
+    .day-headers span.turno { color: var(--sky); }
+
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+    }
+    .cal-grid .day-cell {
+      aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; font-size: 14px; font-weight: 500;
+      color: var(--muted); background: transparent; cursor: default;
+      transition: background 0.12s, color 0.12s;
+    }
+    .cal-grid .day-cell.empty { background: transparent; }
+    .cal-grid .day-cell.past  { color: #d1d5db; }
+    .cal-grid .day-cell.turno-available {
+      background: #eff6ff; color: var(--sky); font-weight: 700; cursor: pointer;
+      border: 1.5px solid #bfdbfe;
+    }
+    .cal-grid .day-cell.turno-available:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
+    .cal-grid .day-cell.turno-taken {
+      background: #f3f4f6; color: #c4c9d4; cursor: not-allowed;
+      border: 1.5px solid #e5e7eb; text-decoration: line-through;
+      opacity: 0.55;
+    }
+    .cal-grid .day-cell.turno-taken::after {
+      content: '✕';
+      display: block;
+      font-size: 9px;
+      color: #d1d5db;
+      margin-top: 1px;
+    }
+    .cal-grid .day-cell.selected {
+      background: var(--blue) !important; color: #fff !important;
+      border-color: var(--blue) !important;
+    }
+    .cal-grid .day-cell .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: currentColor; margin-top: 3px; opacity: 0.5;
+    }
+
+    /* Horarios del día elegido */
+    .hora-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 18px; }
+    .hora-btn { padding: 12px 6px; border-radius: 10px; border: 1.5px solid #bfdbfe; background: #eff6ff; color: var(--sky); font-size: 14px; white-space: nowrap; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .hora-btn:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
+    .hora-btn.sel { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .hora-btn:disabled { background: #f3f4f6; color: #c4c9d4; border-color: #e5e7eb; text-decoration: line-through; cursor: not-allowed; }
+
+    /* Confirm panel */
+    #confirm-panel {
+      display: none; margin-top: 24px;
+      background: var(--bg); border-radius: 12px; padding: 20px;
+    }
+    #confirm-panel .slot-label {
+      font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    #confirm-panel .slot-date {
+      font-size: 18px; font-weight: 800; color: var(--blue); margin-bottom: 4px;
+    }
+    #confirm-panel .slot-time {
+      font-size: 14px; color: var(--muted); margin-bottom: 20px;
+    }
+    .form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .form-row input {
+      flex: 1; min-width: 180px; padding: 11px 14px; border: 1.5px solid #e2e8f0;
+      border-radius: 10px; font-size: 15px; font-family: inherit; color: var(--text);
+      outline: none; transition: border-color 0.15s;
+    }
+    .form-row input:focus { border-color: var(--sky); }
+    .btn-confirm {
+      width: 100%; padding: 15px; background: var(--blue); color: #fff;
+      border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: opacity 0.15s;
+      margin-top: 4px;
+    }
+    .btn-confirm:hover { opacity: 0.88; }
+    .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Success state */
+    #success-panel {
+      display: none; text-align: center; padding: 32px 0 8px;
+    }
+    #success-panel .big-check { font-size: 48px; margin-bottom: 12px; }
+    #success-panel h3 { font-size: 20px; font-weight: 800; color: var(--blue); margin-bottom: 8px; }
+    #success-panel p  { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+    /* Error msg */
+    .msg-error {
+      display: none; background: #fef2f2; border: 1px solid #fecaca;
+      border-radius: 8px; padding: 12px 14px; font-size: 14px; color: #b91c1c;
+      margin-top: 12px;
+    }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+      background-size: 200% 100%; animation: shimmer 1.2s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* Next steps */
+    .next-steps {
+      max-width: 640px; margin: 0 auto 48px; padding: 24px 28px;
+      background: #fff; border-radius: 14px;
+    }
+    .next-steps h3 { font-size: 16px; font-weight: 700; color: var(--blue); margin-bottom: 14px; }
+    .next-steps ol { padding-left: 20px; }
+    .next-steps li { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 8px; }
+
+    footer {
+      background: var(--navy); padding: 24px; text-align: center;
+      font-size: 12px; color: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 480px) {
+      .cal-card { padding: 20px 16px; margin: 24px 16px; }
+      .cal-grid .day-cell { font-size: 12px; border-radius: 8px; }
+    }
+  
+    .hero .eyebrow { margin-bottom: 14px; }
+    .sec { max-width: 640px; margin: 28px auto 0; padding: 0 24px; }
+    .sec h2 { font-size: clamp(20px, 4.4vw, 26px); font-weight: 800; line-height: 1.25; color: var(--navy); margin-bottom: 12px; }
+    .sec p { font-size: 16px; line-height: 1.7; color: var(--text); }
+    .nota { background: #fff; border-radius: 14px; padding: 20px 22px; box-shadow: 0 1px 4px rgba(9,28,71,.08); border-left: 4px solid var(--red); }
+    .nota h3 { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+    .nota p { font-size: 15px; }
+    .btn-link { display: inline-flex; align-items: center; justify-content: center; margin-top: 14px; min-height: 46px; padding: 0 22px; border-radius: 10px; background: var(--blue); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; }
+    .pasos { list-style: none; counter-reset: paso; display: grid; gap: 12px; }
+    .pasos li { counter-increment: paso; display: flex; gap: 14px; align-items: flex-start; background: #fff; border-radius: 12px; padding: 16px; font-size: 15.5px; line-height: 1.55; box-shadow: 0 1px 4px rgba(9,28,71,.08); }
+    .pasos li::before { content: counter(paso); flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .form-row textarea { flex: 1; min-width: 180px; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 15px; font-family: inherit; color: var(--text); outline: none; resize: vertical; min-height: 84px; }
+    .form-row textarea:focus { border-color: var(--sky); }
+    .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    #success-panel .ok-mark { width: 56px; height: 56px; border-radius: 50%; background: #dcfce7; color: #15803d; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    #success-panel .ok-mark svg { width: 28px; height: 28px; }
+    html { scroll-behavior: smooth; }
+    .cal-card { margin-top: 28px; }
+    footer a { color: inherit; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://cosmart.com.ar/Logo%20completo%20COSMART.png" alt="COSMART" />
+</header>
+
+<div class="hero">
+  <p class="eyebrow">Chief Marketing Officer</p>
+  <h1>Trabajemos juntos como tu Chief Marketing Officer</h1>
+  <p>Dirección de marketing para negocios y marcas que necesitan un plan, un criterio y a alguien que tome decisiones con ellos, mes a mes.</p>
+</div>
+
+<section class="sec">
+  <h2>No una agencia. No un proveedor.</h2>
+  <p>Yo adentro de tu negocio, diseñando la estrategia y tomando decisiones de marketing con vos. Cada propuesta es a medida.</p>
+</section>
+
+<section class="sec">
+  <div class="nota">
+    <h3>¿Buscás otra cosa?</h3>
+    <p>Si necesitás una sesión puntual para ordenar una duda o una decisión, reservá la asesoría 1:1. Esta página es para quienes quieren dirección de marketing continua.</p>
+    <a class="btn-link" href="https://cosmart.com.ar/cosmart-asesoria-landing" target="_blank" rel="noopener">Ir a la asesoría 1:1</a>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Cómo funciona</h2>
+  <ol class="pasos">
+    <li><span>Elegís un turno de 30 minutos.</span></li>
+    <li><span>Conversamos sobre tu negocio, tus objetivos y lo que necesitás.</span></li>
+    <li><span>Si tiene sentido trabajar juntos, te envío una propuesta a medida.</span></li>
+  </ol>
+</section>
+
+<div style="padding: 0 24px;">
+  <div class="cal-card" id="entrevista">
+    <h2>Pedí tu entrevista</h2>
+    <p class="subtitle">Lunes y miércoles · turnos de 30 minutos a las 14:00 o 15:00 hs (Argentina) · Los turnos tachados ya están reservados.</p>
+
+    <div id="calendar-view">
+      <div class="month-nav">
+        <button id="prev-month" onclick="changeMonth(-1)" aria-label="Mes anterior">‹</button>
+        <span class="month-label" id="month-label">Cargando...</span>
+        <button id="next-month" onclick="changeMonth(1)" aria-label="Mes siguiente">›</button>
+      </div>
+
+      <div class="day-headers">
+        <span>Dom</span><span class="turno">Lun</span><span>Mar</span><span class="turno">Mié</span>
+        <span>Jue</span><span>Vie</span><span>Sáb</span>
+      </div>
+
+      <div class="cal-grid" id="cal-grid">
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+        <div class="day-cell skeleton" style="aspect-ratio:1"></div>
+      </div>
+
+      <div id="confirm-panel">
+        <p class="slot-label">Turno seleccionado</p>
+        <p class="slot-date" id="slot-date-label">—</p>
+        <p class="slot-time" id="slot-time-label">Elegí un horario · Videollamada</p>
+        <div class="hora-opciones" id="hora-opciones"></div>
+
+        <div class="form-row">
+          <input type="text"  id="input-nombre"   placeholder="Tu nombre *" autocomplete="name" required />
+          <input type="email" id="input-email"    placeholder="Tu email *" autocomplete="email" required />
+        </div>
+        <div class="form-row">
+          <input type="tel"   id="input-telefono" placeholder="WhatsApp (opcional)" autocomplete="tel" />
+          <input type="text"  id="input-negocio"  placeholder="Nombre de tu negocio" />
+        </div>
+        <div class="form-row">
+          <textarea id="input-mensaje" placeholder="Contame qué necesitás"></textarea>
+        </div>
+        <div class="trampa" aria-hidden="true"><input type="text" id="input-web" tabindex="-1" autocomplete="off" placeholder="No completar"></div>
+
+        <label style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:14px;cursor:pointer;">
+          <input type="checkbox" id="privacyCheck" checked required style="width:16px;height:16px;padding:0;margin:2px 0 0;flex-shrink:0;accent-color:var(--blue);">
+          <span style="font-size:13px;color:var(--muted);line-height:1.5;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" rel="noopener" style="color:var(--sky);">Política de Privacidad</a> de COSMART y consiento recibir comunicaciones del ecosistema COSMART.</span>
+        </label>
+
+        <button class="btn-confirm" id="btn-confirmar" onclick="confirmarTurno()">Pedir entrevista</button>
+        <div class="msg-error" id="msg-error"></div>
+      </div>
+    </div>
+
+    <div id="success-panel">
+      <div class="ok-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L19 7"/></svg></div>
+      <h3>¡Listo!</h3>
+      <p id="success-msg">Te enviamos un email de confirmación con tu turno.</p>
+    </div>
+  </div>
+</div>
+
+<footer style="margin-top:48px">
+  © 2025 COSMART · cosmart.com.ar
+</footer>
+
+<script>
+  const API = 'https://cosmart-training.conglomeradocosmart.workers.dev';
+
+  // ── State ──
+  let currentYear, currentMonth;
+  let availableSlots = {}; // { 'YYYY-MM-DD': { '14:00': true/false, '15:00': true/false } }
+  let selectedDate   = null;
+  let selectedHora   = null;
+  const HORAS = { '14:00': '14:00 – 14:30', '15:00': '15:00 – 15:30' };
+
+  const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  // ── Init ──
+  (function init() {
+    const today = new Date();
+    currentYear  = today.getFullYear();
+    currentMonth = today.getMonth();
+    loadSlotsAndRender();
+  })();
+
+  async function loadSlotsAndRender() {
+    // Pedir slots de los próximos 3 meses desde hoy
+    const from = new Date().toISOString().slice(0, 10);
+    try {
+      const res  = await fetch(`${API}/asesoria/slots?from=${from}&weeks=12`);
+      const data = await res.json();
+      availableSlots = {};
+      (data.slots || []).forEach(s => {
+        availableSlots[s.fecha] = {};
+        (s.turnos || []).forEach(t => { availableSlots[s.fecha][t.hora] = t.disponible; });
+      });
+    } catch (e) {
+      // Si el worker no está disponible, mostrar todos los turnos como disponibles
+      availableSlots = {};
+    }
+    renderCalendar();
+  }
+
+  function changeMonth(delta) {
+    currentMonth += delta;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    if (currentMonth < 0)  { currentMonth = 11; currentYear--; }
+    renderCalendar();
+  }
+
+  function renderCalendar() {
+    const label = document.getElementById('month-label');
+    label.textContent = `${MESES[currentMonth]} ${currentYear}`;
+
+    const grid  = document.getElementById('cal-grid');
+    // Cutoff: 48hs desde ahora en timezone Buenos Aires (UTC-3)
+    const nowBA = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' }));
+    const cutoff = new Date(nowBA.getTime() + 48 * 60 * 60 * 1000);
+    cutoff.setHours(0, 0, 0, 0);
+    const today = cutoff;
+
+    // Primer día del mes
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay(); // 0=dom
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    let html = '';
+
+    // Celdas vacías antes del día 1
+    for (let i = 0; i < firstDay; i++) {
+      html += '<div class="day-cell empty"></div>';
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(currentYear, currentMonth, d);
+      const dow = date.getDay();
+      const esTurno = dow === 1 || dow === 3; // lunes y miércoles
+      const isPast  = date < today;
+      // Fecha en formato YYYY-MM-DD local
+      const key = `${currentYear}-${String(currentMonth + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isSelected = key === selectedDate;
+
+      let cls = 'day-cell';
+      let dot = '';
+      const hayLugar = esTurno && !isPast && turnosLibres(key).length > 0;
+
+      if (isPast) {
+        cls += ' past';
+      } else if (esTurno) {
+        if (hayLugar) {
+          cls += ' turno-available';
+          dot  = '<div class="dot"></div>';
+        } else {
+          cls += ' turno-taken';
+        }
+      }
+
+      if (isSelected) cls += ' selected';
+
+      const onclick = hayLugar ? `onclick="selectDate('${key}')"` : '';
+
+      html += `<div class="${cls}" ${onclick}>${d}${dot}</div>`;
+    }
+
+    grid.innerHTML = html;
+  }
+
+  // Horarios libres de un día (si el servidor no informó ese día, se asumen libres)
+  function turnosLibres(fecha) {
+    const info = availableSlots[fecha];
+    return Object.keys(HORAS).filter(h => !info || info[h] !== false);
+  }
+
+  function elegirHora(hora) {
+    selectedHora = hora;
+    document.querySelectorAll('.hora-btn').forEach(b => b.classList.toggle('sel', b.dataset.hora === hora));
+    document.getElementById('slot-time-label').textContent = HORAS[hora] + ' hs · Videollamada';
+  }
+
+  function selectDate(fecha) {
+    selectedDate = fecha;
+    selectedHora = null;
+    renderCalendar();
+
+    // Botones de horario del día elegido
+    const libres = turnosLibres(fecha);
+    document.getElementById('hora-opciones').innerHTML = Object.keys(HORAS).map(h =>
+      `<button type="button" class="hora-btn" data-hora="${h}" ${libres.includes(h) ? '' : 'disabled'} onclick="elegirHora('${h}')">${HORAS[h]}</button>`
+    ).join('');
+    document.getElementById('slot-time-label').textContent = 'Elegí un horario · Videollamada';
+    if (libres.length === 1) elegirHora(libres[0]);
+
+    // Mostrar panel de confirmación
+    const panel = document.getElementById('confirm-panel');
+    panel.style.display = 'block';
+
+    // Formatear fecha legible
+    const [y, m, d] = fecha.split('-').map(Number);
+    const dt = new Date(y, m - 1, d);
+    const label = dt.toLocaleDateString('es-AR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    });
+    document.getElementById('slot-date-label').textContent =
+      label.charAt(0).toUpperCase() + label.slice(1);
+
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  async function confirmarTurno() {
+    const nombre   = document.getElementById('input-nombre').value.trim();
+    const email    = document.getElementById('input-email').value.trim();
+    const telefono = document.getElementById('input-telefono').value.trim();
+    const negocio  = document.getElementById('input-negocio').value.trim();
+    const mensaje  = document.getElementById('input-mensaje').value.trim();
+    const web      = document.getElementById('input-web').value;
+    const errEl    = document.getElementById('msg-error');
+
+    errEl.style.display = 'none';
+    const fallo = t => { errEl.textContent = t; errEl.style.display = 'block'; };
+
+    if (!selectedHora) return fallo('Elegí el horario del turno.');
+    if (!nombre || !email || !selectedDate) return fallo('Completá tu nombre y email para confirmar.');
+    if (!document.getElementById('privacyCheck').checked) return fallo('Necesitamos que aceptes la Política de Privacidad para continuar.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fallo('El email no parece válido.');
+
+    const btn = document.getElementById('btn-confirmar');
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+
+    try {
+      const res = await fetch(`${API}/asesoria/booking`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tipo: 'cmo', fecha: selectedDate, hora: selectedHora, nombre, email, telefono, negocio, mensaje, web }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        fallo(data.error === 'Ese turno ya está reservado'
+          ? 'Ese turno ya lo reservó alguien más. Elegí otro.'
+          : (data.error || 'Hubo un error. Intentá de nuevo.'));
+        btn.disabled = false;
+        btn.textContent = 'Pedir entrevista';
+        loadSlotsAndRender();
+        return;
+      }
+
+      document.getElementById('calendar-view').style.display = 'none';
+      document.getElementById('success-panel').style.display = 'block';
+      document.getElementById('success-msg').innerHTML =
+        `Te enviamos un email de confirmación con tu turno a <strong>${email.replace(/[&<>"']/g, '')}</strong>.`;
+    } catch (e) {
+      fallo('Error de conexión. Intentá de nuevo en unos minutos.');
+      btn.disabled = false;
+      btn.textContent = 'Pedir entrevista';
+    }
+  }
+</script>
+<script defer src="https://cosmart.com.ar/cookie-banner.js"></script>
+</body>
+</html>

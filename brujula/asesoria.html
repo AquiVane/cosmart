@@ -621,11 +621,14 @@
           initialization: { amount: brickAmount, preferenceId },
           customization: {
             visual: { hideFormTitle: true, style: { theme: 'default' } },
-            paymentMethods: { creditCard: 'all', debitCard: 'all' }
+            paymentMethods: { creditCard: 'all', debitCard: 'all', mercadoPago: 'all' }
           },
           callbacks: {
             onReady: () => resolveReady(controller || { unmount() {} }),
-            onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+            onSubmit: ({ selectedPaymentMethod, formData }) => new Promise(async (resolve, reject) => {
+            // Mercado Pago / Mercado Crédito: el Brick lo resuelve con la preferencia (MP lleva a su pantalla y el pago llega por webhook); acá no se procesa nada.
+            const _medioMP = ['wallet_purchase', 'account_money', 'onboarding_credits'].includes(selectedPaymentMethod);
+            if (_medioMP) { resolve(); return; }
             try {
               const pr   = await fetch(`${API}/asesoria/mp/pay?lead_id=${encodeURIComponent(leadId)}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },

@@ -23,7 +23,11 @@
     return { bricks: function () { return { create: function (tipo, id, st) {
       if (modoActual === 'pref') return mp.bricks().create(tipo, id, st);
       var ini = Object.assign({}, st.initialization); delete ini.preferenceId;
-      if (modoActual === 'sinpref') return mp.bricks().create(tipo, id, Object.assign({}, st, { initialization: ini }));
+      if (modoActual === 'sinpref') {
+        // Sin preferencia no hay Mercado Pago ni Mercado Crédito (los necesitan): solo tarjetas.
+        var cust = Object.assign({}, st.customization); cust.paymentMethods = Object.assign({}, cust.paymentMethods); delete cust.paymentMethods.mercadoPago;
+        return mp.bricks().create(tipo, id, Object.assign({}, st, { initialization: ini, customization: cust }));
+      }
       // 'tarjeta': Card Payment Brick (onSubmit recibe el formData directo)
       var cb = st.callbacks, c2 = Object.assign({}, cb, { onSubmit: function (fd) { return cb.onSubmit({ formData: fd }); } });
       return mp.bricks().create('cardPayment', id, { initialization: { amount: ini.amount },

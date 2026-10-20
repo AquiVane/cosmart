@@ -965,17 +965,20 @@ var brickMP = CTPago.brick({
         initialization: { amount: getPrecioConDescuento(), preferenceId: preference_id },
         customization: {
           visual: { hideFormTitle: true, style: { theme: 'default' } },
-          paymentMethods: { creditCard: 'all', debitCard: 'all' }
+          paymentMethods: { creditCard: 'all', debitCard: 'all', mercadoPago: 'all' }
         },
         callbacks: {
           onReady: () => resolveReady(controller || { unmount() {} }),
-          onSubmit: ({ formData }) => new Promise(async (resolve, reject) => {
+          onSubmit: ({ selectedPaymentMethod, formData }) => new Promise(async (resolve, reject) => {
           const consent = document.getElementById('privacyCheck');
           if (consent && !consent.checked) {
             msg.style.color = '#E02020';
             msg.textContent = 'Debés aceptar la Política de Privacidad para continuar.';
             reject(); return;
           }
+          // Mercado Pago / Mercado Crédito: el Brick lo resuelve con la preferencia (MP lleva a su pantalla y el pago llega por webhook); acá no se procesa nada.
+          const _medioMP = ['wallet_purchase', 'account_money', 'onboarding_credits'].includes(selectedPaymentMethod);
+          if (_medioMP) { resolve(); return; }
           try {
             const pr = await fetch(WORKER_URL + '/pay', {
               method: 'POST',
@@ -1199,5 +1202,17 @@ function applyExpired(){
 
 </script>
 <script defer src="https://cosmart.com.ar/cookie-banner.js"></script>
+<script>
+// Vuelta de Mercado Pago / Mercado Crédito (pagan fuera del Brick): avisa cómo quedó el pago.
+(function () {
+  try {
+    var e = new URLSearchParams(location.search).get('pago'), m = document.getElementById('mpmsg');
+    if (!e || !m) return;
+    var t = { ok: ['#16a34a', '✅ ¡Pago aprobado! Te enviamos un email para acceder (revisá también spam).'], pendiente: ['#F59E0B', '⏳ Pago en proceso. Te avisamos por email cuando se confirme.'], error: ['#E02020', '⚠️ No se pudo completar el pago. Podés intentar de nuevo.'] }[e];
+    if (!t) return; m.style.color = t[0]; m.textContent = t[1];
+    m.scrollIntoView({ block: 'center' });
+  } catch (x) {}
+})();
+</script>
 </body>
 </html>

@@ -143,6 +143,17 @@
     return false;
   }
 
+  // PRECARGA: el SDK de Mercado Pago empieza a bajarse en cuanto carga este script (antes de que la página
+  // pida el Brick), así cuando el formulario arranca ya está listo. Si falla, el flujo normal lo reintenta.
+  (function () {
+    try {
+      ['https://sdk.mercadopago.com', 'https://api.mercadopago.com'].forEach(function (h) {
+        var l = document.createElement('link'); l.rel = 'preconnect'; l.href = h; l.crossOrigin = ''; document.head.appendChild(l);
+      });
+      cargarScript(MP_SDK, function () { return typeof MercadoPago !== 'undefined'; }).catch(function () {});
+    } catch (e) {}
+  })();
+
   window.CTPago = {
     modo: function () { return modoActual; }, adaptar: adaptar, esInApp: esInApp,
     brick: brick, paypal: paypal, cargarScript: cargarScript, htmlCargando: htmlCargando,

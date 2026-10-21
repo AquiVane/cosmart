@@ -68,6 +68,8 @@ h1 i{font-style:normal;color:#fff;border-bottom:4px solid var(--red);padding-bot
 .thumb img{width:100%;height:auto}
 .link h2{font:700 23px/1.2 var(--serif);margin:4px 4px 12px}
 .link p{margin-top:4px;font-size:13.5px;line-height:1.4;color:#3b4a6b}
+.link[data-link=guiaMarca]{display:flex;flex-direction:column}
+.link[data-link=guiaMarca] h2{order:1;margin-bottom:4px;text-wrap:balance}.link[data-link=guiaMarca] .s{order:2;margin-top:2px;font:700 16px/1.3 var(--serif);color:var(--navy)}.link[data-link=guiaMarca] p:not(.s){order:3;margin-top:8px}.link[data-link=guiaMarca] .cta{order:4;margin-top:12px}.link[data-link=guiaMarca] .thumb{order:5;margin:14px 0 0}
 .cta{display:inline-flex;align-items:center;gap:6px;margin-top:9px;min-height:36px;padding:8px 14px;border-radius:10px;background:var(--red);color:#fff;font:700 14px/1 var(--sans)}
 .link:hover .cta{background:var(--red-h)}
 .cta svg{width:15px;height:15px}
@@ -177,23 +179,6 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
     <p class="pick">Elegí por dónde querés empezar.</p>
   </header>
 
-  <section class="group" aria-label="Para empezar hoy">
-    <div class="list">
-      <a class="link" data-link="ia">
-        <h2>Aprendé a ganar tiempo y dinero usando IA de manera inteligente</h2>
-        <div class="thumb"><img src="/images/links/ia-laptop-mapa-brujula.webp" width="800" height="533" alt="" fetchpriority="high"><div class="screen" aria-hidden="true"><i class="bub" style="--l:24%;--t:36%;--w:3.2%;--d:6.5s;--s:-1s;--x:10%"></i><i class="bub" style="--l:31%;--t:23%;--w:2.2%;--d:5.5s;--s:-3s;--x:-8%"></i><i class="bub" style="--l:38%;--t:38%;--w:4%;--d:8s;--s:-5s;--x:12%"></i><i class="bub" style="--l:45%;--t:21%;--w:2.6%;--d:6s;--s:-2s;--x:-10%"></i><i class="bub" style="--l:49%;--t:33%;--w:3.4%;--d:7.5s;--s:-4s;--x:6%"></i><i class="bub" style="--l:34%;--t:29%;--w:1.8%;--d:5s;--s:-.5s;--x:8%"></i><i class="bub" style="--l:27%;--t:42%;--w:2.4%;--d:7s;--s:-6s;--x:-6%"></i><i class="bub" style="--l:42%;--t:29%;--w:1.6%;--d:4.8s;--s:-2.5s;--x:-5%"></i></div></div>
-        <p>Ahorrá tiempo sin sonar igual a todos. Aprendé a crear un sistema de IA que entienda tu marca.</p>
-        <span class="cta">Quiero el sistema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="link" data-link="asesoria">
-        <h2>Consultoría personalizada para Pymes y marcas</h2>
-        <div class="thumb"><img src="/images/links/hero-brujula-valija-mar.webp" width="960" height="640" alt="" loading="lazy"><div class="dialwrap" aria-hidden="true"><div class="dial"></div></div></div>
-        <p>Tu negocio, con más rumbo. Asesoría 1:1 te ayuda a detectar oportunidades.</p>
-        <span class="cta">Quiero mi asesoría <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-      </a>
-    </div>
-  </section>
-
   <section class="group rec" aria-labelledby="t-prox">
     <div class="label" id="t-prox">Lo que viene</div>
     <div class="list">
@@ -218,6 +203,30 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
         <p>Tres encuentros conmigo para aprender a comunicar mejor lo que vendés y atraer más clientes, con marketing estratégico. Incluye guía de apoyo.</p>
         <button class="dis" type="button" data-link="curso" disabled>Ingresar en lista de espera</button>
       </div>
+    </div>
+  </section>
+
+  <section class="group" aria-label="Para empezar hoy">
+    <div class="list">
+      <a class="link" data-link="ia">
+        <h2>Aprendé a ganar tiempo y dinero usando IA de manera inteligente</h2>
+        <div class="thumb"><img src="/images/links/ia-laptop-mapa-brujula.webp" width="800" height="533" alt="" fetchpriority="high"><div class="screen" aria-hidden="true"><i class="bub" style="--l:24%;--t:36%;--w:3.2%;--d:6.5s;--s:-1s;--x:10%"></i><i class="bub" style="--l:31%;--t:23%;--w:2.2%;--d:5.5s;--s:-3s;--x:-8%"></i><i class="bub" style="--l:38%;--t:38%;--w:4%;--d:8s;--s:-5s;--x:12%"></i><i class="bub" style="--l:45%;--t:21%;--w:2.6%;--d:6s;--s:-2s;--x:-10%"></i><i class="bub" style="--l:49%;--t:33%;--w:3.4%;--d:7.5s;--s:-4s;--x:6%"></i><i class="bub" style="--l:34%;--t:29%;--w:1.8%;--d:5s;--s:-.5s;--x:8%"></i><i class="bub" style="--l:27%;--t:42%;--w:2.4%;--d:7s;--s:-6s;--x:-6%"></i><i class="bub" style="--l:42%;--t:29%;--w:1.6%;--d:4.8s;--s:-2.5s;--x:-5%"></i></div></div>
+        <p>Ahorrá tiempo sin sonar igual a todos. Aprendé a crear un sistema de IA que entienda tu marca.</p>
+        <span class="cta">Quiero el sistema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="link" data-link="guiaMarca">
+        <h2>La guía definitiva para que dejes de perder tiempo con la IA</h2>
+        <p class="s">Hacé que la IA escriba como tu marca.</p>
+        <p>¿Perdés horas explicándole tu negocio a la IA en cada conversación y te devuelve textos que le servirían a cualquiera? Armá el documento de tu marca una sola vez y desde hoy ChatGPT y Claude hablan con tu voz, tu oferta y tus reglas.</p>
+        <div class="thumb"><img src="/images/links/system-operating-ia.webp" width="960" height="960" alt="Guía System Operating IA de COSMART Training junto a una tablet con el plan de marca, una brújula y un mapa" loading="lazy"></div>
+        <span class="cta">Quiero mi guía <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="link" data-link="asesoria">
+        <h2>Consultoría personalizada para Pymes y marcas</h2>
+        <div class="thumb"><img src="/images/links/hero-brujula-valija-mar.webp" width="960" height="640" alt="" loading="lazy"><div class="dialwrap" aria-hidden="true"><div class="dial"></div></div></div>
+        <p>Tu negocio, con más rumbo. Asesoría 1:1 te ayuda a detectar oportunidades.</p>
+        <span class="cta">Quiero mi asesoría <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
     </div>
   </section>
 
@@ -321,6 +330,7 @@ var CONFIG = {
   links: {
     brujula:       "https://cosmart.com.ar/brujula",
     ia:            "https://training.cosmart.com.ar/iaprincipiantes",
+    guiaMarca:     "https://training.cosmart.com.ar/hace-que-la-ia-escriba-como-tu-marca",
     guiaClase:     "https://training.cosmart.com.ar/guia/capacitacion-marketing",   /* card "Marketing desde cero": lleva a la descarga del PDF gratuito (embudo: PDF -> clase gratis -> curso) */
     curso:         "https://training.cosmart.com.ar/cursos/capacitacion-marketing/proximamente",   /* lista de espera del curso en vivo */
     guiaRuta:      "https://training.cosmart.com.ar/guia/capacitacion-marketing",

@@ -75,6 +75,14 @@ h1 i{font-style:normal;color:#fff;border-bottom:4px solid var(--red);padding-bot
 .link,.pl{text-align:center}
 @media(max-width:480px){.wrap{padding-top:12px}.brand{margin-bottom:20px}.foto-aro{margin:8px auto 12px}.tag{margin-top:8px}.pick{margin-top:10px;margin-bottom:20px}.top{padding-bottom:0}#t-pre{margin-bottom:22px}.group:first-of-type{margin-top:0}}
 
+.link.ase{background:#F4EBDB;padding:0;overflow:hidden;text-align:left;border:2px solid var(--navy-2)}
+.link.ase .thumb{border-radius:0;margin:0}
+.link.ase .abody{padding:16px 16px 18px}
+.link.ase .kick{display:inline-block;font:700 10.5px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--navy-2);border:1.5px solid var(--navy-2);border-radius:999px;padding:6px 10px}
+.link.ase h2{font:700 21px/1.2 var(--serif);margin:12px 0 0;text-wrap:balance}
+.link.ase p{margin-top:8px;font-size:14px;color:#3b4a6b}
+.link.ase .cta{margin-top:14px;background:var(--navy-2)}
+.link.ase:hover .cta{background:var(--blue)}
 .link .cta,.pl .cta,.feat .cta{display:flex;width:100%;justify-content:center;min-height:46px}
 .feat .cta{margin-top:14px;font-size:15px}
 .off .cta{display:flex;width:100%;justify-content:center;min-height:46px;margin-top:12px;font-size:15px}
@@ -223,11 +231,14 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
         <p>Ahorrá tiempo sin sonar igual a todos. Aprendé a crear un sistema de IA que entienda tu marca.</p>
         <span class="cta">Quiero el sistema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
-      <a class="link" data-link="asesoria">
-        <h2>Consultoría personalizada para Pymes y marcas</h2>
+      <a class="link ase" data-link="asesoria">
         <div class="thumb"><img src="/images/links/hero-brujula-valija-mar.webp" width="960" height="640" alt="" loading="lazy"><div class="dialwrap" aria-hidden="true"><div class="dial"></div></div></div>
-        <p>Tu negocio, con más rumbo. Asesoría 1:1 te ayuda a detectar oportunidades.</p>
-        <span class="cta">Quiero mi asesoría <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="abody">
+          <span class="kick">Asesoría 1:1</span>
+          <h2>Descubrí qué frena las ventas de tu negocio</h2>
+          <p>Consultoría personalizada para que tu negocio vaya con más rumbo.</p>
+          <span class="cta">Quiero mi asesoría <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
       </a>
     </div>
   </section>

@@ -36,15 +36,16 @@
     .logo{display:inline-block;line-height:0}
     .logo img{height:34px;width:auto;display:block}
     .nav a.cta-mini{background:var(--red);color:#fff;text-decoration:none;font-weight:800;font-size:.9rem;padding:10px 16px;border-radius:999px}
-    .hero{padding-top:48px}
+    .hero{padding:48px 0 64px}
     .lead{font-size:1.15rem;margin-bottom:34px}
-    .btn{--sh:#9e1414;box-shadow:0 6px 0 var(--sh);animation:presionar 2.4s ease-in-out infinite;display:inline-block;width:100%;background:var(--red);color:#fff;font-family:inherit;font-weight:800;font-size:1.1rem;text-align:center;text-decoration:none;border:0;border-radius:14px;padding:18px 24px;cursor:pointer}
+    .btn{animation:tum 1.7s ease-in-out infinite;will-change:transform;display:inline-block;width:100%;background:var(--red);color:#fff;font-family:inherit;font-weight:800;font-size:1.1rem;text-align:center;text-decoration:none;border:0;border-radius:14px;padding:18px 24px;cursor:pointer}
     .btn:hover{background:var(--red2)}
     .btn:disabled{animation:none}
-    @keyframes presionar{0%,55%,100%{transform:translateY(0);box-shadow:0 6px 0 var(--sh)}68%{transform:translateY(5px);box-shadow:0 1px 0 var(--sh)}82%{transform:translateY(0);box-shadow:0 6px 0 var(--sh)}}
+    @keyframes tum{0%,100%{transform:scale(1)}30%{transform:scale(.95)}60%{transform:scale(1.035)}}
+    .btn:hover{animation-play-state:paused}
     @media (prefers-reduced-motion:reduce){.btn{animation:none}}
     .btn:disabled{opacity:.6;cursor:wait}
-    .btn.sky{background:var(--sky);--sh:#24668f}
+    .btn.sky{background:var(--sky)}
     @media(min-width:600px){.btn{width:auto}}
     .cards{display:grid;gap:14px;margin-top:22px}
     @media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}}
@@ -125,9 +126,10 @@
 </div></section>
 
 <section id="guia"><div class="wrap">
+  <p class="eyebrow">Tu guía gratis</p>
+  <h2>Descargá tu autodiagnóstico</h2>
   <div class="formbox">
     <div id="form-panel">
-      <h2>Descargá tu autodiagnóstico</h2>
       <form id="f" novalidate>
         <label class="f" for="nombre">Nombre</label>
         <input type="text" id="nombre" name="nombre" autocomplete="given-name" required />

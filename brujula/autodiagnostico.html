@@ -38,10 +38,13 @@
     .nav a.cta-mini{background:var(--red);color:#fff;text-decoration:none;font-weight:800;font-size:.9rem;padding:10px 16px;border-radius:999px}
     .hero{padding-top:48px}
     .lead{font-size:1.15rem;margin-bottom:34px}
-    .btn{display:inline-block;width:100%;background:var(--red);color:#fff;font-family:inherit;font-weight:800;font-size:1.1rem;text-align:center;text-decoration:none;border:0;border-radius:14px;padding:18px 24px;cursor:pointer}
+    .btn{--sh:#9e1414;box-shadow:0 6px 0 var(--sh);animation:presionar 2.4s ease-in-out infinite;display:inline-block;width:100%;background:var(--red);color:#fff;font-family:inherit;font-weight:800;font-size:1.1rem;text-align:center;text-decoration:none;border:0;border-radius:14px;padding:18px 24px;cursor:pointer}
     .btn:hover{background:var(--red2)}
+    .btn:disabled{animation:none}
+    @keyframes presionar{0%,55%,100%{transform:translateY(0);box-shadow:0 6px 0 var(--sh)}68%{transform:translateY(5px);box-shadow:0 1px 0 var(--sh)}82%{transform:translateY(0);box-shadow:0 6px 0 var(--sh)}}
+    @media (prefers-reduced-motion:reduce){.btn{animation:none}}
     .btn:disabled{opacity:.6;cursor:wait}
-    .btn.sky{background:var(--sky)}
+    .btn.sky{background:var(--sky);--sh:#24668f}
     @media(min-width:600px){.btn{width:auto}}
     .cards{display:grid;gap:14px;margin-top:22px}
     @media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}}
@@ -105,7 +108,7 @@
   <p class="eyebrow">Brújula · Autodiagnóstico gratis</p>
   <h1>Optimizar tus redes puede traerte más ventas.</h1>
   <p class="lead">Encontrá cuáles son los puntos a mejorar para vender más en tus redes sociales. Hacé tu propio autodiagnóstico para tu Instagram, TikTok, YouTube, Facebook, LinkedIn y sitio web. En menos de 2 horas podés saber a qué velocidad está yendo tu negocio y por dónde seguir.</p>
-  <a class="btn" href="#guia">Quiero mi guía gratis →</a>
+  <a class="btn" href="#guia">Quiero mi guía gratis</a>
 </div></header>
 
 <section class="dark"><div class="wrap">
@@ -126,7 +129,7 @@
         <label class="f" for="email">Email</label>
         <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required />
         <label class="consent"><input type="checkbox" id="consent" checked required /><span>Acepto la <a href="/politica-de-privacidad" target="_blank" rel="noopener" style="color:#1A4DAA">Política de Privacidad</a> y consiento recibir la guía y comunicaciones de COSMART por email. Puedo darme de baja cuando quiera.</span></label>
-        <button class="btn" type="submit" id="btn">Descargar mi guía →</button>
+        <button class="btn" type="submit" id="btn">Descargar mi guía</button>
         <div class="msg" id="msg" role="alert" aria-live="polite"></div>
         <p class="micro">Solo pedimos tres datos.</p>
       </form>
@@ -134,7 +137,7 @@
     <div id="gracias">
       <h2>¡Listo, <span id="gn"></span>!</h2>
       <p>Tu guía está lista. Revisá también tu mail: te escribimos para darte la bienvenida.</p>
-      <a class="btn" id="dl" href="/brujula/autodiagnostico/guia-autodiagnostico-cosmart.pdf" download>Descargar mi guía (PDF) →</a>
+      <a class="btn" id="dl" href="/brujula/autodiagnostico/guia-autodiagnostico-cosmart.pdf" download>Descargar mi guía (PDF)</a>
       <p class="micro" style="margin-top:18px">Cuando la termines, mirá lo que sigue ↓</p>
     </div>
   </div>
@@ -152,7 +155,7 @@
     <p style="margin:0">o $301.410 pesos argentinos</p>
     <div class="gift"><p>🎁 <strong>De regalo:</strong> E-book IA para Emprendedores. Valor real USD 97, hoy te queda a $0. 120 páginas para armar la identidad de tu marca y configurar la IA con el tono de tu marca.</p></div>
     <p>Tu oferta dura <strong>48 horas</strong> desde que te anotás. Pasado ese tiempo, el curso vuelve a USD 299.</p>
-    <a class="btn" href="https://training.cosmart.com.ar/cursos/capacitacion-marketing/proximamente">Quiero mi mapa: reservar mi lugar →</a>
+    <a class="btn" href="https://training.cosmart.com.ar/cursos/capacitacion-marketing/proximamente">Quiero mi mapa: reservar mi lugar</a>
   </div>
 </div></section>
 
@@ -204,7 +207,7 @@
       document.getElementById('gracias').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }).catch(function () {
       err('Hubo un error. Intentá de nuevo en unos minutos.');
-      btn.disabled = false; btn.textContent = 'Descargar mi guía →';
+      btn.disabled = false; btn.textContent = 'Descargar mi guía';
     });
   });
 })();

@@ -1,5 +1,8 @@
 # HANDOFF — cosmart (sitio principal, www.cosmart.com.ar)
 
+## 26/10 — Alarma de clon (pedido de Vaneh)
+- Todas las páginas HTML llevan, justo después del `<meta charset>` del `<head>`, un `<script data-anticlon>`: si la página se muestra desde un dominio que no es el oficial (ni uno de los `*.pages.dev` propios), corta la carga, reemplaza todo por un cartel "ATENCIÓN: esta NO es la página oficial de …" con botón a la oficial, y avisa pidiendo `<oficial>/_clon/<dominio-del-clon>` (aparece como 404 en Analíticas de Cloudflare → rutas más pedidas). **No sacarlo ni tocarlo; toda página HTML nueva tiene que llevarlo** (si hace falta, correr de nuevo el script que lo inserta o copiar el bloque de otra página del mismo repo).
+
 ## 22/10 — Hosting migrado de GitHub Pages a Cloudflare Pages
 - **Motivo:** los términos de GitHub Pages no permiten usarlo como hosting de un negocio/e-commerce. Pedido de Vaneh: sacar los sitios comerciales de GitHub Pages.
 - **Ahora:** proyecto **Cloudflare Pages `cosmart`** (preview `cosmart-6ir.pages.dev`) conectado a `AquiVane/cosmart`, rama `main`, sin build, salida = raíz. Dominio personalizado: `www.cosmart.com.ar`. Cada push a `main` se publica solo. GitHub Pages está **despublicado**; se borró `CNAME`. El repo y el código siguen en GitHub.

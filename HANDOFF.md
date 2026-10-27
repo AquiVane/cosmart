@@ -1,5 +1,11 @@
 # HANDOFF — cosmart (sitio principal, www.cosmart.com.ar)
 
+## 27/10 — Linktree (`links.html`, cosmart.com.ar/links) reordenado por necesidad (pedido de Vaneh)
+- **Orden actual:** (1) "Quiero usar mejor la IA para mi negocio:" = 5 formas de usar IA (gratis) + guía de marca + curso completo de IA para emprendedores (con lista de 8 capítulos); (2) "¿Estás empezando? Comenzá acá:" = Tu primera ruta de marketing (gratis) + curso Marketing + IA de 0 a 100 con la etiqueta "Prelanzamiento exclusivo" y botón "Quiero aprender marketing desde cero" (va a la lista de espera/preinscripción); (3) "¿Te cuesta organizar tus contenidos?" = app Calendario + Plata en Orden; (4) "Más para vos" = Autodiagnóstico; (5) Capacitaciones presenciales; (6) COSMART Training. Los bloques 1 a 3 son recuadros con encabezado rojo (`.bloque`).
+- **Textos nuevos de la cabecera:** "Marketing más claro. / IA más alineada con tu negocio." y el párrafo "Ayudo a emprendedores y dueños de negocios…". Se sacó el texto "COSMART" de arriba de la foto y "Elegí por dónde empezar".
+- **Se sacaron del Linktree (a pedido):** tarjeta de Asesoría 1:1 (la landing `cosmart-asesoria-landing` sigue viva), bloque "Recursos gratuitos" (31 ideas de contenido y clase gratuita). Los destinos siguen en `CONFIG.links` por si se vuelven a poner.
+- **Pendiente:** el título de la pestaña y la meta description de la página siguen con el texto viejo ("Tu próximo paso empieza aquí"); Vaneh no dijo si cambiarlos. El título del bloque 3 habla de contenidos pero incluye Plata en Orden (dinero).
+
 ## 26/10 — Alarma de clon (pedido de Vaneh)
 - Todas las páginas HTML llevan, justo después del `<meta charset>` del `<head>`, un `<script data-anticlon>`: si la página se muestra desde un dominio que no es el oficial (ni uno de los `*.pages.dev` propios), corta la carga, reemplaza todo por un cartel "ATENCIÓN: esta NO es la página oficial de …" con botón a la oficial, y avisa pidiendo `<oficial>/_clon/<dominio-del-clon>` (aparece como 404 en Analíticas de Cloudflare → rutas más pedidas). **No sacarlo ni tocarlo; toda página HTML nueva tiene que llevarlo** (si hace falta, correr de nuevo el script que lo inserta o copiar el bloque de otra página del mismo repo).
 

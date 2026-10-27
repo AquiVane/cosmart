@@ -62,7 +62,7 @@ h1 i{font-style:normal;color:#fff;border-bottom:4px solid var(--red);padding-bot
 .group.bloque .label::before{display:none}
 .group.bloque + .group.bloque{margin-top:22px}
 #t-pre{margin-bottom:22px}
-#t-tr,#t-plan,#t-prox,#t-mkt,#t-ia,#t-mas{margin-bottom:18px}
+#t-tr,#t-plan,#t-prox,#t-mkt,#t-ia,#t-mas,#t-cal{margin-bottom:18px}
 
 /* Enlace principal: toda la tarjeta es el botón */
 .link{display:block;background:#fff;color:var(--navy);border-radius:18px;padding:12px 12px 16px;
@@ -243,7 +243,8 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
     </div>
   </section>
 
-  <section class="group rec" aria-label="App Calendario de Contenidos" style="margin-top:18px">
+  <section class="group rec bloque" aria-labelledby="t-cal" style="margin-top:28px">
+    <div class="label" id="t-cal">¿Te cuesta organizar tus contenidos?</div>
     <div class="list">
       <a class="pl" data-link="calendario">
         <span class="pill r">Disponible para vos</span>

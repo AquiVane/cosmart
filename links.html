@@ -57,6 +57,9 @@ h1 i{font-style:normal;color:#fff;border-bottom:4px solid var(--red);padding-bot
 .group.rec .label{flex-direction:column;gap:10px;margin:0 0 8px;font:700 23px/1.2 var(--serif);letter-spacing:0;text-transform:none;color:#fff}
 .group.rec .label::before{width:38px;height:4px}
 .group.rec .list{text-align:left}
+.group.bloque{padding:20px 12px 14px;border:1.5px solid rgba(255,255,255,.3);border-radius:26px;background:rgba(255,255,255,.06)}
+.group.bloque .label{margin-bottom:16px}
+.group.bloque + .group.bloque{margin-top:22px}
 #t-pre{margin-bottom:22px}
 #t-tr,#t-plan,#t-prox,#t-mkt,#t-ia,#t-mas{margin-bottom:18px}
 
@@ -184,7 +187,7 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
     <p class="pick">Elegí por dónde empezar.</p>
   </header>
 
-  <section class="group rec" aria-labelledby="t-mkt" style="margin-top:18px">
+  <section class="group rec bloque" aria-labelledby="t-mkt" style="margin-top:18px">
     <div class="label" id="t-mkt">Estoy empezando con marketing:</div>
     <div class="list">
       <a class="row" data-link="guiaRuta"><div><b>Tu primera ruta de marketing</b><span class="d">Ordená tus ideas y encontrá por dónde empezar.</span></div><span class="go">Descargar</span></a>
@@ -199,7 +202,7 @@ a:hover .cta,a:hover .go2{animation-play-state:paused}
     </div>
   </section>
 
-  <section class="group rec" aria-labelledby="t-ia">
+  <section class="group rec bloque" aria-labelledby="t-ia">
     <div class="label" id="t-ia">Quiero usar mejor la IA<br>para mi negocio:</div>
     <div class="list">
       <a class="row" data-link="guiaIA"><div><b>5 formas de usar IA esta semana</b><span class="d">Llevá la IA a tareas concretas de tu emprendimiento.</span></div><span class="go">Descargar</span></a>

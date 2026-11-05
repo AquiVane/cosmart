@@ -40,6 +40,7 @@ a{color:inherit;text-decoration:none}
 .fondo-faro{position:absolute;top:0;left:0;right:0;height:430px;z-index:-1;pointer-events:none;background:url(/images/links/v2/faro.webp) right top/auto 100% no-repeat;
   -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)}
 .fondo-faro::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,26,68,.92) 0%,rgba(7,26,68,.6) 40%,rgba(7,26,68,.15) 70%,rgba(7,26,68,0) 100%)}
+.ruta{position:absolute;pointer-events:none;z-index:0;height:auto;-webkit-mask-image:linear-gradient(to top right,transparent 0%,rgba(0,0,0,.35) 28%,#000 62%);mask-image:linear-gradient(to top right,transparent 0%,rgba(0,0,0,.35) 28%,#000 62%)}
 .hero-row{display:grid;grid-template-columns:116px 1fr;gap:14px;align-items:center}
 .foto-aro{position:relative;width:116px;height:116px}
 .foto-aro::before{content:'';position:absolute;inset:-5px;border-radius:50%;background:conic-gradient(from 0deg,#E3000F,#1A4DAA,#3A8FC7,#1A4DAA,#E3000F)}
@@ -117,6 +118,7 @@ footer{margin-top:10px;text-align:center}
 /* Escritorio: distribución horizontal */
 @media(min-width:900px){
   br.mb{display:none}
+  .ruta{right:128px;top:70px;width:120px}
     .wrap{max-width:1080px;padding:28px 24px 48px;gap:18px}
   .hero{padding:26px 12px 28px}
   .fondo-faro{left:auto;width:56%;height:26.9vw;background-size:100% 100%;background-position:right top;
@@ -147,6 +149,7 @@ footer{margin-top:10px;text-align:center}
 }
 @media(min-width:900px) and (max-width:1100px){.camino{grid-template-columns:1fr 320px}}
 @media(max-width:899px){
+  .ruta{right:64px;top:70px;width:70px}
   /* Imagen completa, sin recortes ni fundidos: ocupa todo el ancho y arranca en el borde de la página */
   .fondo-faro{left:0;right:0;width:100%;height:53vw;background-size:100% 100%;background-position:center top;-webkit-mask-image:none;mask-image:none}
   .fondo-faro::after{background:none}
@@ -170,6 +173,7 @@ footer{margin-top:10px;text-align:center}
 <div class="fondo-faro" aria-hidden="true"></div>
 <main class="wrap">
   <header class="hero">
+    <img class="ruta" src="/images/links/v2/ruta.webp" alt="" width="420" height="474" aria-hidden="true">
     <div class="hero-row">
       <div class="foto-aro"><span class="zoom"><img src="Foto de Perfil - Aquí Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART" width="200" height="200" fetchpriority="high"></span></div>
       <div>

@@ -159,12 +159,12 @@ footer{margin-top:10px;text-align:center}
   /* Centro apenas oscurecido (degradé azul muy sutil) detrás del texto; el amanecer queda libre a la izquierda, abajo de la foto */
   .fondo-faro::after{background:linear-gradient(90deg,rgba(7,26,68,.66) 0%,rgba(7,26,68,.66) 58%,rgba(7,26,68,0) 82%);-webkit-mask-image:none;mask-image:none}
   /* Amanecer sobrepuesto a la izquierda: el sol queda justo debajo del centro de la foto (centro de la foto = 16px + 36px) */
-  .fondo-sol{display:block;position:absolute;left:-52px;top:82px;width:150px;height:102px;z-index:-1;pointer-events:none;background:url(/images/links/v2/amanecer.webp) center/100% 100% no-repeat;
+  .fondo-sol{display:block;position:absolute;left:-48px;top:88px;width:150px;height:102px;z-index:-1;pointer-events:none;background:url(/images/links/v2/amanecer.webp) center/100% 100% no-repeat;
     -webkit-mask-image:radial-gradient(ellipse 44% 36% at 54% 62%,#000 15%,transparent 100%);mask-image:radial-gradient(ellipse 44% 36% at 54% 62%,#000 15%,transparent 100%)}
   .wrap{padding-top:0}
   .hero{padding:6px 0 0}
   .hero-row{grid-template-columns:84px minmax(0,1fr);column-gap:12px;align-items:center}
-  .foto-aro{width:90px;height:90px;margin:32px -3px 0;align-self:start}
+  .foto-aro{width:90px;height:90px;margin:38px -3px 0 1px;align-self:start}
   .hero-row>div:last-child{padding-left:11px;padding-right:calc(12% - 11px)}
   h1{font-size:24px;line-height:.92;margin-top:5px;letter-spacing:-.03em;word-spacing:.04em}
   h1 em{font-size:1.32em;line-height:.8;margin-top:-1px}

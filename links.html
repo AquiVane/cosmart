@@ -83,6 +83,10 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .media::before{content:'';position:absolute;inset:0;z-index:-2;background:url(/images/links/v2/amanecer.webp) center bottom/cover no-repeat}
 .media::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,31,78,.85) 0%,rgba(11,31,78,.15) 55%,rgba(11,31,78,.35) 100%)}
 .media img{max-height:230px;width:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
+.media.m1{display:block;height:68vw;max-height:330px;min-height:230px;padding:0}
+.media.m1::before{background-size:150% auto;background-position:30% bottom}
+.media.m1 .lap{position:absolute;left:20%;top:6%;width:66%;max-height:none;filter:drop-shadow(0 10px 16px rgba(0,0,0,.5))}
+.media.m1 .bruj{position:absolute;left:5%;bottom:9%;width:27%;max-height:none;border-radius:50%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.55))}
 .media img.dos{max-height:190px;max-width:48%}
 .media img.mon{-webkit-mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%)}
 .btns{display:flex;flex-direction:column;gap:10px}
@@ -217,7 +221,7 @@ footer{margin-top:10px;text-align:center}
   <section class="glass camino c1" aria-labelledby="t1">
     <div class="cab"><img class="ico" src="/images/links/v2/ico-estrategia.webp" alt="" width="159" height="150"><div><span class="num">Camino 1 • <b>Estrategia</b></span><h2 id="t1">Quiero mejorar mi estrategia de marketing</h2></div></div>
     <p class="desc">Ordená tus ideas, conocé tu situación actual y armá un plan para hacer crecer tu negocio.</p>
-    <div class="media"><img src="/images/links/v2/laptop.webp" alt="Autodiagnóstico de Marketing en una computadora" width="409" height="346" loading="lazy"></div>
+    <div class="media m1"><img class="lap" src="/images/links/v2/laptop-full.webp" alt="Autodiagnóstico de Marketing en una computadora" width="425" height="358" loading="lazy"><img class="bruj" src="/images/links/v2/brujula-c.webp" alt="" width="204" height="199" loading="lazy"></div>
     <div class="btns">
       <a class="btn p" data-link="autodiag" data-evento="autodiagnostico_gratis">Hacer mi autodiagnóstico gratis <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn s" data-link="plan" data-evento="plan_marketing">Quiero mi primer plan de marketing <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>

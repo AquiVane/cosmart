@@ -40,6 +40,7 @@ a{color:inherit;text-decoration:none}
 .fondo-faro{position:absolute;top:0;left:0;right:0;height:430px;z-index:-1;pointer-events:none;background:url(/images/links/v2/faro.webp) right top/auto 100% no-repeat;
   -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)}
 .fondo-faro::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,26,68,.92) 0%,rgba(7,26,68,.6) 40%,rgba(7,26,68,.15) 70%,rgba(7,26,68,0) 100%)}
+.fondo-sol{display:none}
 .roca{z-index:1;clip-path:polygon(49.9% 87.2%,54.9% 80.8%,58.2% 80.1%,61.6% 79.0%,66.6% 76.5%,69.9% 73.0%,74.0% 68.3%,77.4% 66.5%,81.5% 67.6%,83.2% 67.6%,85.7% 70.1%,89.0% 73.0%,91.5% 70.1%,92.3% 62.3%,94.8% 57.7%,98.2% 56.6%,100.0% 58.7%,100.0% 100.0%,49.9% 100.0%)}
 .roca::after{display:none}
 .ruta{position:absolute;pointer-events:none;z-index:0;height:auto;-webkit-mask-image:linear-gradient(to top right,transparent 0%,rgba(0,0,0,.35) 28%,#000 62%);mask-image:linear-gradient(to top right,transparent 0%,rgba(0,0,0,.35) 28%,#000 62%)}
@@ -157,13 +158,15 @@ footer{margin-top:10px;text-align:center}
   /* Imagen completa, sin recortes ni fundidos: ocupa todo el ancho y arranca en el borde de la página */
   .fondo-faro{left:0;right:0;width:100%;height:50vw;background-size:100% 100%;background-position:left top;-webkit-mask-image:none;mask-image:none}
   /* Centro apenas oscurecido (degradé azul muy sutil) detrás del texto; el amanecer queda libre a la izquierda, abajo de la foto */
-  .fondo-faro::after{background:linear-gradient(90deg,rgba(7,26,68,0) 0%,rgba(7,26,68,.66) 17%,rgba(7,26,68,.66) 58%,rgba(7,26,68,0) 82%);
-    -webkit-mask-image:radial-gradient(ellipse 22% 36% at 9% 86%,transparent 0%,transparent 50%,#000 100%);mask-image:radial-gradient(ellipse 22% 36% at 9% 86%,transparent 0%,transparent 50%,#000 100%)}
+  .fondo-faro::after{background:linear-gradient(90deg,rgba(7,26,68,.66) 0%,rgba(7,26,68,.66) 58%,rgba(7,26,68,0) 82%);-webkit-mask-image:none;mask-image:none}
+  /* Amanecer sobrepuesto a la izquierda: el sol queda justo debajo del centro de la foto (centro de la foto = 16px + 36px) */
+  .fondo-sol{display:block;position:absolute;left:-50px;top:76px;width:200px;height:136px;z-index:-1;pointer-events:none;background:url(/images/links/v2/amanecer.webp) center/100% 100% no-repeat;
+    -webkit-mask-image:radial-gradient(ellipse 50% 50% at 54% 66%,#000 40%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 54% 66%,#000 40%,transparent 100%)}
   .roca::after{display:none}
   .wrap{padding-top:0}
   .hero{padding:16px 0 4px}
   .hero-row{grid-template-columns:84px minmax(0,1fr);column-gap:12px;align-items:center}
-  .foto-aro{width:84px;height:84px}
+  .foto-aro{width:72px;height:72px;margin:0 6px}
   .hero-row>div:last-child{padding-right:12%}
   h1{font-size:24px;line-height:.98;margin-top:8px}
   h1 em{font-size:1.32em;line-height:.85;margin-top:-1px}
@@ -179,6 +182,7 @@ footer{margin-top:10px;text-align:center}
 <body>
 <div class="fondo-faro" aria-hidden="true"></div>
 <div class="fondo-faro roca" aria-hidden="true"></div>
+<div class="fondo-sol" aria-hidden="true"></div>
 <main class="wrap">
   <header class="hero">
     <img class="ruta" src="/images/links/v2/ruta.webp" alt="" width="420" height="474" aria-hidden="true">

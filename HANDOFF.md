@@ -1,5 +1,12 @@
 # HANDOFF — cosmart (sitio principal, www.cosmart.com.ar)
 
+## 05/11 — Linktree (`links.html`) rehecho en tres caminos (pedido de Vaneh)
+- Orden: 1) estrategia de marketing (plan USD 9, autodiagnóstico gratis, preinscripción al curso en vivo), 2) IA (guía gratuita + "hacer que la IA escriba como tu marca"), 3) precios (libro, `/precio`, con etiquetas "Nuevo libro" y "Oferta lanzamiento"). Después: presentación de Vaneh y botón a Training (`/tienda`). Textos dictados por Vaneh, no cambiarlos sin pedido.
+- Se mantuvo la cabecera original (foto 144 px con aro, "Vaneh" sin cursiva y con subrayado animado). Vaneh no usa cursivas.
+- Salieron de la portada (las páginas siguen vivas): Calendario (es de pago, USD 7/mes; la tarjeta vieja decía "gratis", error), Plata en Orden, cursos IA, presencial, etc.
+- Medición: cada botón dispara `links_click` en `dataLayer`/`gtag` (ids: `libro_precios`, `guia_ia_gratis`, `ia_identidad_marca`, `plan_marketing`, `autodiagnostico_gratis`, `curso_vivo_preinscripcion`, `training_tienda`). **La página no tiene GTM/GA/píxel instalado**: hoy esos eventos no se registran en ningún lado (pendiente de decisión de Vaneh).
+- Futuro: dejar un botón para un recurso de búsqueda de potenciales clientes con IA cuando exista (hay comentario en el HTML).
+
 ## 27/10 — Linktree (`links.html`, cosmart.com.ar/links) reordenado por necesidad (pedido de Vaneh)
 - **Orden actual:** (1) "Quiero usar mejor la IA para mi negocio:" = 5 formas de usar IA (gratis) + guía de marca + curso completo de IA para emprendedores (con lista de 8 capítulos); (2) "¿Estás empezando? Comenzá acá:" = Tu primera ruta de marketing (gratis) + curso Marketing + IA de 0 a 100 con la etiqueta "Prelanzamiento exclusivo" y botón "Quiero aprender marketing desde cero" (va a la lista de espera/preinscripción); (3) "¿Te cuesta organizar tus contenidos?" = app Calendario + Plata en Orden; (4) "Más para vos" = Autodiagnóstico; (5) Capacitaciones presenciales; (6) COSMART Training. Los bloques 1 a 3 son recuadros con encabezado rojo (`.bloque`).
 - **Textos nuevos de la cabecera:** "Marketing más claro. / IA más alineada con tu negocio." y el párrafo "Ayudo a emprendedores y dueños de negocios…". Se sacó el texto "COSMART" de arriba de la foto y "Elegí por dónde empezar".

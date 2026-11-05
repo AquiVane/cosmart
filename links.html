@@ -84,10 +84,12 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .media::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,31,78,.85) 0%,rgba(11,31,78,.15) 55%,rgba(11,31,78,.35) 100%)}
 .media img{max-height:230px;width:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
 .camino.c1{overflow:hidden;isolation:isolate}
-.media.m1{display:block;margin:-25px -16px 0;padding:0;min-height:0;aspect-ratio:1100/700;border-radius:0;overflow:visible;background:none}
-.media.m1::before{inset:0;background:url(/images/links/v2/camino1-fondo.webp) center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%)}
-.media.m1::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:-34px;bottom:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,29,77,.72) 0%,rgba(8,29,77,.38) 26%,rgba(8,29,77,0) 52%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%)}
-.c1 .media.m1 + .btns{position:relative;z-index:2;margin-top:-40px}
+.media.m1,.media.m2{display:block;margin:-25px -16px 0;padding:0;min-height:0;aspect-ratio:1100/700;border-radius:0;overflow:visible;background:none}
+.media.m2{aspect-ratio:1100/690}
+.media.m2::before{background-image:url(/images/links/v2/camino2-fondo.webp)!important}
+.media.m1::before,.media.m2::before{inset:0;background:url(/images/links/v2/camino1-fondo.webp) center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%)}
+.media.m1::after,.media.m2::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:-34px;bottom:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,29,77,.72) 0%,rgba(8,29,77,.38) 26%,rgba(8,29,77,0) 52%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%)}
+.c1 .media.m1 + .btns,.c2 .media.m2 + .btns{position:relative;z-index:2;margin-top:-40px}
 .media img.dos{max-height:190px;max-width:48%}
 .media img.mon{-webkit-mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%)}
 .btns{display:flex;flex-direction:column;gap:10px}
@@ -160,7 +162,8 @@ footer{margin-top:10px;text-align:center}
   body{background:#081d4d}
   .camino h2{font-size:22px;line-height:.98;margin-top:0}
   .ico{width:52px}
-  .desc{font-size:min(12.5px,3.12vw);line-height:1.3;text-align:left;padding-left:64px;margin-right:-8px;white-space:nowrap}
+  .desc{font-size:min(12.5px,3.12vw);line-height:1.3;text-align:left;padding-left:64px;margin-right:0;white-space:normal}
+  .c1 .desc{margin-right:-8px;white-space:nowrap}
   /* Centrado entre el final del texto (~293px) y el borde izquierdo del faro (~82% del ancho), en cualquier ancho */
   .hero{--hl:calc(max(0px,(100vw - 560px)/2) + 16px)}
   .ruta{right:auto;left:calc((284px + 82vw - var(--hl))/2 - 75px);top:48px;width:84px}
@@ -239,7 +242,7 @@ footer{margin-top:10px;text-align:center}
     <div class="cab"><img class="ico" src="/images/links/v2/ico-ia.webp" alt="" width="150" height="150"><div><span class="num">Camino 2 • <b>Inteligencia artificial</b></span><h2 id="t2">Quiero aprovechar la IA en mi negocio</h2></div></div>
     <p class="desc">Empezá a usar IA con aplicaciones concretas y aprendé a configurarla para trabajar con la identidad de tu marca.</p>
     <!-- Futuro: acá puede sumarse un botón con un recurso específico sobre investigación y búsqueda de potenciales clientes con IA (hoy NO existe; no crear enlace hasta que esté publicado). -->
-    <div class="media"><img src="/images/links/v2/libro-ia.webp" alt="Libro System Operating IA, la base de tu marca" width="219" height="325" loading="lazy"></div>
+    <div class="media m2" role="img" aria-label="Libro System Operating IA de COSMART Training sobre una roca frente al atardecer"></div>
     <div class="btns">
       <a class="btn p" data-link="guiaIA" data-evento="guia_ia_gratis">Descargar guía gratuita de IA <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg></a>
       <a class="btn s" data-link="iaMarca" data-evento="ia_identidad_marca">Hacer que la IA escriba como mi marca <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>

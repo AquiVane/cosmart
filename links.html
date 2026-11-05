@@ -162,6 +162,8 @@ footer{margin-top:10px;text-align:center}
   .acati{font-size:22px;margin-top:14px}
   .sub{font-size:14px}
 }
+@keyframes subr{0%{clip-path:inset(-6px 100% -6px -6px)}17%,78%{clip-path:inset(-6px -6px -6px -6px)}96%,100%{clip-path:inset(-6px 100% -6px -6px)}}
+@media(prefers-reduced-motion:no-preference){h1 em::after{animation:subr 3.8s ease-in-out infinite}}
 @media(max-width:380px){h1{font-size:24px}.hero-row{grid-template-columns:96px 1fr}.foto-aro{width:96px;height:96px}.camino h2{font-size:22px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>

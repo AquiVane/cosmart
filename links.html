@@ -41,8 +41,6 @@ a{color:inherit;text-decoration:none}
   -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)}
 .fondo-faro::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,26,68,.92) 0%,rgba(7,26,68,.6) 40%,rgba(7,26,68,.15) 70%,rgba(7,26,68,0) 100%)}
 .fondo-sol{display:none}
-.roca{z-index:1;clip-path:polygon(49.9% 87.2%,54.9% 80.8%,58.2% 80.1%,61.6% 79.0%,66.6% 76.5%,69.9% 73.0%,74.0% 68.3%,77.4% 66.5%,81.5% 67.6%,83.2% 67.6%,85.7% 70.1%,89.0% 73.0%,91.5% 70.1%,92.3% 62.3%,94.8% 57.7%,98.2% 56.6%,100.0% 58.7%,100.0% 100.0%,49.9% 100.0%)}
-.roca::after{display:none}
 .ruta{position:absolute;pointer-events:none;z-index:0;height:auto;-webkit-mask-image:linear-gradient(to top right,transparent 0%,rgba(0,0,0,.35) 28%,#000 62%);mask-image:linear-gradient(to top right,transparent 0%,rgba(0,0,0,.35) 28%,#000 62%)}
 .hero-row{position:relative;z-index:2;display:grid;grid-template-columns:116px 1fr;gap:14px;align-items:center}
 .foto-aro{position:relative;width:116px;height:116px}
@@ -156,12 +154,12 @@ footer{margin-top:10px;text-align:center}
   .hero{--hl:calc(max(0px,(100vw - 560px)/2) + 16px)}
   .ruta{right:auto;left:calc((277px + 82vw - var(--hl))/2 - 71px);top:48px;width:84px}
   /* Imagen completa, sin recortes ni fundidos: ocupa todo el ancho y arranca en el borde de la página */
-  .fondo-faro{left:0;right:0;width:100%;height:50vw;background-size:100% 100%;background-position:left top;-webkit-mask-image:none;mask-image:none}
+  .fondo-faro{left:0;right:0;width:100%;height:50vw;background-size:100% 100%;background-position:left top;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 93%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 93%,transparent 100%)}
   /* Centro apenas oscurecido (degradé azul muy sutil) detrás del texto; el amanecer queda libre a la izquierda, abajo de la foto */
   .fondo-faro::after{background:linear-gradient(180deg,rgba(7,26,68,0) 44%,rgba(7,26,68,.78) 72%),linear-gradient(90deg,rgba(7,26,68,.66) 0%,rgba(7,26,68,.66) 58%,rgba(7,26,68,0) 82%);-webkit-mask-image:none;mask-image:none}
   /* Amanecer sobrepuesto a la izquierda: el sol queda justo debajo del centro de la foto (centro de la foto = 16px + 36px) */
   .foto-aro .zoom::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(26,77,170,.30),rgba(9,28,71,.22));pointer-events:none}
-  .fondo-sol{display:block;position:absolute;left:-50px;top:78px;width:200px;height:136px;z-index:-1;pointer-events:none;background:url(/images/links/v2/amanecer.webp) center/100% 100% no-repeat;
+  .fondo-sol{display:block;position:absolute;left:-23px;top:101px;width:150px;height:102px;z-index:-1;pointer-events:none;background:url(/images/links/v2/amanecer.webp) center/100% 100% no-repeat;
     -webkit-mask-image:radial-gradient(ellipse 50% 50% at 54% 66%,#000 40%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 54% 66%,#000 40%,transparent 100%)}
   .wrap{padding-top:0}
   .hero{padding:6px 0 26px}
@@ -182,7 +180,6 @@ footer{margin-top:10px;text-align:center}
 </head>
 <body>
 <div class="fondo-faro" aria-hidden="true"></div>
-<div class="fondo-faro roca" aria-hidden="true"></div>
 <div class="fondo-sol" aria-hidden="true"></div>
 <main class="wrap">
   <header class="hero">

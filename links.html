@@ -40,7 +40,6 @@ a{color:inherit;text-decoration:none}
 .fondo-faro{position:absolute;top:0;left:0;right:0;height:430px;z-index:-1;pointer-events:none;background:url(/images/links/v2/faro.webp) right top/auto 100% no-repeat;
   -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)}
 .fondo-faro::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,26,68,.92) 0%,rgba(7,26,68,.6) 40%,rgba(7,26,68,.15) 70%,rgba(7,26,68,0) 100%)}
-.ruta{position:absolute;right:2px;top:104px;width:54px;height:auto;pointer-events:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45));z-index:0}
 .hero-row{display:grid;grid-template-columns:116px 1fr;gap:14px;align-items:center}
 .foto-aro{position:relative;width:116px;height:116px}
 .foto-aro::before{content:'';position:absolute;inset:-5px;border-radius:50%;background:conic-gradient(from 0deg,#E3000F,#1A4DAA,#3A8FC7,#1A4DAA,#E3000F)}
@@ -118,12 +117,10 @@ footer{margin-top:10px;text-align:center}
 /* Escritorio: distribución horizontal */
 @media(min-width:900px){
   br.mb{display:none}
-  .ruta{right:44px;top:70px;width:104px}
-  .wrap{max-width:1080px;padding:28px 24px 48px;gap:18px}
+    .wrap{max-width:1080px;padding:28px 24px 48px;gap:18px}
   .hero{padding:26px 12px 28px}
   .fondo-faro{left:auto;width:56%;height:26.9vw;background-size:100% 100%;background-position:right top;
-    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 60%,transparent 100%),linear-gradient(90deg,transparent 0%,#000 38%);-webkit-mask-composite:source-in;
-    mask-image:linear-gradient(180deg,#000 0%,#000 60%,transparent 100%),linear-gradient(90deg,transparent 0%,#000 38%);mask-composite:intersect}
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 30%);mask-image:linear-gradient(90deg,transparent 0%,#000 30%)}
   .fondo-faro::after{background:none}
   .hero-row{grid-template-columns:200px 1fr;gap:34px;min-height:200px}
   .foto-aro{width:200px;height:200px}
@@ -150,17 +147,20 @@ footer{margin-top:10px;text-align:center}
 }
 @media(min-width:900px) and (max-width:1100px){.camino{grid-template-columns:1fr 320px}}
 @media(max-width:899px){
-  .fondo-faro{left:auto;width:84%;height:40.3vw;background-size:100% 100%;background-position:right top;
-    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 62%,transparent 100%),linear-gradient(90deg,transparent 0%,#000 35%);-webkit-mask-composite:source-in;
-    mask-image:linear-gradient(180deg,#000 0%,#000 62%,transparent 100%),linear-gradient(90deg,transparent 0%,#000 35%);mask-composite:intersect}
-  .fondo-faro::after{background:linear-gradient(90deg,rgba(7,26,68,.45) 0%,rgba(7,26,68,.18) 50%,rgba(7,26,68,0) 80%)}
-  .hero-row{grid-template-columns:100px minmax(0,1fr);gap:12px}
-  .foto-aro{width:100px;height:100px}
-  .hero-row>div:last-child{padding-right:10%}
-  h1{font-size:27px;line-height:.98}
+  /* Imagen completa, sin recortes ni fundidos: ocupa todo el ancho y arranca en el borde de la página */
+  .fondo-faro{left:0;right:0;width:100%;height:47.97vw;background-size:100% 100%;background-position:center top;-webkit-mask-image:none;mask-image:none}
+  .fondo-faro::after{background:none}
+  .wrap{padding-top:0}
+  .hero{padding:0 0 4px}
+  .hero-row{grid-template-columns:100px minmax(0,1fr);grid-template-rows:47.97vw auto auto;column-gap:12px;row-gap:0;align-items:center}
+  .hero-row>div:last-child{display:contents}
+  .foto-aro{grid-column:1;grid-row:1;width:100px;height:100px}
+  .tt{grid-column:2;grid-row:1;padding-right:12%}
+  .acati,.sub{grid-column:1/-1}
+  h1{font-size:27px;line-height:.98;margin-top:8px}
   h1 em{font-size:1.32em;line-height:.85;margin-top:-1px}
-  .acati{font-size:22px;margin-top:8px}
-  .sub{font-size:13px;padding-right:14%}
+  .acati{font-size:22px;margin-top:14px}
+  .sub{font-size:14px}
 }
 @media(max-width:380px){h1{font-size:24px}.hero-row{grid-template-columns:96px 1fr}.foto-aro{width:96px;height:96px}.camino h2{font-size:22px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -170,12 +170,13 @@ footer{margin-top:10px;text-align:center}
 <div class="fondo-faro" aria-hidden="true"></div>
 <main class="wrap">
   <header class="hero">
-    <svg class="ruta" viewBox="0 0 80 180" aria-hidden="true" focusable="false"><path d="M40 44C40 70 12 72 14 100C16 124 56 120 50 150C46 168 30 170 24 176" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7"/><path d="M40 40C30 28 24 22 24 15A16 16 0 0 1 56 15C56 22 50 28 40 40Z" fill="#E3000F"/><circle cx="40" cy="15" r="5.5" fill="#8a0008"/></svg>
     <div class="hero-row">
       <div class="foto-aro"><span class="zoom"><img src="Foto de Perfil - Aquí Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART" width="200" height="200" fetchpriority="high"></span></div>
       <div>
+        <div class="tt">
         <span class="pill">Aquí Vaneh</span>
         <h1>Para vender<br class="mb"> <span class="l2">más necesitás</span><br class="mb"> <em>estrategia.</em></h1>
+        </div>
         <p class="acati">Acá te enseño.</p>
         <p class="sub">Marketing, precios e IA para tomar mejores decisiones en tu negocio.</p>
       </div>

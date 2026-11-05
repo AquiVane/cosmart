@@ -35,11 +35,13 @@ a{color:inherit;text-decoration:none}
 
 /* Encabezado */
 .top{text-align:center;padding:4px 4px 0}
-.foto-aro{position:relative;width:128px;height:128px;margin:8px auto 18px}
+.foto-aro{position:relative;width:144px;height:144px;margin:16px auto 22px}
 .foto-aro::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#3A8FC7,#1A4DAA,#E3000F,#1A4DAA,#3A8FC7)}
 @media(prefers-reduced-motion:no-preference){.foto-aro::before{animation:giro 8s linear infinite}}
 @keyframes giro{to{transform:rotate(360deg)}}
-.foto-aro img{position:relative;width:128px;height:128px;border-radius:50%;object-fit:cover;border:4px solid var(--navy)}
+.foto-aro .zoom{position:relative;display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#0D2B6B;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.foto-aro img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.15);transform-origin:50% 38%}
+@media(max-width:480px){.wrap{padding-top:12px}.foto-aro{margin:8px auto 12px}.tag{margin-top:8px}}
 h1{font:900 38px/1.1 var(--serif)}
 h1 i{font-style:normal;color:#fff;border-bottom:4px solid var(--red);padding-bottom:1px;display:inline-block}
 @media (prefers-reduced-motion:no-preference){h1 i{animation:vaneh 3.8s ease-in-out infinite}}
@@ -100,7 +102,7 @@ footer{margin-top:30px;text-align:center}
 <body>
 <main class="wrap">
   <header class="top">
-    <div class="foto-aro"><img src="Foto de Perfil - Aquí Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART" width="128" height="128" fetchpriority="high"></div>
+    <div class="foto-aro"><span class="zoom"><img src="Foto de Perfil - Aquí Vaneh.png" alt="Vaneh Fernández, fundadora de COSMART" width="144" height="144"></span></div>
     <h1>Aquí <i>Vaneh</i></h1>
     <p class="tag">Para vender más necesitás estrategia. Acá te enseño.</p>
     <p class="lead">Estrategias de marketing y la configuración definitiva para que tu guía hable con la voz de tu marca.</p>

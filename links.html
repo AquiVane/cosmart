@@ -97,6 +97,7 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .btn.p:hover{background:linear-gradient(100deg,#ff2a47,#c40000)}
 .btn.s{border:2px solid #fff;background:rgba(6,22,59,.55)}
 .btn.s:hover{background:#fff;color:var(--navy)}
+.btn .t{display:inline-block;white-space:nowrap;text-align:center}
 .btn:active{transform:scale(.985)}
 
 /* Training y Quién */
@@ -298,6 +299,30 @@ function medir(id, url){
     if(typeof window.gtag === 'function') window.gtag('event', 'links_click', {link_id:id, link_url:url});
   }catch(e){}
 }
+/* Los textos de los botones de los caminos empiezan y terminan en el mismo ancho: se ajusta el tamaño de letra de cada uno al mismo ancho útil. */
+function ajustarBotones(){
+  document.querySelectorAll('.camino .btn').forEach(function(b){
+    var t=b.querySelector('.t');
+    if(!t){ t=document.createElement('span'); t.className='t';
+      Array.prototype.slice.call(b.childNodes).forEach(function(n){ if(!(n.nodeType===1&&n.tagName.toLowerCase()==='svg')) t.appendChild(n); });
+      b.insertBefore(t,b.firstChild); }
+    t.style.fontSize='';
+    var base=parseFloat(getComputedStyle(b).fontSize);
+    var cs=getComputedStyle(b);
+    var objetivo=b.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-28;
+    var w=t.getBoundingClientRect().width;
+    if(w>0){
+      var f=Math.max(base*0.95,Math.min(base*1.06,base*objetivo/w)); t.style.fontSize=f.toFixed(2)+'px'; t.style.letterSpacing='';
+      var w2=t.getBoundingClientRect().width;
+      var lineas=t.innerText.split('\n'); var n=Math.max.apply(null,lineas.map(function(l){return l.length;}));
+      var ls=(objetivo-w2)/Math.max(1,n-1); ls=Math.max(-0.4,Math.min(0.8,ls));
+      t.style.letterSpacing=ls.toFixed(2)+'px';
+    }
+  });
+}
+ajustarBotones();
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(ajustarBotones);
+window.addEventListener('resize',ajustarBotones);
 document.querySelectorAll('[data-link]').forEach(function(el){
   var url = LINKS[el.getAttribute('data-link')];
   if(!url) return;

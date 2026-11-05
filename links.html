@@ -158,7 +158,7 @@ footer{margin-top:10px;text-align:center}
   /* Imagen completa, sin recortes ni fundidos: ocupa todo el ancho y arranca en el borde de la página */
   .fondo-faro{left:0;right:0;width:100%;height:50vw;background-size:100% 100%;background-position:left top;-webkit-mask-image:none;mask-image:none}
   /* Centro apenas oscurecido (degradé azul muy sutil) detrás del texto; el amanecer queda libre a la izquierda, abajo de la foto */
-  .fondo-faro::after{background:linear-gradient(90deg,rgba(7,26,68,.66) 0%,rgba(7,26,68,.66) 58%,rgba(7,26,68,0) 82%);-webkit-mask-image:none;mask-image:none}
+  .fondo-faro::after{background:linear-gradient(180deg,rgba(7,26,68,0) 44%,rgba(7,26,68,.78) 72%),linear-gradient(90deg,rgba(7,26,68,.66) 0%,rgba(7,26,68,.66) 58%,rgba(7,26,68,0) 82%);-webkit-mask-image:none;mask-image:none}
   /* Amanecer sobrepuesto a la izquierda: el sol queda justo debajo del centro de la foto (centro de la foto = 16px + 36px) */
   .fondo-sol{display:block;position:absolute;left:-50px;top:76px;width:200px;height:136px;z-index:-1;pointer-events:none;background:url(/images/links/v2/amanecer.webp) center/100% 100% no-repeat;
     -webkit-mask-image:radial-gradient(ellipse 50% 50% at 54% 66%,#000 40%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 54% 66%,#000 40%,transparent 100%)}

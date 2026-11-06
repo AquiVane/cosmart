@@ -85,11 +85,13 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .media img{max-height:230px;width:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
 .camino.c1{overflow:hidden;isolation:isolate}
 .media.m1,.media.m2{display:block;margin:-25px -16px 0;padding:0;min-height:0;aspect-ratio:1100/700;border-radius:0;overflow:visible;background:none}
-.media.m2{aspect-ratio:1100/690}
-.media.m2::before{background-image:url(/images/links/v2/camino2-fondo.webp)!important}
+.media.m2{aspect-ratio:1100/733;margin-top:-6px}
+.media.m2::before{background-image:url(/images/links/v2/camino2-fondo.webp)!important;background-size:100% 100%!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important}
+.media.m2::after{background:linear-gradient(90deg,rgba(8,29,77,.5) 0%,rgba(8,29,77,.18) 22%,rgba(8,29,77,0) 40%)!important}
 .media.m1::before,.media.m2::before{inset:0;background:url(/images/links/v2/camino1-fondo.webp) center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%)}
 .media.m1::after,.media.m2::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:-34px;bottom:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,29,77,.72) 0%,rgba(8,29,77,.38) 26%,rgba(8,29,77,0) 52%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%)}
-.c1 .media.m1 + .btns,.c2 .media.m2 + .btns{position:relative;z-index:2;margin-top:-40px}
+.c1 .media.m1 + .btns{position:relative;z-index:2;margin-top:-40px}
+.c2 .media.m2 + .btns{position:relative;z-index:2;margin-top:-16px}
 .media img.dos{max-height:190px;max-width:48%}
 .media img.mon{-webkit-mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%)}
 .btns{display:flex;flex-direction:column;gap:10px}
@@ -163,7 +165,7 @@ footer{margin-top:10px;text-align:center}
   .camino h2{font-size:22px;line-height:.98;margin-top:0}
   .ico{width:52px}
   .desc{font-size:min(12.5px,3.12vw);line-height:1.3;text-align:left;padding-left:64px;margin-right:0;white-space:normal}
-  .c1 .desc{margin-right:-8px;white-space:nowrap}
+  .c1 .desc{margin-right:-8px;white-space:nowrap;margin-top:-6px}
   /* Centrado entre el final del texto (~293px) y el borde izquierdo del faro (~82% del ancho), en cualquier ancho */
   .hero{--hl:calc(max(0px,(100vw - 560px)/2) + 16px)}
   .ruta{right:auto;left:calc((284px + 82vw - var(--hl))/2 - 75px);top:48px;width:84px}

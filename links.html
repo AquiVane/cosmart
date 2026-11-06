@@ -89,14 +89,14 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .media.m2::before,.media.m3::before{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.6) 80%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.6) 80%,transparent 100%)!important;-webkit-mask-composite:source-in!important;mask-composite:intersect!important}
 .media.m2::before{background-image:url(/images/links/v2/camino2-fondo.webp)!important}
 .media.m3::before{background-image:url(/images/links/v2/camino3-fondo.webp)!important}
-.c3 .media.m3{margin-top:10px}
-.c3 .media.m3 + .btns{position:relative;z-index:2;margin-top:6px}
+.c3 .media.m3{margin-top:2px}
+.c3 .media.m3 + .btns{position:relative;z-index:2;margin-top:-30px;margin-bottom:-6px}
 .media.m3::after{background:linear-gradient(90deg,rgba(8,29,77,0) 60%,rgba(8,29,77,.7) 82%,rgba(8,29,77,.92) 100%)!important}
-.media.m4::after{background:none!important}
+.media.m4::after{background:linear-gradient(90deg,rgba(8,29,77,0) 58%,rgba(8,29,77,.8) 80%,rgba(8,29,77,.97) 100%)!important}
 .media.m4::before{background-image:url(/images/links/v2/training-fondo.webp)!important}
 .tr .media.m4{display:none}
 .tr .media.m4 + .btn{position:relative;z-index:2;margin-top:-16px}
-.media.m3::before{-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.5) 14%,#000 32%,#000 76%,rgba(0,0,0,.5) 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 78%,rgba(0,0,0,.7) 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.5) 14%,#000 32%,#000 76%,rgba(0,0,0,.5) 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 78%,rgba(0,0,0,.7) 100%)!important}
+.media.m3::before{-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.5) 14%,#000 32%,#000 96%,rgba(0,0,0,.6) 100%),linear-gradient(90deg,#000 0%,#000 78%,rgba(0,0,0,.7) 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.5) 14%,#000 32%,#000 96%,rgba(0,0,0,.6) 100%),linear-gradient(90deg,#000 0%,#000 78%,rgba(0,0,0,.7) 100%)!important}
 .media.m2::after{background:linear-gradient(90deg,rgba(8,29,77,.5) 0%,rgba(8,29,77,.18) 22%,rgba(8,29,77,0) 40%)!important}
 .media.m1::before,.media.m2::before,.media.m3::before{inset:0;background:url(/images/links/v2/camino1-fondo.webp) center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%)}
 .media.m1::after,.media.m2::after,.media.m3::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:-34px;bottom:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,29,77,.72) 0%,rgba(8,29,77,.38) 26%,rgba(8,29,77,0) 52%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%)}
@@ -212,10 +212,51 @@ footer{margin-top:10px;text-align:center}
 @media(prefers-reduced-motion:no-preference){h1 em::after{animation:subr 3.8s ease-in-out infinite}}
 @media(max-width:380px){h1{font-size:24px}.hero-row{grid-template-columns:96px 1fr}.foto-aro{width:96px;height:96px}.camino h2{font-size:22px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Animaciones (se apagan con prefers-reduced-motion) */
+.fondo-faro{overflow:hidden}
+.faro-luz{position:absolute;left:86.8%;top:22%;width:44%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;mix-blend-mode:screen;
+  -webkit-mask-image:radial-gradient(circle,#000 0%,rgba(0,0,0,.55) 30%,transparent 68%);mask-image:radial-gradient(circle,#000 0%,rgba(0,0,0,.55) 30%,transparent 68%)}
+.faro-luz i{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -24deg,transparent 0deg,rgba(255,226,140,.5) 14deg,rgba(255,240,185,.95) 24deg,rgba(255,226,140,.5) 34deg,transparent 48deg,transparent 180deg,rgba(255,226,140,.5) 194deg,rgba(255,240,185,.95) 204deg,rgba(255,226,140,.5) 214deg,transparent 228deg,transparent 360deg);animation:giroluz 7s linear infinite}
+.faro-luz b{position:absolute;left:50%;top:50%;width:14%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,244,200,.95),rgba(255,210,110,.5) 45%,transparent 72%);animation:pulso 3.5s ease-in-out infinite}
+@keyframes giroluz{to{transform:rotate(360deg)}}
+@keyframes pulso{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}}
+.rev{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.medidor{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.medidor .aguja{transform-box:view-box;transform-origin:485px 388px;transform:rotate(-82deg)}
+.medidor .ok{transform-box:fill-box;transform-origin:center;transform:scale(0);opacity:0}
+.medidor .onda{transform-box:fill-box;transform-origin:center;opacity:0}
+.medidor.go .aguja{animation:aguja 2.3s cubic-bezier(.5,0,.2,1) forwards}
+.medidor.go .ok{animation:ok .55s cubic-bezier(.2,1.5,.4,1) 1.55s forwards}
+.medidor.go .onda{animation:onda .9s ease-out 1.5s forwards}
+@keyframes aguja{0%{transform:rotate(-82deg)}8%{transform:rotate(-88deg)}62%{transform:rotate(86deg)}74%{transform:rotate(72deg)}86%{transform:rotate(79deg)}100%{transform:rotate(76deg)}}
+@keyframes ok{to{transform:scale(1);opacity:1}}
+@keyframes onda{0%{opacity:.85;transform:scale(.4)}100%{opacity:0;transform:scale(2.6)}}
+@media (prefers-reduced-motion:reduce){.faro-luz i,.faro-luz b{animation:none}.rev{opacity:1;transform:none;transition:none}.medidor .aguja{transform:rotate(76deg)}.medidor .ok{transform:none;opacity:1}.medidor.go .aguja,.medidor.go .ok,.medidor.go .onda{animation:none}}
+
+@keyframes aprieta{0%,72%,100%{transform:none;filter:none}80%{transform:scale(.955) translateY(2px);filter:brightness(.92)}88%{transform:scale(1.025)}94%{transform:scale(.995)}}
+@media (prefers-reduced-motion:no-preference){.btn[data-evento=curso_vivo_preinscripcion],.btn[data-evento=ia_identidad_marca],.btn[data-evento=libro_precios]{animation:aprieta 3.6s ease-in-out infinite}.btn[data-evento=ia_identidad_marca]{animation-delay:1.1s}.btn[data-evento=libro_precios]{animation-delay:2.2s}}
+
+.news{padding:18px 16px;display:flex;flex-direction:column;gap:10px}
+.news .nh{display:flex;align-items:center;gap:12px}
+.news .nh svg{width:40px;height:40px;flex:none;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.news h2{font:700 22px/1.15 var(--serif);text-wrap:balance}
+.news p{font-size:15px;color:rgba(255,255,255,.93)}
+.news form{display:flex;flex-direction:column;gap:9px;margin-top:2px}
+.news input[type=text],.news input[type=email]{width:100%;font:500 16px/1.2 var(--sans);color:#fff;background:rgba(6,15,34,.55);border:1.5px solid rgba(255,255,255,.45);border-radius:9px;padding:12px 12px}
+.news input::placeholder{color:rgba(255,255,255,.7)}
+.news input:focus{outline:2px solid #fff;outline-offset:1px}
+.news .cons{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.35;color:rgba(255,255,255,.9)}
+.news .cons input{margin-top:2px;flex:none;width:16px;height:16px;accent-color:#E02020}
+.news .cons a{color:#fff;text-decoration:underline}
+.news .msg{font-size:14px;font-weight:600;min-height:0;color:#fff}
+.news .msg.er{color:#ffb3b3}
+.news button.btn{cursor:pointer;border:0;font-family:var(--sans)}
 </style>
 </head>
 <body>
-<div class="fondo-faro" aria-hidden="true"></div>
+<div class="fondo-faro" aria-hidden="true"><div class="faro-luz"><i></i><b></b></div></div>
 <div class="fondo-sol" aria-hidden="true"></div>
 <main class="wrap">
   <header class="hero">
@@ -246,7 +287,7 @@ footer{margin-top:10px;text-align:center}
   <section class="glass camino c1" aria-labelledby="t1">
     <div class="cab"><img class="ico" src="/images/links/v2/ico-estrategia.webp" alt="" width="159" height="150"><div><span class="num">Camino 1 • <b>Estrategia</b></span><h2 id="t1">Quiero mejorar mi estrategia de marketing</h2></div></div>
     <p class="desc">Ordená tus ideas, conocé tu situación actual y<br>armá un plan para hacer crecer tu negocio.</p>
-    <div class="media m1" role="img" aria-label="Laptop con el Autodiagnóstico de Marketing, una brújula y una planta sobre una roca frente al amanecer"></div>
+    <div class="media m1" role="img" aria-label="Laptop con el Autodiagnóstico de Marketing, una brújula y una planta sobre una roca frente al amanecer"><svg class="medidor" viewBox="0 0 1100 619" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g class="aguja"><path d="M479 388 L485 282 L491 388 Z" fill="#0a1a44" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></g><circle cx="485" cy="388" r="11" fill="#0a1a44" stroke="#fff" stroke-width="3"/><circle class="onda" cx="485" cy="388" r="60" fill="none" stroke="#2fd36b" stroke-width="6"/><g class="ok"><circle cx="485" cy="245" r="26" fill="#1fbf5b" stroke="#fff" stroke-width="3.5"/><path d="M472 245 l9 10 l17 -20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
     <div class="btns">
       <a class="btn p" data-link="autodiag" data-evento="autodiagnostico_gratis">Hacer mi autodiagnóstico gratis <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn s" data-link="plan" data-evento="plan_marketing">Quiero mi primer plan de marketing <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -284,6 +325,17 @@ footer{margin-top:10px;text-align:center}
     <section class="glass quien" aria-labelledby="tq">
       <h2 id="tq">¿Quién está detrás de estos recursos?</h2>
       <p>Soy Vaneh Fernández, especialista en Marketing Digital y fundadora de COSMART. Hace más de 10 años que trabajo en investigación de mercados y estrategia, ayudando a marcas y negocios a crecer.</p>
+    </section>
+    <section class="glass news rev" aria-labelledby="tn">
+      <div class="nh"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg><h2 id="tn">Suscribite al newsletter</h2></div>
+      <p>Recibí novedades, recursos gratuitos y próximos lanzamientos.</p>
+      <form id="nlForm" novalidate>
+        <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="given-name" aria-label="Tu nombre" required>
+        <input type="email" name="email" placeholder="Tu email" autocomplete="email" aria-label="Tu email" required>
+        <label class="cons"><input type="checkbox" name="consent" checked><span>Acepto recibir novedades de COSMART y la <a href="/politica-de-privacidad" target="_blank" rel="noopener">Política de Privacidad</a>.</span></label>
+        <button class="btn p" type="submit">Quiero suscribirme <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="msg" id="nlMsg" role="status" aria-live="polite"></div>
+      </form>
     </section>
   </div>
 
@@ -348,7 +400,7 @@ function igualarTamano(){
   if(!ts.length) return;
   var min=Math.min.apply(null,ts.map(function(t){return parseFloat(t.style.fontSize)||99;}));
   ts.forEach(function(t){ t.style.fontSize=min.toFixed(2)+'px'; t.style.letterSpacing=''; });
-  document.querySelectorAll('.tr .btn').forEach(function(b){ b.style.fontSize=min.toFixed(2)+'px'; });
+  document.querySelectorAll('.tr .btn,.news .btn').forEach(function(b){ b.style.fontSize=min.toFixed(2)+'px'; });
 }
 var _aj=ajustarBotones; ajustarBotones=function(){ _aj(); igualarTamano(); };
 ajustarBotones();
@@ -360,6 +412,35 @@ document.querySelectorAll('[data-link]').forEach(function(el){
   el.href = url; el.target = '_blank'; el.rel = 'noopener';
   el.addEventListener('click', function(){ medir(el.getAttribute('data-evento') || el.getAttribute('data-link'), url); });
 });
+
+/* Animaciones al hacer scroll */
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var med=document.querySelector('.medidor');
+  if(reduce){ if(med) med.classList.add('go'); return; }
+  if(!('IntersectionObserver' in window)){ if(med) med.classList.add('go'); return; }
+  var els=[].slice.call(document.querySelectorAll('.camino,.cierre .tr,.cierre .quien,.cierre .news'));
+  els.forEach(function(e){ e.classList.add('rev'); });
+  var io=new IntersectionObserver(function(es){ var n=0; es.forEach(function(x){ if(x.isIntersecting){ x.target.style.transitionDelay=(n++*0.12)+'s'; x.target.classList.add('in'); io.unobserve(x.target);} }); },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  els.forEach(function(e){ io.observe(e); });
+  if(med){ var im=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ setTimeout(function(){med.classList.add('go');},350); im.disconnect(); } }); },{threshold:.5}); im.observe(med.parentNode); }
+})();
+
+/* Newsletter: guarda el lead en cosmart-training-core (magnet 'newsletter'), sin sacar a la persona de la página */
+(function(){
+  var f=document.getElementById('nlForm'); if(!f) return; var msg=document.getElementById('nlMsg'); var b=f.querySelector('button');
+  f.addEventListener('submit',function(e){
+    e.preventDefault(); msg.className='msg'; msg.textContent='';
+    var nombre=f.nombre.value.trim(), email=f.email.value.trim();
+    if(!nombre||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msg.className='msg er'; msg.textContent='Completá tu nombre y un email válido.'; return; }
+    if(!f.consent.checked){ msg.className='msg er'; msg.textContent='Necesitamos que aceptes la Política de Privacidad.'; return; }
+    var t=b.firstChild.textContent; b.disabled=true; b.firstChild.textContent='Enviando… ';
+    fetch('https://cosmart-training-core.conglomeradocosmart.workers.dev/leadmagnet/captura',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({magnetId:'newsletter',nombre:nombre,email:email,consentimiento:true,origenPagina:'/links'})})
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(){ medir('newsletter_suscripcion',location.href); f.reset(); f.consent.checked=true; msg.textContent='¡Listo, '+nombre+'! Ya estás suscripto/a. Gracias por sumarte.'; b.firstChild.textContent='Suscripción lista '; })
+    .catch(function(){ msg.className='msg er'; msg.textContent='Hubo un error. Probá de nuevo en unos minutos.'; b.disabled=false; b.firstChild.textContent=t; });
+  });
+})();
 </script>
 <script defer src="https://cosmart.com.ar/cookie-banner.js"></script>
 </body>

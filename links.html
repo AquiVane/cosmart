@@ -84,14 +84,17 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .media::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,31,78,.85) 0%,rgba(11,31,78,.15) 55%,rgba(11,31,78,.35) 100%)}
 .media img{max-height:230px;width:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
 .camino.c1{overflow:hidden;isolation:isolate}
-.media.m1,.media.m2{display:block;margin:-25px -16px 0;padding:0;min-height:0;aspect-ratio:1100/700;border-radius:0;overflow:visible;background:none}
-.media.m2{aspect-ratio:1100/733;margin-top:-6px}
-.media.m2::before{background-image:url(/images/links/v2/camino2-fondo.webp)!important;background-size:100% 100%!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important}
+.media.m1,.media.m2,.media.m3{display:block;margin:-25px -16px 0;padding:0;min-height:0;aspect-ratio:1100/700;border-radius:0;overflow:visible;background:none}
+.media.m2,.media.m3{aspect-ratio:1100/733;margin-top:-6px}
+.media.m2::before,.media.m3::before{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.6) 80%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.6) 80%,transparent 100%)!important;-webkit-mask-composite:source-in!important;mask-composite:intersect!important}
+.media.m2::before{background-image:url(/images/links/v2/camino2-fondo.webp)!important}
+.media.m3::before{background-image:url(/images/links/v2/camino3-fondo.webp)!important}
+.media.m3::after{background:none!important}
 .media.m2::after{background:linear-gradient(90deg,rgba(8,29,77,.5) 0%,rgba(8,29,77,.18) 22%,rgba(8,29,77,0) 40%)!important}
-.media.m1::before,.media.m2::before{inset:0;background:url(/images/links/v2/camino1-fondo.webp) center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%)}
-.media.m1::after,.media.m2::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:-34px;bottom:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,29,77,.72) 0%,rgba(8,29,77,.38) 26%,rgba(8,29,77,0) 52%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%)}
+.media.m1::before,.media.m2::before,.media.m3::before{inset:0;background:url(/images/links/v2/camino1-fondo.webp) center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 84%,transparent 100%)}
+.media.m1::after,.media.m2::after,.media.m3::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:-34px;bottom:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,29,77,.72) 0%,rgba(8,29,77,.38) 26%,rgba(8,29,77,0) 52%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 80%,transparent 100%)}
 .c1 .media.m1 + .btns{position:relative;z-index:2;margin-top:-40px}
-.c2 .media.m2 + .btns{position:relative;z-index:2;margin-top:-16px}
+.c2 .media.m2 + .btns,.c3 .media.m3 + .btns{position:relative;z-index:2;margin-top:-16px}
 .media img.dos{max-height:190px;max-width:48%}
 .media img.mon{-webkit-mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 60% at 48% 62%,#000 55%,transparent 100%)}
 .btns{display:flex;flex-direction:column;gap:10px}
@@ -257,7 +260,7 @@ footer{margin-top:10px;text-align:center}
     <div class="cab"><img class="ico" src="/images/links/v2/ico-precios.webp" alt="" width="151" height="151"><div><span class="num">Camino 3 • <b>Precios</b></span><h2 id="t3">Quiero aprender a poner precios</h2></div></div>
     <div class="etiquetas"><span class="et r">Nuevo libro</span><span class="et g">Oferta lanzamiento</span></div>
     <p class="desc">Aprendé a calcular tus precios, comunicar tu valor y negociar sin improvisar.</p>
-    <div class="media"><img class="dos" src="/images/links/v2/libro-precio.webp" alt="Libro La P de Precio: estrategia, cálculo y negociación para vender más" width="223" height="321" loading="lazy"><img class="dos mon" src="/images/links/v2/monedas.webp" alt="" width="189" height="175" loading="lazy" style="margin-left:-18px"></div>
+    <div class="media m3" role="img" aria-label="Libro La P de Precio de COSMART Training junto a monedas y un gráfico en alza frente al atardecer"></div>
     <div class="btns"><a class="btn p" data-link="precios" data-evento="libro_precios">Conocer el libro de precios <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </section>
 
@@ -332,12 +335,11 @@ function ajustarBotones(){
 }
 function igualarTamano(){
   if(!(window.matchMedia&&matchMedia('(max-width:899px)').matches)) return;
-  document.querySelectorAll('.camino').forEach(function(c){
-    var ts=[].slice.call(c.querySelectorAll('.btn .t'));
-    if(!ts.length) return;
-    var min=Math.min.apply(null,ts.map(function(t){return parseFloat(t.style.fontSize)||99;}));
-    ts.forEach(function(t){ t.style.fontSize=min.toFixed(2)+'px'; t.style.letterSpacing=''; });
-  });
+  var ts=[].slice.call(document.querySelectorAll('.camino .btn .t'));
+  if(!ts.length) return;
+  var min=Math.min.apply(null,ts.map(function(t){return parseFloat(t.style.fontSize)||99;}));
+  ts.forEach(function(t){ t.style.fontSize=min.toFixed(2)+'px'; t.style.letterSpacing=''; });
+  document.querySelectorAll('.tr .btn').forEach(function(b){ b.style.fontSize=min.toFixed(2)+'px'; });
 }
 var _aj=ajustarBotones; ajustarBotones=function(){ _aj(); igualarTamano(); };
 ajustarBotones();

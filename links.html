@@ -332,9 +332,12 @@ function ajustarBotones(){
 }
 function igualarTamano(){
   if(!(window.matchMedia&&matchMedia('(max-width:899px)').matches)) return;
-  var ts=[].slice.call(document.querySelectorAll('.camino .btn .t'));
-  var min=Math.min.apply(null,ts.map(function(t){return parseFloat(t.style.fontSize)||99;}));
-  ts.forEach(function(t){ t.style.fontSize=min.toFixed(2)+'px'; t.style.letterSpacing=''; });
+  document.querySelectorAll('.camino').forEach(function(c){
+    var ts=[].slice.call(c.querySelectorAll('.btn .t'));
+    if(!ts.length) return;
+    var min=Math.min.apply(null,ts.map(function(t){return parseFloat(t.style.fontSize)||99;}));
+    ts.forEach(function(t){ t.style.fontSize=min.toFixed(2)+'px'; t.style.letterSpacing=''; });
+  });
 }
 var _aj=ajustarBotones; ajustarBotones=function(){ _aj(); igualarTamano(); };
 ajustarBotones();

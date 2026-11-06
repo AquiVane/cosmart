@@ -130,7 +130,8 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .cierre{display:flex;flex-direction:column;gap:14px}
 .cierre .tr{order:-1}
 
-footer{margin-top:10px;text-align:center}
+footer{margin-top:10px;text-align:center;position:relative;isolation:isolate;padding-bottom:max(70px,26vw)}
+footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - 50vw);right:calc(50% - 50vw);bottom:0;height:min(43.6vw,400px);background:url(/images/links/v2/paisaje-pie.webp) center bottom/cover no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 42%);mask-image:linear-gradient(180deg,transparent 0%,#000 42%);pointer-events:none}
 .social{display:flex;justify-content:center;gap:12px}
 .social a{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center}
 .social a:hover{background:var(--red)}

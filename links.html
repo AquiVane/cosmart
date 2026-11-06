@@ -131,13 +131,13 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .cierre .tr{order:-1}
 
 footer{margin-top:10px;text-align:center;position:relative;padding-bottom:16px}
-footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - 50vw);right:calc(50% - 50vw);bottom:0;height:min(66vw,440px);background:url(/images/links/v2/paisaje-pie.webp) center bottom/cover no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.55) 34%,#000 62%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.55) 34%,#000 62%);pointer-events:none}
+footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - 50vw);right:calc(50% - 50vw);bottom:0;height:min(66vw,440px);background:linear-gradient(180deg,rgba(8,29,77,0) 66%,rgba(8,29,77,.55) 84%,rgba(8,29,77,.85) 100%),url(/images/links/v2/paisaje-pie.webp) center bottom/cover no-repeat;-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.55) 34%,#000 62%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.55) 34%,#000 62%);pointer-events:none}
 .social{display:flex;justify-content:center;gap:12px}
 .social a{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center}
 .social a:hover{background:var(--red)}
 .social svg{width:22px;height:22px;fill:#fff}
 .handles{margin-top:8px;font-size:13px;color:rgba(255,255,255,.85)}
-.copy{margin-top:10px;font-size:12.5px;color:rgba(255,255,255,.75)}
+.copy{margin-top:2px;text-shadow:0 1px 6px rgba(6,15,34,.9);font-size:12.5px;color:rgba(255,255,255,.75)}
 
 /* Escritorio: distribución horizontal */
 @media(min-width:900px){

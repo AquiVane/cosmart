@@ -287,7 +287,7 @@ footer{margin-top:10px;text-align:center}
   <section class="glass camino c1" aria-labelledby="t1">
     <div class="cab"><img class="ico" src="/images/links/v2/ico-estrategia.webp" alt="" width="159" height="150"><div><span class="num">Camino 1 • <b>Estrategia</b></span><h2 id="t1">Quiero mejorar mi estrategia de marketing</h2></div></div>
     <p class="desc">Ordená tus ideas, conocé tu situación actual y<br>armá un plan para hacer crecer tu negocio.</p>
-    <div class="media m1" role="img" aria-label="Laptop con el Autodiagnóstico de Marketing, una brújula y una planta sobre una roca frente al amanecer"><svg class="medidor" viewBox="0 0 1100 619" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g class="aguja"><path d="M479 388 L485 282 L491 388 Z" fill="#0a1a44" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></g><circle cx="485" cy="388" r="11" fill="#0a1a44" stroke="#fff" stroke-width="3"/><circle class="onda" cx="485" cy="388" r="60" fill="none" stroke="#2fd36b" stroke-width="6"/><g class="ok"><circle cx="485" cy="245" r="26" fill="#1fbf5b" stroke="#fff" stroke-width="3.5"/><path d="M472 245 l9 10 l17 -20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
+    <div class="media m1" role="img" aria-label="Laptop con el Autodiagnóstico de Marketing, una brújula y una planta sobre una roca frente al amanecer"><svg class="medidor" viewBox="0 0 1100 619" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="cara" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcfcff"/><stop offset=".45" stop-color="#eef2fe"/><stop offset="1" stop-color="#dae5fc"/></linearGradient></defs><rect x="436" y="278" width="98" height="98" rx="10" fill="url(#cara)"/><text class="vel" x="485" y="324" text-anchor="middle" font-family="DM Sans,Arial,sans-serif" font-weight="800" font-size="58" fill="#0a1a44">0</text><text x="485" y="364" text-anchor="middle" font-family="DM Sans,Arial,sans-serif" font-weight="700" font-size="32" fill="#0a1a44">km/h</text><g class="aguja"><path d="M479 388 L485 282 L491 388 Z" fill="#0a1a44" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></g><circle cx="485" cy="388" r="11" fill="#0a1a44" stroke="#fff" stroke-width="3"/><circle class="onda" cx="485" cy="388" r="60" fill="none" stroke="#2fd36b" stroke-width="6"/><g class="ok"><circle cx="485" cy="245" r="26" fill="#1fbf5b" stroke="#fff" stroke-width="3.5"/><path d="M472 245 l9 10 l17 -20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
     <div class="btns">
       <a class="btn p" data-link="autodiag" data-evento="autodiagnostico_gratis">Hacer mi autodiagnóstico gratis <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn s" data-link="plan" data-evento="plan_marketing">Quiero mi primer plan de marketing <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -414,17 +414,28 @@ document.querySelectorAll('[data-link]').forEach(function(el){
   el.addEventListener('click', function(){ medir(el.getAttribute('data-evento') || el.getAttribute('data-link'), url); });
 });
 
+
+/* Velocímetro: el número sube de 0 a 100 km/h al ritmo de la aguja */
+function contarVelocidad(){
+  var t=document.querySelector('.medidor .vel'); if(!t) return;
+  var T=[0,.08,.62,.74,.86,1], V=[0,0,106,97,102,100], dur=5600, t0=null;
+  function e(x){ return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2; }
+  function f(ts){ if(t0===null) t0=ts; var p=Math.min(1,(ts-t0)/dur), i=0; while(i<T.length-2&&p>T[i+1]) i++;
+    var q=(p-T[i])/(T[i+1]-T[i]), v=V[i]+(V[i+1]-V[i])*e(Math.max(0,Math.min(1,q)));
+    t.textContent=Math.max(0,Math.round(v)); if(p<1) requestAnimationFrame(f); else t.textContent='100'; }
+  requestAnimationFrame(f);
+}
 /* Animaciones al hacer scroll */
 (function(){
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   var med=document.querySelector('.medidor');
-  if(reduce){ if(med) med.classList.add('go'); return; }
-  if(!('IntersectionObserver' in window)){ if(med) med.classList.add('go'); return; }
+  if(reduce){ if(med){ med.classList.add('go'); var vv=med.querySelector('.vel'); if(vv) vv.textContent='100'; } return; }
+  if(!('IntersectionObserver' in window)){ if(med){ med.classList.add('go'); var v2=med.querySelector('.vel'); if(v2) v2.textContent='100'; } return; }
   var els=[].slice.call(document.querySelectorAll('.camino,.cierre .tr,.cierre .quien,.cierre .news'));
   els.forEach(function(e){ e.classList.add('rev'); });
   var io=new IntersectionObserver(function(es){ var n=0; es.forEach(function(x){ if(x.isIntersecting){ x.target.style.transitionDelay=(n++*0.12)+'s'; x.target.classList.add('in'); io.unobserve(x.target);} }); },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
   els.forEach(function(e){ io.observe(e); });
-  if(med){ var im=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ setTimeout(function(){med.classList.add('go');},350); im.disconnect(); } }); },{threshold:.5}); im.observe(med.parentNode); }
+  if(med){ var im=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ setTimeout(function(){med.classList.add('go'); contarVelocidad();},350); im.disconnect(); } }); },{threshold:.5}); im.observe(med.parentNode); }
 })();
 
 /* Newsletter: misma ruta que training.cosmart.com.ar/newsletter (POST /newsletter/solicitar, doble opt-in; un mail por dirección) */

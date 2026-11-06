@@ -253,6 +253,16 @@ footer{margin-top:10px;text-align:center}
 .news .msg{font-size:14px;font-weight:600;color:#fff}
 .news .msg.er{color:#ffb3b3}
 .news button.btn{cursor:pointer;border:0;font-family:var(--sans);color:#fff;-webkit-text-fill-color:#fff}
+
+@media(min-width:900px){
+  .cierre{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .cierre .tr{grid-column:1/-1;order:-1;flex:none;justify-content:flex-start;align-items:flex-start}
+  .cierre .tr .btn{max-width:340px}
+  .cierre .quien,.cierre .news{flex:none}
+  .quien h2{font-size:22px}.quien p{font-size:15px}
+  .tr .media.m4 + .btn,.c1 .media.m1 + .btns,.c2 .media.m2 + .btns,.c3 .media.m3 + .btns{margin-top:6px;margin-bottom:0}
+  .tr p.largo{display:block}
+}
 </style>
 </head>
 <body>

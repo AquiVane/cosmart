@@ -269,6 +269,7 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - 50vw);rig
 /* iPhone: misma técnica que el camino 1 (una sola máscara, fondo 'auto 100%', sin cover ni composite) */
 @media(max-width:899px){
   .media.m2::before,.media.m3::before,.media.m4::before{background-size:auto 100%!important;background-position:right bottom!important;background-repeat:no-repeat!important;-webkit-mask-composite:initial!important;mask-composite:initial!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important}
+  .media.m3::before{left:auto;width:111.2%;transform:scaleX(.9);transform-origin:right bottom}
   .media.m3::before{-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.5) 14%,#000 32%,#000 88%,rgba(0,0,0,.35) 96%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.5) 14%,#000 32%,#000 88%,rgba(0,0,0,.35) 96%,transparent 100%)!important}
   .media.m3::after,.media.m4::after{background:linear-gradient(90deg,rgba(8,29,77,0) 86%,rgba(8,29,77,.35) 100%)!important}
   .media.m2::after{background:linear-gradient(90deg,rgba(8,29,77,.5) 0%,rgba(8,29,77,.18) 22%,rgba(8,29,77,0) 40%,rgba(8,29,77,0) 86%,rgba(8,29,77,.35) 100%)!important}

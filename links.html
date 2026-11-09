@@ -25,22 +25,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-<script>(function(){var d=document.documentElement;function f(){d.style.setProperty('--vw',(Math.min(d.clientWidth||innerWidth,430)/100)+'px')}f();addEventListener('resize',f)})()</script>
+<script>(function(){var d=document.documentElement;function f(){var w=d.clientWidth||innerWidth;d.style.setProperty('--vw',w>=900?'1vw':(Math.min(w,430)/100)+'px')}f();addEventListener('resize',f)})()</script>
 <style>
 /* Paleta COSMART (fondos oscuros, nunca blanco/crema) */
 :root{--navy:#091C47;--navy-2:#0D2B6B;--blue:#1A4DAA;--sky:#3A8FC7;--deep:#060F22;--red:#E3000F;--red-h:#C40000;--cyan:#38D4FF;--magenta:#C23BFF;
   --serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--vw:1vw}
-@media(min-width:900px){body{zoom:1.5}}
-@media(min-width:1500px){body{zoom:1.8}}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
-body{max-width:430px;margin:0 auto;position:relative;font-family:var(--sans);color:#fff;line-height:1.45;font-size:16px;overflow-x:clip;min-height:100vh;
+body{font-family:var(--sans);color:#fff;line-height:1.45;font-size:16px;overflow-x:clip;min-height:100vh;
   background:radial-gradient(ellipse at 85% 18%,#583a8b 0%,transparent 40%),linear-gradient(150deg,#06163b 0%,#10285d 55%,#071a44 100%);background-color:#071a44}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:12px}
-.wrap{max-width:430px;margin:0 auto;padding:18px 16px 0;display:flex;flex-direction:column;gap:14px}
+.wrap{max-width:560px;margin:0 auto;padding:18px 16px 0;display:flex;flex-direction:column;gap:14px}
 .glass{background:linear-gradient(120deg,rgba(11,31,78,.96),rgba(25,51,108,.86) 65%,rgba(78,48,122,.5));border:1px solid rgba(108,164,255,.5);border-radius:24px;box-shadow:0 18px 36px -24px rgba(0,0,0,.9)}
 
 /* Encabezado */
@@ -94,7 +92,7 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .camino.c1{overflow:hidden;isolation:isolate}
 .media.m1,.media.m2,.media.m3{display:block;margin:-25px -16px 0;padding:0;min-height:0;aspect-ratio:1100/700;border-radius:0;overflow:visible;background:none}
 .media.m2,.media.m3{aspect-ratio:1100/733;margin-top:-6px}
-@media all{.media.m2{aspect-ratio:1100/860}.media.m2::before{background-position:right center!important}}
+@media(max-width:899px){.media.m2{aspect-ratio:1100/860}.media.m2::before{background-position:right center!important}}
 .media.m2::before,.media.m3::before{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 88%,rgba(0,0,0,.5) 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%),linear-gradient(90deg,#000 0%,#000 88%,rgba(0,0,0,.5) 100%)!important;-webkit-mask-composite:source-in!important;mask-composite:intersect!important}
 .media.m2::before{background-image:url(/images/links/v2/camino2-fondo.webp)!important}
 .media.m3::before{background-image:url(/images/links/v2/camino3-fondo.webp)!important}
@@ -131,6 +129,7 @@ h1 em::after{content:'';position:absolute;left:-2%;right:-2%;bottom:2px;height:6
 .tr h2{font:700 22px/1.2 var(--serif);text-wrap:balance}
 .tr p{font-size:15px;color:rgba(255,255,255,.93)}
 .tr .btn{margin-top:4px}
+.qfoto{display:none}
 .quien{position:relative;padding:14px 16px 14px 20px}
 .quien::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:4px;background:var(--red);border-radius:0 4px 4px 0}
 .quien h2{font:700 19px/1.2 var(--serif);text-wrap:balance}
@@ -147,8 +146,50 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
 .handles{margin-top:8px;font-size:13px;color:rgba(255,255,255,.85)}
 .copy{margin-top:2px;text-shadow:0 1px 6px rgba(6,15,34,.9);font-size:12.5px;color:rgba(255,255,255,.75)}
 
-@media all{
-  body{background:#081d4d}
+/* Escritorio (>=900px): encabezado a todo el ancho, 3 caminos en fila, abajo Training + quién soy | suscripción */
+@media(min-width:900px){
+  br.mb{display:none}
+  .wrap{max-width:1180px;padding:0 28px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
+  .wrap>.hero,.wrap>.def,.wrap>.elegi,.wrap>.cierre,.wrap>footer{grid-column:1/-1}
+  .fondo-faro{left:0;right:0;width:100%;height:min(calc(38*var(--vw)),520px);background-size:cover;background-position:center 20%;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 80%,transparent 100%)}
+  .fondo-faro::after{background:linear-gradient(90deg,rgba(7,26,68,.94) 0%,rgba(7,26,68,.72) 40%,rgba(7,26,68,0) 68%);-webkit-mask-image:none;mask-image:none}
+  .hero{padding:56px 0 40px;min-height:min(calc(34*var(--vw)),470px)}
+  .hero-row{grid-template-columns:190px 1fr;gap:44px;align-items:center}
+  .foto-aro{width:190px;height:190px}.foto-aro::before{inset:-6px}
+  h1{font-size:58px;max-width:640px}
+  .acati{font-size:36px;margin-top:4px}
+  .sub{font-size:20px;max-width:560px;margin-top:10px}
+  .pill{font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px}
+  .ruta{right:auto;left:calc(190px + 44px + 600px);top:70px;width:120px}
+  .def{display:grid;grid-template-columns:1fr 330px;align-items:center;gap:20px;padding:24px 30px 24px 34px}
+  .def h2{font-size:28px}.def p{font-size:17px;max-width:640px}
+  .def .deco{display:flex;align-items:center;justify-content:center;gap:0}
+  .def .deco img{max-height:130px;width:auto}
+  .elegi{font-size:32px;margin:16px 0 0}.elegi::before,.elegi::after{max-width:none;flex:0 1 110px}
+  .camino{padding:22px 20px 20px;gap:12px}
+  .camino h2{font-size:25px}.desc{font-size:15.5px}
+  .ico{width:60px}
+  .camino>.media{margin-left:-20px;margin-right:-20px}
+  .camino.c1>.media,.camino.c2>.media,.camino.c3>.media{margin-top:auto!important}
+  .desc br{display:none}
+  .num{font-size:11px;letter-spacing:.1em}
+  .cierre{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
+  .cierre .tr{grid-column:1/-1;order:-1;display:grid;grid-template-columns:1fr 1.15fr;grid-template-areas:"m i" "h i" "p i" "b i";align-content:center;column-gap:28px;row-gap:12px;padding:30px 0 30px 36px;overflow:hidden;position:relative}
+  .tr .marca{grid-area:m}.tr h2{grid-area:h;font-size:30px}.tr p.largo{grid-area:p;display:block;font-size:17px;max-width:480px}.tr>.btn{grid-area:b;justify-self:start;width:340px;max-width:100%;margin-top:6px}
+  .tr .media.m4{grid-area:i;display:block;align-self:stretch;aspect-ratio:auto;min-height:300px;margin:-30px 0 -30px 0;-webkit-mask-image:none;mask-image:none}
+  .tr .media.m4::before{background-position:center!important;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 30%)!important;mask-image:linear-gradient(90deg,transparent 0%,#000 30%)!important;-webkit-mask-composite:initial!important;mask-composite:initial!important}
+  .tr .media.m4 + .btn{margin-top:6px}
+  .quien{display:flex;align-items:center;gap:26px;padding:30px 32px 30px 38px}
+  .qfoto{display:block;flex:none;width:150px;height:150px;border-radius:50%;padding:4px;background:conic-gradient(from 0deg,#E3000F,#1A4DAA,#3A8FC7,#1A4DAA,#E3000F)}
+  .qfoto img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:50%;transform:scale(1.08)}
+  .qfoto{overflow:hidden}
+  .quien h2{font-size:26px}.quien p{font-size:16px;margin-top:10px}
+  .news{padding:30px 32px}
+  .news h2{font-size:26px}
+}
+@media(max-width:899px){
+  body{background:#081d4d;max-width:430px;margin:0 auto;position:relative}
+  .wrap{max-width:430px}
   .camino .btn{justify-content:flex-start;padding-left:62px;padding-right:32px;text-align:left}
   .camino .btn .t{text-align:left}
   .camino h2{font-size:22px;line-height:.98;margin-top:0}
@@ -158,7 +199,7 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
   .etiquetas{padding-left:64px;gap:5px;flex-wrap:nowrap}.et{font-size:10px;letter-spacing:.07em;padding:6px 8px;white-space:nowrap}
   .c1 .desc{margin-right:-8px;white-space:nowrap;margin-top:-6px}
   /* Centrado entre el final del texto (~293px) y el borde izquierdo del faro (~82% del ancho), en cualquier ancho */
-  .hero{--hl:calc(max(0px,(calc(100*var(--vw)) - 560px)/2) + 16px)}
+  .hero{--hl:calc(max(0px,(calc(100*var(--vw)) - 430px)/2) + 16px)}
   .ruta{right:auto;left:calc((284px + calc(82*var(--vw)) - var(--hl))/2 - 75px);top:48px;width:84px}
   /* Imagen completa, sin recortes ni fundidos: ocupa todo el ancho y arranca en el borde de la página */
   .fondo-faro{left:0;right:0;width:100%;height:calc(50*var(--vw));background-size:100% 100%;background-position:left top;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 76%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 76%,transparent 100%)}
@@ -233,7 +274,7 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
 
 
 /* iPhone: misma técnica que el camino 1 (una sola máscara, fondo 'auto 100%', sin cover ni composite) */
-@media all{
+@media(max-width:899px){
   .media.m2::before{background-size:auto 100%!important;background-position:right bottom!important;background-repeat:no-repeat!important;-webkit-mask-composite:initial!important;mask-composite:initial!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important}
   .media.m2::after{background:linear-gradient(90deg,rgba(8,29,77,.5) 0%,rgba(8,29,77,.18) 22%,rgba(8,29,77,0) 40%,rgba(8,29,77,0) 86%,rgba(8,29,77,.35) 100%)!important}
 }
@@ -270,7 +311,7 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
 
   <section class="glass camino c1" aria-labelledby="t1">
     <div class="cab"><img class="ico" src="/images/links/v2/ico-estrategia.webp" alt="" width="159" height="150"><div><span class="num">Camino 1 • <b>Estrategia</b></span><h2 id="t1">Quiero mejorar mi estrategia de marketing</h2></div></div>
-    <p class="desc">Ordená tus ideas, conocé tu situación actual y<br>armá un plan para hacer crecer tu negocio.</p>
+    <p class="desc">Ordená tus ideas, conocé tu situación actual y<br> armá un plan para hacer crecer tu negocio.</p>
     <div class="media m1" role="img" aria-label="Laptop con el Autodiagnóstico de Marketing, una brújula y una planta sobre una roca frente al amanecer"><svg class="medidor" viewBox="0 0 1100 619" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g transform="rotate(-2.3 485 330)"><text class="vel" x="485" y="324" text-anchor="middle" font-family="DM Sans,Arial,sans-serif" font-weight="800" font-size="58" fill="#0a1a44">0</text><text x="485" y="364" text-anchor="middle" font-family="DM Sans,Arial,sans-serif" font-weight="700" font-size="32" fill="#0a1a44">km/h</text></g><g class="aguja"><path d="M479 388 L485 282 L491 388 Z" fill="#0a1a44" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></g><circle cx="485" cy="388" r="11" fill="#0a1a44" stroke="#fff" stroke-width="3"/><circle class="onda" cx="485" cy="388" r="60" fill="none" stroke="#2fd36b" stroke-width="6"/><g class="ok"><circle cx="485" cy="245" r="26" fill="#1fbf5b" stroke="#fff" stroke-width="3.5"/><path d="M472 245 l9 10 l17 -20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
     <div class="btns">
       <a class="btn p" data-link="autodiag" data-evento="autodiagnostico_gratis">Hacer mi autodiagnóstico gratis <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -307,8 +348,11 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
       <a class="btn p" data-link="training" data-evento="training_tienda">Explorar COSMART Training <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </section>
     <section class="glass quien" aria-labelledby="tq">
+      <div class="qfoto" aria-hidden="true"><img src="Foto de Perfil - Aquí Vaneh.png" alt="" width="200" height="200" loading="lazy"></div>
+      <div class="qtxt">
       <h2 id="tq">¿Quién está detrás de estos recursos?</h2>
       <p>Soy Vaneh Fernández, especialista en Marketing Digital y fundadora de COSMART. Hace más de 10 años que trabajo en investigación de mercados y estrategia, ayudando a marcas y negocios a crecer.</p>
+    </div>
     </section>
     <section class="glass news rev" aria-labelledby="tn">
       <div class="nh"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg><h2 id="tn">Suscribite al newsletter</h2></div>

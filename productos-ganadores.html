@@ -713,8 +713,8 @@ footer{background:#080F20;padding:2rem 5%;display:flex;justify-content:space-bet
       card.style.cssText = 'background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.4rem 1.2rem';
       card.innerHTML = `
         <div style="color:#f59e0b;font-size:1.1rem;margin-bottom:.7rem">★★★★★</div>
-        <p style="color:rgba(255,255,255,.85);font-size:.93rem;line-height:1.7;margin:0 0 1rem">"${t.texto}"</p>
-        <div style="font-size:.8rem;font-weight:700;color:var(--az3)">${t.nombre || 'Alumno'}</div>
+        <p style="color:rgba(255,255,255,.85);font-size:.93rem;line-height:1.7;margin:0 0 1rem">"${String(t.texto==null?'':t.texto).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';')}"</p>
+        <div style="font-size:.8rem;font-weight:700;color:var(--az3)">${String(t.nombre || 'Alumno').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';')}</div>
       `;
       grid.appendChild(card);
     });

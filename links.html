@@ -281,6 +281,19 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
   .media.m2::before{background-size:auto 100%!important;background-position:right bottom!important;background-repeat:no-repeat!important;-webkit-mask-composite:initial!important;mask-composite:initial!important;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 90%,transparent 100%)!important}
   .media.m2::after{background:linear-gradient(90deg,rgba(8,29,77,.5) 0%,rgba(8,29,77,.18) 22%,rgba(8,29,77,0) 40%,rgba(8,29,77,0) 86%,rgba(8,29,77,.35) 100%)!important}
 }
+
+/* Arriba de todo: app + ayuda por servicio */
+.appc{padding:20px 18px 18px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.appc::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:4px;background:var(--red);border-radius:0 4px 4px 0}
+.appc .nuevo{align-self:flex-start;background:var(--red);font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:999px}
+.appc h2{font:700 24px/1.12 var(--serif);text-wrap:balance}
+.appc p{font-size:15px;color:rgba(255,255,255,.93)}
+.appc .btn{margin-top:4px}
+.ayuda{padding:18px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.ayuda h2{font:700 22px/1.15 var(--serif);text-wrap:balance}
+.ayuda .btns{gap:10px}
+.ayuda .btn{justify-content:flex-start;padding-left:16px;min-height:44px;font-size:16px}
+@media(min-width:900px){.wrap>.appc,.wrap>.ayuda{grid-column:1/-1}.appc{padding:28px 32px 26px 36px;display:grid;grid-template-columns:1fr auto;column-gap:30px;align-items:center}.appc .nuevo,.appc h2,.appc p{grid-column:1}.appc .btn{grid-column:2;grid-row:1/4;align-self:center;min-width:300px}.appc h2{font-size:30px}.ayuda{padding:24px 28px}.ayuda .btns{display:grid;grid-template-columns:repeat(4,1fr)}}
 </style>
 <script src="https://training.cosmart.com.ar/js/ct-track.js" data-sitio="cosmart" defer></script>
 </head>
@@ -311,7 +324,24 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
     <div class="deco" aria-hidden="true"><img src="/images/links/v2/mapa.webp" alt="" width="520" height="360" loading="lazy"><img src="/images/links/v2/brujula.webp" alt="" width="420" height="418" loading="lazy" style="margin-left:-34px"></div>
   </section>
 
-  <h2 class="elegi">Elegí por dónde querés empezar</h2>
+    <section class="glass appc rev" aria-labelledby="tapp">
+    <span class="nuevo">Nuevo</span>
+    <h2 id="tapp">Aprendé a crear tu propia app y generar más ingresos</h2>
+    <p>En 3 sesiones en vivo, con el método 4D, convertí una idea en una app propia con IA, aunque no sepas programar.</p>
+    <a class="btn p" data-link="app" data-evento="crea_vende_app">Quiero crear mi app <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </section>
+
+  <section class="glass ayuda rev" aria-labelledby="tayuda">
+    <h2 id="tayuda">¿Con qué necesitás ayuda hoy?</h2>
+    <div class="btns">
+      <a class="btn s" data-link="publicidad" data-evento="ayuda_publicidad">Publicidad digital <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn s" data-link="estrategia" data-evento="ayuda_estrategia">Estrategia de contenido <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn s" data-link="design" data-evento="ayuda_sitio_web">Sitio web <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn s" data-link="design" data-evento="ayuda_diseno_video">Diseño y edición de video <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </section>
+
+<h2 class="elegi">Elegí por dónde querés empezar</h2>
 
   <section class="glass camino c1" aria-labelledby="t1">
     <div class="cab"><img class="ico" src="/images/links/v2/ico-estrategia.webp" alt="" width="159" height="150"><div><span class="num">Camino 1 • <b>Estrategia</b></span><h2 id="t1">Quiero mejorar mi estrategia de marketing</h2></div></div>
@@ -387,6 +417,10 @@ footer::before{content:'';position:absolute;z-index:-1;left:calc(50% - calc(50*v
 <script>
 /* Destinos centrales. Para sumar parámetros UTM, agregarlos al final de la URL (hoy no hay ninguno definido). */
 var LINKS = {
+  app:       "https://training.cosmart.com.ar/crea-y-vende-tu-app",
+  publicidad:"https://rumbovoraz.cosmart.com.ar",
+  estrategia:"https://cosmart.com.ar/brujula",
+  design:    "https://design.cosmart.com.ar",
   precios:   "https://training.cosmart.com.ar/precio",
   guiaIA:    "https://training.cosmart.com.ar/descargas/guiagratuita-iaprincipiantes",
   iaMarca:   "https://training.cosmart.com.ar/hace-que-la-ia-escriba-como-tu-marca",

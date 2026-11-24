@@ -1,5 +1,8 @@
 # HANDOFF — cosmart (sitio principal, www.cosmart.com.ar)
 
+## 24/11 — Linktree: tarjeta de la app y «¿Con qué necesitás ayuda hoy?» (pedido de Vaneh tras actualizar la bio)
+- `links.html`: después de «¿Qué es una estrategia de marketing?» (para no romper la tarjeta encimada del encabezado en escritorio) van la tarjeta «Aprendé a crear tu propia app y generar más ingresos» (→ training.cosmart.com.ar/crea-y-vende-tu-app) y la sección «¿Con qué necesitás ayuda hoy?»: Publicidad digital → rumbovoraz.cosmart.com.ar; Estrategia de contenido → cosmart.com.ar/brujula; Sitio web y Diseño/edición de video → design.cosmart.com.ar. Sin WhatsApp ni automatizaciones (decisión de Vaneh). Eventos de clic: crea_vende_app, ayuda_publicidad, ayuda_estrategia, ayuda_sitio_web, ayuda_diseno_video.
+
 ## 05/11 — Linktree (`links.html`) rehecho en tres caminos (pedido de Vaneh)
 - Orden: 1) estrategia de marketing (plan USD 9, autodiagnóstico gratis, preinscripción al curso en vivo), 2) IA (guía gratuita + "hacer que la IA escriba como tu marca"), 3) precios (libro, `/precio`, con etiquetas "Nuevo libro" y "Oferta lanzamiento"). Después: presentación de Vaneh y botón a Training (`/tienda`). Textos dictados por Vaneh, no cambiarlos sin pedido.
 - Se mantuvo la cabecera original (foto 144 px con aro, "Vaneh" sin cursiva y con subrayado animado). Vaneh no usa cursivas.
